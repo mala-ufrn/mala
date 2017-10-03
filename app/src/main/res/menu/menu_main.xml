@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".activity.MainActivity">
+    <item android:id="@+id/action_atualizar" android:title="Atualizar"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_selecionar" android:title="Selectionar"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_renovar_all" android:title="Renovar todos os empréstimos"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_novo_emprestimo" android:title="Realizar novo emprestimo"
+        android:orderInCategory="100" app:showAsAction="never" />
+</menu>
