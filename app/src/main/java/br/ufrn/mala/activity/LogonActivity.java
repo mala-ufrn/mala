@@ -142,7 +142,7 @@ public class LogonActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(LogonActivity.this, EmprestimosAtivosActivity.class);
+                Intent startProfileActivity = new Intent(LogonActivity.this, PrincipalActivity.class);
                 LogonActivity.this.startActivity(startProfileActivity);
             }
         }
