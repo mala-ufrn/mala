@@ -37,10 +37,14 @@
         <activity
             android:name=".activity.EmprestimosAtivosActivity"
             android:label="Meus Empréstimos"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".activity.ActPrincipalActivity"
+            android:label="@string/title_activity_act_principal"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
