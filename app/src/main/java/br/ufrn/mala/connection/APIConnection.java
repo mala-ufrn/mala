@@ -60,7 +60,7 @@ public class APIConnection {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA)
-                .appendQueryParameter("id-usuario", usuarioLogado.getIdUsuario().toString())
+                .appendQueryParameter("cpf-cnpj-usuario", usuarioLogado.getCpfCnpj().toString())
                 .appendQueryParameter("emprestado", ativo.toString())
                 .appendQueryParameter("limit", Integer.toString(20))
                 .appendQueryParameter("offset", offset.toString())
