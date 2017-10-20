@@ -1,5 +1,6 @@
 package br.ufrn.mala.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,11 +13,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
+import android.widget.TextView;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import br.ufrn.mala.R;
+import br.ufrn.mala.auxiliar.LoanListAdapter;
+import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.util.Constants;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    LoanListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader; //TODO Criar model para emprestimo.
+    HashMap<String, List<EmprestimoDTO>> listDataChild;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +59,21 @@ public class PrincipalActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Aqui são os códigos fora do layout padrão
+
+        expListView = (ExpandableListView) findViewById(R.id.list_emprestimos);
+
+        // prepara os dados da lista - mocados até entao
+        prepareListData();
+
+        listAdapter = new LoanListAdapter(this, listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);
+
+
     }
 
     @Override
@@ -94,10 +126,97 @@ public class PrincipalActivity extends AppCompatActivity
 
         } else if (id == R.id.aboutUs) {
 
+        } else if (id == R.id.exit) {
+            this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void sair(View view) {
+        SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
+        try {
+            File dir = this.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finish();
+    }
+
+    private boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String aChildren : children) {
+                boolean success = deleteDir(new File(dir, aChildren));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else
+            return dir != null && dir.isFile() && dir.delete();
+    }
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String,List<EmprestimoDTO>>();
+
+        // Adding child data
+        listDataHeader.add("Normais");
+        listDataHeader.add("Especiais");
+        listDataHeader.add("Fotocópia");
+
+        // Adding child data
+        List<EmprestimoDTO> top250 = new ArrayList<EmprestimoDTO>();
+        EmprestimoDTO auxDTO = new EmprestimoDTO();
+
+        auxDTO.setTitulo("Assim falou mamãe");
+        auxDTO.setAutor("Friedrich Nietzsche");
+        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
+        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
+
+        top250.add(auxDTO);
+        auxDTO = new EmprestimoDTO();
+
+        auxDTO.setTitulo("A Hora da Estrela");
+        auxDTO.setAutor("Clarice Linspector");
+        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
+        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
+
+        top250.add(auxDTO);
+        auxDTO = new EmprestimoDTO();
+        auxDTO.setTitulo("Como ser bom no fifinha");
+        auxDTO.setAutor("Joel Minion");
+        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
+        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
+
+        top250.add(auxDTO);
+
+        auxDTO = new EmprestimoDTO();
+        auxDTO.setTitulo("Como ser bom no fifinha com um texto extremamente grande de verdade grande mesmo aqui oh como é grante");
+        auxDTO.setAutor("Joel Minion");
+        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
+        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
+        top250.add(auxDTO);
+
+        List<String> nowShowing = new ArrayList<String>();
+
+
+        List<String> comingSoon = new ArrayList<String>();
+
+
+        listDataChild.put(listDataHeader.get(0), top250); // Header, qtd, Child data
+        listDataChild.put(listDataHeader.get(1), nowShowing);
+        listDataChild.put(listDataHeader.get(2), comingSoon);
+
+
     }
 }

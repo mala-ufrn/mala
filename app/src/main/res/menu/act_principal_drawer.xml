@@ -18,23 +18,24 @@
             android:id="@+id/issue_discharge"
             android:icon="@drawable/ic_folder_shared_black_24dp"
             android:title="@string/issue_discharge" />
+
     </group>
 
-    <item android:title="Ajuda">
-        <menu>
-            <item
-                android:id="@+id/faq"
-                android:icon="@drawable/ic_help_outline_black_24dp"
-                android:title="@string/faq" />
-            <item
-                android:id="@+id/aboutUs"
-                android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="@string/aboutUs" />
-        </menu>
-    </item>
-    <item
-        android:id="@+id/exit"
-        android:icon="@mipmap/ic_exit"
-        android:title="@string/exit" />
+    <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/faq"
+            android:icon="@drawable/ic_help_outline_black_24dp"
+            android:title="@string/faq" />
+        <item
+            android:id="@+id/aboutUs"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/aboutUs" />
+        <item
+            android:id="@+id/exit"
+            android:icon="@mipmap/ic_exit"
+            android:title="@string/exit" />
+    </group>
 
 </menu>
