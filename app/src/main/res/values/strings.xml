@@ -7,7 +7,6 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_act_principal">ActPrincipalActivity</string>
     <string name="refresh">Atualizar</string>
     <string name="select">Selecionar</string>
     <string name="renewAll">Renovar todos Empréstimos</string>

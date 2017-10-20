@@ -13,13 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/app_name">
+            android:name=".activity.PrincipalActivity"
+            android:label="MALA - UFRN"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name">
+
         </activity>
         <activity android:name=".activity.LogonActivity">
             <intent-filter>
@@ -41,10 +47,7 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity
-            android:name=".activity.ActPrincipalActivity"
-            android:label="@string/title_activity_act_principal"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

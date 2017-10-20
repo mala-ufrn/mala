@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/accent">
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/lbllistTitulo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="5dp"
+        android:textSize="15dip" />
+
+    <TextView
+        android:id="@+id/lbllistAutor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="2dp"
+        android:textSize="10dip" />
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/lbllistBiblioteca"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="2dp"
+        android:textSize="7dip" />
+
+    <TextView
+        android:id="@+id/lbllistPrazo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textSize="10dip" />
+
+</LinearLayout>
