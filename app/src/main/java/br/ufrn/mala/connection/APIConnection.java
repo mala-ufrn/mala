@@ -26,7 +26,7 @@ public class APIConnection {
     private UsuarioDTO usuarioLogado;
 
     private final String URL_BASE = "https://apitestes.info.ufrn.br/";
-    private final String API_KEY = "5HkQu4mrJG6sgeQCArhCaLQOyP81BpPZRaEnqy0n";
+    private final String API_KEY = "njLEaabCzQwBjh7D5rHtOrVlUu7OF5wh2JdjHsB2";
 
     private String PATH_USUARIO_INFO = "usuario/v0.1/usuarios/info";
     private String PATH_BIBLIOTECA = "biblioteca/v0.1/emprestimos";
