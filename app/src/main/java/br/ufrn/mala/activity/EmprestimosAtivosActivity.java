@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.auxiliar.Adaptador;
+import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.connection.FachadaAPI;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.exception.ConnectionException;
@@ -208,10 +208,10 @@ public class EmprestimosAtivosActivity extends AppCompatActivity {
         listaItensGrupo.put(listaGrupos.get(1), listaEspeciais);
         listaItensGrupo.put(listaGrupos.get(2), listaFotocopias);
 
-        // cria um adaptador (BaseExpandableListAdapter) com os dados acima
-        Adaptador adaptador = new Adaptador(this, listaGrupos, listaItensGrupo);
+        // cria um listEmprestimosAdaptador (BaseExpandableListAdapter) com os dados acima
+        ListEmprestimosAdaptador listEmprestimosAdaptador = new ListEmprestimosAdaptador(this, listaGrupos, listaItensGrupo);
         // define o apadtador do ExpandableListView
-        expandableListViewEmprestimo.setAdapter(adaptador);
+        expandableListViewEmprestimo.setAdapter(listEmprestimosAdaptador);
         // Expande todos os grupos do ListView
         for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
             expandableListViewEmprestimo.expandGroup(i);

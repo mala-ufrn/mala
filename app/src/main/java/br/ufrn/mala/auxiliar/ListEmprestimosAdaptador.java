@@ -18,13 +18,13 @@ import br.ufrn.mala.util.DataUtil;
  * Created by Joel Felipe on 02/10/2017.
  */
 
-public class Adaptador extends BaseExpandableListAdapter {
+public class ListEmprestimosAdaptador extends BaseExpandableListAdapter {
 
     private List<String> lstGrupos;
     private HashMap<String, List<EmprestimoDTO>> lstItensGrupos;
     private Context context;
 
-    public Adaptador(Context context, List<String> grupos, HashMap<String, List<EmprestimoDTO>> itensGrupos) {
+    public ListEmprestimosAdaptador(Context context, List<String> grupos, HashMap<String, List<EmprestimoDTO>> itensGrupos) {
         // inicializa as variáveis da classe
         this.context = context;
         lstGrupos = grupos;
@@ -85,7 +85,7 @@ public class Adaptador extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.grupo, null);
+            convertView = layoutInflater.inflate(R.layout.list_loan_group, null);
         }
 
         TextView tvGrupo = (TextView) convertView.findViewById(R.id.tvGrupo);
@@ -104,13 +104,13 @@ public class Adaptador extends BaseExpandableListAdapter {
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.item_grupo, null);
+            convertView = layoutInflater.inflate(R.layout.list_loan_item, null);
         }
 
-        TextView tvTitulo = (TextView) convertView.findViewById(R.id.tvTitulo);
-        TextView tvAutor = (TextView) convertView.findViewById(R.id.tvAutor);
-        TextView tvPrazo = (TextView) convertView.findViewById(R.id.tvPrazo);
-        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.tvCodigoBarras);
+        TextView tvTitulo = (TextView) convertView.findViewById(R.id.lbllistTitulo);
+        TextView tvAutor = (TextView) convertView.findViewById(R.id.lbllistAutor);
+        TextView tvPrazo = (TextView) convertView.findViewById(R.id.lbllistPrazo);
+        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistBiblioteca);
 
 
         EmprestimoDTO emprestimo = (EmprestimoDTO) getChild(groupPosition, childPosition);
