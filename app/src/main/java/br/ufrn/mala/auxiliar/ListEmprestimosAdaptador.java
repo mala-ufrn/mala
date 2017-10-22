@@ -18,13 +18,13 @@ import br.ufrn.mala.util.DataUtil;
  * Created by Joel Felipe on 02/10/2017.
  */
 
-public class Adaptador extends BaseExpandableListAdapter {
+public class ListEmprestimosAdaptador extends BaseExpandableListAdapter {
 
     private List<String> lstGrupos;
     private HashMap<String, List<EmprestimoDTO>> lstItensGrupos;
     private Context context;
 
-    public Adaptador(Context context, List<String> grupos, HashMap<String, List<EmprestimoDTO>> itensGrupos) {
+    public ListEmprestimosAdaptador(Context context, List<String> grupos, HashMap<String, List<EmprestimoDTO>> itensGrupos) {
         // inicializa as variáveis da classe
         this.context = context;
         lstGrupos = grupos;

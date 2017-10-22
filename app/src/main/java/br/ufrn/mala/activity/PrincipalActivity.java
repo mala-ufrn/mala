@@ -1,6 +1,8 @@
 package br.ufrn.mala.activity;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,31 +16,36 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.auxiliar.LoanListAdapter;
+import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
+import br.ufrn.mala.connection.FachadaAPI;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.exception.ConnectionException;
+import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    LoanListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader; //TODO Criar model para emprestimo.
-    HashMap<String, List<EmprestimoDTO>> listDataChild;
+    private ProgressDialog pd;
+    ExpandableListView expandableListViewEmprestimo;
+    List<EmprestimoDTO> listaEmprestimos;
+
+    private Integer offsetEmprestimos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_principal);
+        offsetEmprestimos = 0;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -60,19 +67,14 @@ public class PrincipalActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Pegar o token de acesso
+        SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
+        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
 
-        // Aqui são os códigos fora do layout padrão
-
-        expListView = (ExpandableListView) findViewById(R.id.list_emprestimos);
-
-        // prepara os dados da lista - mocados até entao
-        prepareListData();
-
-        listAdapter = new LoanListAdapter(this, listDataHeader, listDataChild);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);
-
+        // Popula a lista de emprestimos
+        if (accessToken != null) {
+            new PrincipalActivity.EmprestimosAtivosTask().execute(accessToken);
+        }
 
     }
 
@@ -127,10 +129,10 @@ public class PrincipalActivity extends AppCompatActivity
         } else if (id == R.id.aboutUs) {
 
         } else if (id == R.id.exit) {
-            this.finish();
+            sair(findViewById(R.id.principal_view));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -148,7 +150,7 @@ public class PrincipalActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        finish();
+        super.finish();
     }
 
     private boolean deleteDir(File dir) {
@@ -165,58 +167,76 @@ public class PrincipalActivity extends AppCompatActivity
             return dir != null && dir.isFile() && dir.delete();
     }
 
-    private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String,List<EmprestimoDTO>>();
+    private void prepareListEmprestimos() {
+        //Preenchendo lista de empréstimos ativos
+        expandableListViewEmprestimo = (ExpandableListView) findViewById(R.id.list_emprestimos);
 
-        // Adding child data
-        listDataHeader.add("Normais");
-        listDataHeader.add("Especiais");
-        listDataHeader.add("Fotocópia");
+        // cria os grupos
+        List<String> listaGrupos = new ArrayList<>();
+        listaGrupos.add("Normais");
+        listaGrupos.add("Especiais");
+        listaGrupos.add("Fotocópias");
 
-        // Adding child data
-        List<EmprestimoDTO> top250 = new ArrayList<EmprestimoDTO>();
-        EmprestimoDTO auxDTO = new EmprestimoDTO();
+        // cria os itens de cada grupo
+        List<EmprestimoDTO> listaNormais = new ArrayList<>();
+        for (EmprestimoDTO emprestimo : listaEmprestimos)
+            if (emprestimo.getTipoEmprestimo().equals("NORMAL"))
+                listaNormais.add(emprestimo);
 
-        auxDTO.setTitulo("Assim falou mamãe");
-        auxDTO.setAutor("Friedrich Nietzsche");
-        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
-        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
+        List<EmprestimoDTO> listaEspeciais = new ArrayList<>();
+        for (EmprestimoDTO emprestimo : listaEmprestimos)
+            if (emprestimo.getTipoEmprestimo().equals("ESPECIAL"))
+                listaEspeciais.add(emprestimo);
 
-        top250.add(auxDTO);
-        auxDTO = new EmprestimoDTO();
+        List<EmprestimoDTO> listaFotocopias = new ArrayList<>();
+        for (EmprestimoDTO emprestimo : listaEmprestimos)
+            if (emprestimo.getTipoEmprestimo().equals("FOTOCÓPIA"))
+                listaFotocopias.add(emprestimo);
 
-        auxDTO.setTitulo("A Hora da Estrela");
-        auxDTO.setAutor("Clarice Linspector");
-        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
-        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
+        // cria o "relacionamento" dos grupos com seus itens
+        HashMap<String, List<EmprestimoDTO>> listaItensGrupo = new HashMap<>();
+        listaItensGrupo.put(listaGrupos.get(0), listaNormais);
+        listaItensGrupo.put(listaGrupos.get(1), listaEspeciais);
+        listaItensGrupo.put(listaGrupos.get(2), listaFotocopias);
 
-        top250.add(auxDTO);
-        auxDTO = new EmprestimoDTO();
-        auxDTO.setTitulo("Como ser bom no fifinha");
-        auxDTO.setAutor("Joel Minion");
-        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
-        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
-
-        top250.add(auxDTO);
-
-        auxDTO = new EmprestimoDTO();
-        auxDTO.setTitulo("Como ser bom no fifinha com um texto extremamente grande de verdade grande mesmo aqui oh como é grante");
-        auxDTO.setAutor("Joel Minion");
-        auxDTO.setBiblioteca("Biblioteca Central Zila Mamede");
-        auxDTO.setDataDevolucao(Calendar.getInstance().getTimeInMillis());
-        top250.add(auxDTO);
-
-        List<String> nowShowing = new ArrayList<String>();
-
-
-        List<String> comingSoon = new ArrayList<String>();
-
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, qtd, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
-
-
+        // cria um listEmprestimosAdaptador (BaseExpandableListAdapter) com os dados acima
+        ListEmprestimosAdaptador listEmprestimosAdaptador = new ListEmprestimosAdaptador(this, listaGrupos, listaItensGrupo);
+        // define o apadtador do ExpandableListView
+        expandableListViewEmprestimo.setAdapter(listEmprestimosAdaptador);
+        // Expande todos os grupos do ListView
+        for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
+            expandableListViewEmprestimo.expandGroup(i);
     }
+
+
+    private class EmprestimosAtivosTask extends AsyncTask<String, Void, List<EmprestimoDTO>> {
+
+        protected void onPreExecute() {
+            pd = ProgressDialog.show(PrincipalActivity.this, "", "loading", true);
+        }
+
+        protected List<EmprestimoDTO> doInBackground(String... params) {
+            try {
+                return FachadaAPI.getInstance(PrincipalActivity.this).getEmprestimosAtivos(params[0], offsetEmprestimos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JsonStringInvalidaException e) {
+                Toast.makeText(PrincipalActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
+            } catch (ConnectionException e) {
+                Toast.makeText(PrincipalActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<EmprestimoDTO> result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                listaEmprestimos = result;
+                prepareListEmprestimos();
+            }
+            pd.dismiss();
+        }
+    }
+
 }
