@@ -92,7 +92,6 @@ public class LogonActivity extends AppCompatActivity {
                 .buildUpon()
                 .appendQueryParameter(Constants.RESPONSE_TYPE_PARAM, Constants.RESPONSE_TYPE_AUTHORIZATION)
                 .appendQueryParameter(Constants.CLIENT_ID_PARAM, Constants.CLIENT_ID_VALUE)
-                .appendQueryParameter(Constants.STATE_PARAM, Constants.STATE)
                 .appendQueryParameter(Constants.REDIRECT_URI_PARAM, Constants.REDIRECT_URI)
                 .build()
                 .toString();

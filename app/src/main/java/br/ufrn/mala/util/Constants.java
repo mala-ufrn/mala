@@ -7,9 +7,8 @@ package br.ufrn.mala.util;
 public class Constants {
 
     //Constantes de autenticação
-    public static final String CLIENT_ID_VALUE = "mobile-services-id";
+    public static final String CLIENT_ID_VALUE = "mala-id";
     public static final String SECRET_KEY = "segredo";
-    public static final String STATE = "E3ZYKC1T6H2yP4z";
 
     public static final String REDIRECT_URI = "https://api.ufrn.br";
     public static final String AUTHORIZATION_URL = "https://apitestes.info.ufrn.br/authz-server/oauth/authorize";
@@ -20,7 +19,6 @@ public class Constants {
     public static final String GRANT_TYPE_AUTHORIZATION = "authorization_code";
     public static final String GRANT_TYPE_REFRESH = "refresh_token";
     public static final String CLIENT_ID_PARAM = "client_id";
-    public static final String STATE_PARAM = "state";
     public static final String REDIRECT_URI_PARAM = "redirect_uri";
 
     //Constantes de autorização
