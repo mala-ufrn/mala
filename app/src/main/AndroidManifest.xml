@@ -42,10 +42,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.EmprestimosAtivosActivity"
-            android:label="Meus Empréstimos"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
 
