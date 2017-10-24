@@ -2,8 +2,12 @@ package br.ufrn.mala.activity.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.activity.PrincipalActivity;
 import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.connection.FachadaAPI;
 import br.ufrn.mala.dto.EmprestimoDTO;
@@ -42,6 +45,18 @@ public class EmprestimosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+        fab.setImageResource(R.drawable.ic_add_black_24dp);
+
+
         // Pegar o token de acesso
         SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
         String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
@@ -51,7 +66,7 @@ public class EmprestimosFragment extends Fragment {
             new EmprestimosAtivosTask().execute(accessToken);
         }
 
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_list_loan, container, false);
     }
 
     private void prepareListEmprestimos() {

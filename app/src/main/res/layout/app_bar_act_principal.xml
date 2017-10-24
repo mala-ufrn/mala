@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:fabSize="auto"
+        app:fabSize="mini"
         app:backgroundTint="#00ff00"
 
         android:src="@drawable/ic_add_black_24dp" />

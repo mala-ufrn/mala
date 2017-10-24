@@ -20,13 +20,13 @@ import android.view.MenuItem;
 import java.io.File;
 
 import br.ufrn.mala.R;
+import br.ufrn.mala.activity.Fragment.EmprestimoFragment;
 import br.ufrn.mala.activity.Fragment.EmprestimosFragment;
 import br.ufrn.mala.util.Constants;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FragmentManager fm;
-
 
 
     @Override
@@ -37,14 +37,6 @@ public class PrincipalActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -105,14 +97,19 @@ public class PrincipalActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.myLoan) {
-            // Handle the myLoan activity
+
+            Fragment fragment = fm.findFragmentById(R.id.fragment_content);
             FragmentTransaction ft = fm.beginTransaction();
+            fm.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            ft.remove(fragment);
             ft.add(R.id.fragment_content, new EmprestimosFragment());
             ft.commit();
         } else if (id == R.id.loan_historical) {
             Fragment fragment = fm.findFragmentById(R.id.fragment_content);
             FragmentTransaction ft = fm.beginTransaction();
+            fm.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             ft.remove(fragment);
+            ft.add(R.id.fragment_content, new EmprestimoFragment());
             ft.commit();
         } else if (id == R.id.changePass_Sisbi) {
 
@@ -160,7 +157,4 @@ public class PrincipalActivity extends AppCompatActivity
         } else
             return dir != null && dir.isFile() && dir.delete();
     }
-
-
-
 }

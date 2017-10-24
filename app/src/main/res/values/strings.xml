@@ -28,5 +28,8 @@
         navegador para confirmação de usuário/senha. Preencha ambos os campos apenas com seu usuário
         do SIGAA.</string>
 
+    <string name="newLoanHelp">Digite o código de barras do material:</string>
+    <string name="btnSearchMaterial">Buscar Material</string>
+
 
 </resources>

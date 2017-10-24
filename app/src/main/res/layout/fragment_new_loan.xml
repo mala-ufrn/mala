@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="200dip"
+        android:layout_height="100dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_barcode" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/newLoanHelp" />
+
+    <EditText
+        android:id="@+id/plain_text_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:background="@drawable/edittext_bg"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:hint="Ex.: 2017000000, L000000"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_buscar_Material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/blue"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:text="@string/btnSearchMaterial"
+        android:textColor="#FFFFFFFF"
+        android:textStyle="bold" />
+
+</LinearLayout>
