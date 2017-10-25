@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -47,6 +50,9 @@
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".activity.MainActivity2" />
+        <activity android:name=".activity.BarcodeCaptureActivity" />
+
 
     </application>
 
