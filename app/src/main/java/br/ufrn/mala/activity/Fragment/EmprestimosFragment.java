@@ -1,6 +1,7 @@
 package br.ufrn.mala.activity.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
+import br.ufrn.mala.activity.NovoEmprestimoActivity;
 import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.connection.FachadaAPI;
 import br.ufrn.mala.dto.EmprestimoDTO;
@@ -47,13 +49,15 @@ public class EmprestimosFragment extends Fragment {
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+
+                startActivity(new Intent(v.getContext(), NovoEmprestimoActivity.class));
             }
+
         });
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+
         fab.setImageResource(R.drawable.ic_add_black_24dp);
 
 

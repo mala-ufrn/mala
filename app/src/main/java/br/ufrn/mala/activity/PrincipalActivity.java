@@ -105,12 +105,7 @@ public class PrincipalActivity extends AppCompatActivity
             ft.add(R.id.fragment_content, new EmprestimosFragment());
             ft.commit();
         } else if (id == R.id.loan_historical) {
-            Fragment fragment = fm.findFragmentById(R.id.fragment_content);
-            FragmentTransaction ft = fm.beginTransaction();
-            fm.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            ft.remove(fragment);
-            ft.add(R.id.fragment_content, new EmprestimoFragment());
-            ft.commit();
+
         } else if (id == R.id.changePass_Sisbi) {
 
         } else if (id == R.id.issue_discharge) {
