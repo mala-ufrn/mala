@@ -54,6 +54,11 @@
         <activity android:name=".activity.BarcodeCaptureActivity" />
 
 
+
+        <activity android:name=".activity.BarCodeCaptureActivity"
+            android:label="Read Barcode"/>
+        <activity android:name=".activity.CameraActivity" />
+
     </application>
 
 </manifest>
