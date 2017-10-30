@@ -1,5 +1,6 @@
 package br.ufrn.mala.activity.Fragment;
 
+import android.animation.TimeInterpolator;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +11,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -34,7 +39,8 @@ import br.ufrn.mala.util.Constants;
  * Created by paulo on 23/10/17.
  */
 
-public class EmprestimosFragment extends Fragment {
+public class HistoricoEmprestimosFragment extends Fragment {
+
     String accessToken;
     int offsetEmprestimos = 0;
     ProgressDialog pd;
@@ -42,13 +48,26 @@ public class EmprestimosFragment extends Fragment {
 
     List<EmprestimoDTO> listaEmprestimos;
     ExpandableListView expandableListViewEmprestimo;
+    FloatingActionButton fab;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle(getResources().getText(R.string.app_my_loans));
+        getActivity().setTitle(getResources().getText(R.string.app_my_loans_history));
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+
+
+        // Pegar o token de acesso
+        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
+        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
+
+        // Popula a lista de emprestimos
+        if (accessToken != null) {
+            new EmprestimosAtivosTask().execute(accessToken);
+        }
+
+
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -61,15 +80,6 @@ public class EmprestimosFragment extends Fragment {
 
         fab.setImageResource(R.drawable.ic_add_black_24dp);
 
-
-        // Pegar o token de acesso
-        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
-        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
-
-        // Popula a lista de emprestimos
-        if (accessToken != null) {
-            new EmprestimosAtivosTask().execute(accessToken);
-        }
 
         return inflater.inflate(R.layout.fragment_list_loan, container, false);
     }
@@ -112,9 +122,41 @@ public class EmprestimosFragment extends Fragment {
         expandableListViewEmprestimo.setAdapter(listEmprestimosAdaptador);
 
 
+
+
+        expandableListViewEmprestimo.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                int btnPosY = fab.getScrollY();
+                
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                    fab.animate().cancel();
+                    fab.animate().translationYBy(150);
+
+                } else if (scrollState == SCROLL_STATE_FLING) {
+                    fab.animate().cancel();
+                    fab.animate().translationYBy(150);
+
+                } else if (scrollState == SCROLL_STATE_IDLE){
+                    fab.animate().cancel();
+                    fab.animate().translationY(btnPosY);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
         // Expande todos os grupos do ListView
         for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
             expandableListViewEmprestimo.expandGroup(i);
+
+
     }
 
 
@@ -126,7 +168,7 @@ public class EmprestimosFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
-                return FachadaAPI.getInstance(getActivity()).getEmprestimosAtivos(params[0], offsetEmprestimos);
+                return FachadaAPI.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JsonStringInvalidaException e) {

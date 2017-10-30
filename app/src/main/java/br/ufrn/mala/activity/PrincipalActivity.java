@@ -22,6 +22,7 @@ import java.io.File;
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.Fragment.EmprestimoFragment;
 import br.ufrn.mala.activity.Fragment.EmprestimosFragment;
+import br.ufrn.mala.activity.Fragment.HistoricoEmprestimosFragment;
 import br.ufrn.mala.util.Constants;
 
 public class PrincipalActivity extends AppCompatActivity
@@ -94,17 +95,23 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Fragment fragment = fm.findFragmentById(R.id.fragment_content);
         int id = item.getItemId();
 
         if (id == R.id.myLoan) {
 
-            Fragment fragment = fm.findFragmentById(R.id.fragment_content);
+
             FragmentTransaction ft = fm.beginTransaction();
             fm.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             ft.remove(fragment);
             ft.add(R.id.fragment_content, new EmprestimosFragment());
             ft.commit();
         } else if (id == R.id.loan_historical) {
+            FragmentTransaction ft = fm.beginTransaction();
+            fm.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            ft.remove(fragment);
+            ft.add(R.id.fragment_content, new HistoricoEmprestimosFragment());
+            ft.commit();
 
         } else if (id == R.id.changePass_Sisbi) {
 
