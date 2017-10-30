@@ -120,7 +120,7 @@ public class ListHistoricoEmprestimosAdaptador extends BaseExpandableListAdapter
         tvAutor.setText("Autor: " + emprestimo.getAutor());
         tvEmprestimo.setText("De: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getDataEmpretimo())));
         tvDevolucao.setText("Até: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getDataDevolucao())));
-        tvCodigoBarras.setText(emprestimo.getCodigoBarras());
+        tvCodigoBarras.setText(emprestimo.getBiblioteca());
 
         return convertView;
     }

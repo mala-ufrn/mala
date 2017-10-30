@@ -76,7 +76,8 @@
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:onClick="logar"
-            android:padding="12dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
             android:text="avançar" />
     </LinearLayout>
 </ScrollView>
