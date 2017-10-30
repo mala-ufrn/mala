@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import br.ufrn.mala.R;
 
@@ -34,9 +35,7 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
 
 
     public void camReader(View v) {
-        Intent intent = new Intent(this, MainActivity2.class);
-
-        startActivity(intent);
+        Toast.makeText(this, "Chama a activity da camera", Toast.LENGTH_SHORT).show();
     }
 
 
