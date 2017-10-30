@@ -10,15 +10,17 @@
 
     <TextView
         android:textStyle="bold"
-        android:id="@+id/lbllistTitulo"
+        android:id="@+id/lbllistTitulo_history_loan"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="2dp"
-        android:textSize="13dip" />
+        android:textSize="13dip"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
     <TextView
-        android:id="@+id/lbllistAutor"
+        android:id="@+id/lbllistAutor_history_loan"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
@@ -27,7 +29,7 @@
 
     <TextView
         android:textStyle="bold"
-        android:id="@+id/lbllistBiblioteca"
+        android:id="@+id/lbllistBiblioteca_history_loan"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
@@ -37,27 +39,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft">
         <TextView
-            android:id="@+id/lbllistDtDevolucao"
+            android:id="@+id/lbllistDtEmprestimo_history_loan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"
-            android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-            android:paddingRight="2dp"
+            android:paddingRight="5dp"
             android:paddingTop="2dp"
             android:textSize="10dip" />
 
         <TextView
-            android:id="@+id/lbllistDtEmprestimo"
+            android:id="@+id/lbllistDtDevolucao_history_loan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="?android:attr/expandableListPreferredChildPaddingLeft"
             android:paddingTop="2dp"
             android:textSize="10dip" />
+
+
     </LinearLayout>
 
 </LinearLayout>

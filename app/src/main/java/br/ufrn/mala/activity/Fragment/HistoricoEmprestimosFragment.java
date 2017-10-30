@@ -29,6 +29,7 @@ import java.util.List;
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.NovoEmprestimoActivity;
 import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
+import br.ufrn.mala.auxiliar.ListHistoricoEmprestimosAdaptador;
 import br.ufrn.mala.connection.FachadaAPI;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.exception.ConnectionException;
@@ -57,7 +58,6 @@ public class HistoricoEmprestimosFragment extends Fragment {
 
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
-
         // Pegar o token de acesso
         SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
         String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
@@ -66,13 +66,10 @@ public class HistoricoEmprestimosFragment extends Fragment {
         if (accessToken != null) {
             new EmprestimosAtivosTask().execute(accessToken);
         }
-
-
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(v.getContext(), NovoEmprestimoActivity.class));
             }
 
@@ -84,7 +81,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_list_loan, container, false);
     }
 
-    private void prepareListEmprestimos() {
+    private void prepareListEmprestimos(List<EmprestimoDTO> lista) {
         //Preenchendo lista de empréstimos ativos
         expandableListViewEmprestimo = (ExpandableListView) getActivity().findViewById(R.id.list_emprestimos);
 
@@ -117,21 +114,15 @@ public class HistoricoEmprestimosFragment extends Fragment {
         listaItensGrupo.put(listaGrupos.get(2), listaFotocopias);
 
         // cria um listEmprestimosAdaptador (BaseExpandableListAdapter) com os dados acima
-        ListEmprestimosAdaptador listEmprestimosAdaptador = new ListEmprestimosAdaptador(getActivity(), listaGrupos, listaItensGrupo);
+        ListHistoricoEmprestimosAdaptador listEmprestimosAdaptador = new ListHistoricoEmprestimosAdaptador(getActivity(), listaGrupos, listaItensGrupo);
         // define o apadtador do ExpandableListView
         expandableListViewEmprestimo.setAdapter(listEmprestimosAdaptador);
 
-
-
-
         expandableListViewEmprestimo.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-
-
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int btnPosY = fab.getScrollY();
-                
+
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     fab.animate().cancel();
                     fab.animate().translationYBy(150);
@@ -140,7 +131,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
                     fab.animate().cancel();
                     fab.animate().translationYBy(150);
 
-                } else if (scrollState == SCROLL_STATE_IDLE){
+                } else if (scrollState == SCROLL_STATE_IDLE) {
                     fab.animate().cancel();
                     fab.animate().translationY(btnPosY);
                 }
@@ -152,10 +143,11 @@ public class HistoricoEmprestimosFragment extends Fragment {
             }
         });
 
+        expandableListViewEmprestimo.setOnScrollListener(new EndlessScrollListener());
+
         // Expande todos os grupos do ListView
         for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
             expandableListViewEmprestimo.expandGroup(i);
-
 
     }
 
@@ -172,9 +164,9 @@ public class HistoricoEmprestimosFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JsonStringInvalidaException e) {
-                Toast.makeText(getActivity(), "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
             } catch (ConnectionException e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             return null;
         }
@@ -183,10 +175,56 @@ public class HistoricoEmprestimosFragment extends Fragment {
         protected void onPostExecute(List<EmprestimoDTO> result) {
             super.onPostExecute(result);
             if (result != null) {
-                listaEmprestimos = result;
-                prepareListEmprestimos();
+                if (listaEmprestimos != null){
+                    listaEmprestimos.addAll(result);
+                }else {
+                    listaEmprestimos = result;
+                }
+                prepareListEmprestimos(listaEmprestimos);
             }
             pd.dismiss();
+        }
+    }
+
+
+    public class EndlessScrollListener implements AbsListView.OnScrollListener {
+
+        private int visibleThreshold = 0;
+        private int currentPage = 0;
+        private int previousTotal = 0;
+        private boolean loading = true;
+
+        public EndlessScrollListener() {
+        }
+
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    offsetEmprestimos = expandableListViewEmprestimo.getAdapter().getCount();
+
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                // I load the next page of gigs using a background task,
+                // but you can call any function here.
+                SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
+                accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
+                if (accessToken != null) {
+                    new EmprestimosAtivosTask().execute(accessToken);
+                }
+                loading = true;
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
 

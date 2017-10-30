@@ -92,7 +92,7 @@ public class ListHistoricoEmprestimosAdaptador extends BaseExpandableListAdapter
         TextView tvQtde = (TextView) convertView.findViewById(R.id.tvQtde);
 
         tvGrupo.setText((String) getGroup(groupPosition));
-        tvQtde.setText("(" + getChildrenCount(groupPosition) + "/3)");
+        tvQtde.setText("(" + getChildrenCount(groupPosition) + "/" + getChildrenCount(groupPosition) +")");
 
         return convertView;
     }
@@ -107,11 +107,11 @@ public class ListHistoricoEmprestimosAdaptador extends BaseExpandableListAdapter
             convertView = layoutInflater.inflate(R.layout.list_history_loan_item, null);
         }
 
-        TextView tvTitulo = (TextView) convertView.findViewById(R.id.lbllistTitulo);
-        TextView tvAutor = (TextView) convertView.findViewById(R.id.lbllistAutor);
-        TextView tvEmprestimo = (TextView) convertView.findViewById(R.id.lbllistDtEmprestimo);
-        TextView tvDevolucao = (TextView) convertView.findViewById(R.id.lbllistDtDevolucao);
-        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistBiblioteca);
+        TextView tvTitulo = (TextView) convertView.findViewById(R.id.lbllistTitulo_history_loan);
+        TextView tvAutor = (TextView) convertView.findViewById(R.id.lbllistAutor_history_loan);
+        TextView tvEmprestimo = (TextView) convertView.findViewById(R.id.lbllistDtEmprestimo_history_loan);
+        TextView tvDevolucao = (TextView) convertView.findViewById(R.id.lbllistDtDevolucao_history_loan);
+        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistBiblioteca_history_loan);
 
 
         EmprestimoDTO emprestimo = (EmprestimoDTO) getChild(groupPosition, childPosition);

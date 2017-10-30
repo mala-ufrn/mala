@@ -62,7 +62,7 @@ public class APIConnection {
                 .appendEncodedPath(PATH_BIBLIOTECA)
                 .appendQueryParameter("cpf-cnpj-usuario", usuarioLogado.getCpfCnpj().toString())
                 .appendQueryParameter("emprestado", ativo.toString())
-                //.appendQueryParameter("limit", Integer.toString(20))
+                .appendQueryParameter("limit", Integer.toString(20))
                 .appendQueryParameter("offset", offset.toString())
                 .appendQueryParameter("order-desc", "data-emprestimo")
                 .build()
