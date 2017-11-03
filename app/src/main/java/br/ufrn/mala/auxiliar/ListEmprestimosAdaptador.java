@@ -110,7 +110,7 @@ public class ListEmprestimosAdaptador extends BaseExpandableListAdapter {
         TextView tvTitulo = (TextView) convertView.findViewById(R.id.lbllistTitulo);
         TextView tvAutor = (TextView) convertView.findViewById(R.id.lbllistAutor);
         TextView tvPrazo = (TextView) convertView.findViewById(R.id.lbllistPrazo);
-        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistBiblioteca);
+        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistCodBarras);
 
 
         EmprestimoDTO emprestimo = (EmprestimoDTO) getChild(groupPosition, childPosition);

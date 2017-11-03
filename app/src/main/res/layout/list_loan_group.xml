@@ -6,8 +6,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:paddingBottom="1dp"
         android:orientation="horizontal"
-        android:background="@color/primary_dark">
+        android:background="@drawable/blue_botton_line_bg">
 
      <!--   <TextView
             android:id="@+id/tvGrupo"
@@ -32,19 +36,21 @@
             android:id="@+id/tvGrupo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="8"
             android:text="Grupo"
+            android:textSize="16sp"
             android:textColor="@color/primary_blue" />
 
         <TextView
             android:id="@+id/tvQtde"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="22dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="2"
             android:gravity="right"
             android:text="Qtde"
+            android:textSize="16sp"
             android:textColor="@color/primary_blue" />
 
 
