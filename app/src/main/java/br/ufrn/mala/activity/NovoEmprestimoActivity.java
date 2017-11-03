@@ -9,6 +9,11 @@ import android.widget.Toast;
 
 import br.ufrn.mala.R;
 
+
+/**
+ * Created by paulo on 20/10/17.
+ */
+
 public class NovoEmprestimoActivity extends AppCompatActivity {
 
     private static final int RC_BARCODE_CAPTURE = 9001;

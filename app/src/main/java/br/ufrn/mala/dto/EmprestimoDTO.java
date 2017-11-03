@@ -1,10 +1,12 @@
 package br.ufrn.mala.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by Joel Felipe on 02/10/17.
  */
 
-public class EmprestimoDTO {
+public class EmprestimoDTO implements Serializable {
 
     private String autor;
 
