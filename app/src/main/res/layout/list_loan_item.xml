@@ -4,44 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp"
+    android:padding="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="2dp"
     android:background="@color/accent">
 
     <TextView
         android:textStyle="bold"
         android:id="@+id/lbllistTitulo"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="2dp"
-        android:textSize="13dip" />
+        android:text="Titulo de livro aleatório só para testar o tamanho da fonte e não quebra de linha"
+        android:maxLines="1"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/lbllistAutor"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="2dp"
+        android:paddingTop="1dp"
+        android:text="Nome de autor aleatório só para testar o tamanho da fonte e não quebra de linha"
         android:textSize="10dip" />
 
     <TextView
         android:textStyle="bold"
         android:id="@+id/lbllistBiblioteca"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="2dp"
+        android:paddingTop="1dp"
+        android:text="Nome da Biblioteca"
         android:textSize="7dip" />
 
     <TextView
         android:id="@+id/lbllistPrazo"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="2dp"
+        android:paddingTop="1dp"
         android:paddingBottom="2dp"
+        android:text="00/00/00 23:59"
         android:textSize="10dip" />
 
 </LinearLayout>

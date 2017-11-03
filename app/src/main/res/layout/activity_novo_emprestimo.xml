@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/edittext_bg"
+        android:background="@drawable/newloan_edit_text_bg"
         android:ellipsize="end"
         android:hint="Ex.: 2017000000, L000000"
         android:inputType="text"
