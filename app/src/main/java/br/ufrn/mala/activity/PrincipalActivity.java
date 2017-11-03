@@ -2,8 +2,6 @@ package br.ufrn.mala.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,7 +18,6 @@ import android.view.MenuItem;
 import java.io.File;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.activity.Fragment.EmprestimoFragment;
 import br.ufrn.mala.activity.Fragment.EmprestimosFragment;
 import br.ufrn.mala.activity.Fragment.HistoricoEmprestimosFragment;
 import br.ufrn.mala.util.Constants;
