@@ -11,21 +11,27 @@ import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
 
 /**
- * Created by Joel Felipe on 04/11/2017.
+ * Estratégia concreta <i>(ConcreteStrategy)</i> de acesso aos dados <i>(DAO)</i> por meio do banco de dados da aplicação.
+ *
+ * @author Joel Felipe
+ * @since 04/11/2017
+ * @see <a href="https://pt.wikipedia.org/wiki/Strategy">Strategy</a>
+ * @see <a href="https://pt.wikipedia.org/wiki/Objeto_de_acesso_a_dados">DAO</a>
+ * @see <a href="https://pt.wikipedia.org/wiki/Singleton">Singleton</a>
  */
 
-public class SQLiteFactoryDAO implements AbstractFactoryDAO {
+public class SQLiteStrategyDAO implements StrategyDAO {
 
-    private static SQLiteFactoryDAO sqLiteFactoryDAO;
+    private static SQLiteStrategyDAO sqLiteStrategyDAO;
     private SQLiteConnection sqLiteConnection;
 
-    public static SQLiteFactoryDAO getInstance(Context context){
-        if(sqLiteFactoryDAO == null)
-            sqLiteFactoryDAO = new SQLiteFactoryDAO(context);
-        return sqLiteFactoryDAO;
+    public static SQLiteStrategyDAO getInstance(Context context){
+        if(sqLiteStrategyDAO == null)
+            sqLiteStrategyDAO = new SQLiteStrategyDAO(context);
+        return sqLiteStrategyDAO;
     }
 
-    private SQLiteFactoryDAO(Context context) {
+    private SQLiteStrategyDAO(Context context) {
         sqLiteConnection = SQLiteConnection.getInstance(context);
     }
 

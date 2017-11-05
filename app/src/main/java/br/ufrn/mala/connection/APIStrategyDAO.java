@@ -12,23 +12,29 @@ import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
 
 /**
- * Created by Joel Felipe on 04/11/2017.
+ * Estratégia concreta <i>(ConcreteStrategy)</i> de acesso aos dados <i>(DAO)</i> por meio da consulta na API da UFRN.
+ *
+ * @author Joel Felipe
+ * @since 04/11/2017
+ * @see <a href="https://pt.wikipedia.org/wiki/Strategy">Strategy</a>
+ * @see <a href="https://pt.wikipedia.org/wiki/Objeto_de_acesso_a_dados">DAO</a>
+ * @see <a href="https://pt.wikipedia.org/wiki/Singleton">Singleton</a>
  */
 
-public class APIFactoryDAO implements AbstractFactoryDAO{
-    private static APIFactoryDAO apiFactoryDAO;
-    private static SQLiteFactoryDAO sqLiteFactoryDAO;
+public class APIStrategyDAO implements StrategyDAO {
+    private static APIStrategyDAO apiStrategyDAO;
+    private static SQLiteStrategyDAO sqLiteStrategyDAO;
     private APIConnection apiConnection;
 
-    public static APIFactoryDAO getInstance(Context context){
-        if(apiFactoryDAO == null)
-            apiFactoryDAO = new APIFactoryDAO(context);
-        return apiFactoryDAO;
+    public static APIStrategyDAO getInstance(Context context){
+        if(apiStrategyDAO == null)
+            apiStrategyDAO = new APIStrategyDAO(context);
+        return apiStrategyDAO;
     }
 
-    private APIFactoryDAO(Context context) {
+    private APIStrategyDAO(Context context) {
         apiConnection = APIConnection.getInstance(context);
-        sqLiteFactoryDAO = SQLiteFactoryDAO.getInstance(context);
+        sqLiteStrategyDAO = SQLiteStrategyDAO.getInstance(context);
     }
 
     @Override
@@ -48,7 +54,7 @@ public class APIFactoryDAO implements AbstractFactoryDAO{
         List<EmprestimoDTO> historicoEmprestimos = JsonToObject.toEmprestimos(emprestimosJson);
         for (EmprestimoDTO emprestimo: historicoEmprestimos)
             emprestimo.setBiblioteca(getBibliotecaById(token, emprestimo.getIdBiblioteca()));
-        sqLiteFactoryDAO.insertEmprestimos(historicoEmprestimos, false);
+        sqLiteStrategyDAO.insertEmprestimos(historicoEmprestimos, false);
         return historicoEmprestimos;
     }
 
@@ -58,7 +64,7 @@ public class APIFactoryDAO implements AbstractFactoryDAO{
         List<EmprestimoDTO> emprestimosAtivos = JsonToObject.toEmprestimos(emprestimosJson);
         for (EmprestimoDTO emprestimo: emprestimosAtivos)
             emprestimo.setBiblioteca(getBibliotecaById(token, emprestimo.getIdBiblioteca()));
-        sqLiteFactoryDAO.insertEmprestimos(emprestimosAtivos, true);
+        sqLiteStrategyDAO.insertEmprestimos(emprestimosAtivos, true);
         return emprestimosAtivos;
     }
 

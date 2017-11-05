@@ -16,7 +16,10 @@ import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 
 /**
- * Created by Joel Felipe on 04/11/2017.
+ * Conexão com o banco de dados da aplicação</a>
+ *
+ * @author Joel Felipe
+ * @see <a href="https://pt.wikipedia.org/wiki/Singleton">Singleton</a>
  */
 
 public class SQLiteConnection {
@@ -43,14 +46,28 @@ public class SQLiteConnection {
             usuarioLogado = gson.fromJson(usuario, UsuarioDTO.class);
     }
 
+    /**
+     * Atualizar o usuário logado na aplicação
+     * @param usuarioLogado Usuario logado na aplicação
+     * @return Usuário logado na aplicação
+     */
     public void setUsuarioLogado(UsuarioDTO usuarioLogado) {
         this.usuarioLogado = usuarioLogado;
     }
 
+    /**
+     * Atualizar o usuário logado na aplicação
+     * @return Usuário logado na aplicação
+     */
     public UsuarioDTO getUsuarioLogado() {
         return usuarioLogado;
     }
 
+    /**
+     * Consulta a quantidade de empréstimos do usuário logado, no banco de dados
+     * @param ativo Indica se os empréstimos consultados serão os ativos, inativos ou ambos
+     * @return Quantidade de empréstimos
+     */
     public Integer getQuantidadeEmprestimos(Boolean ativo) {
         String sql = "SELECT * " +
                 "FROM emprestimos " +
@@ -59,6 +76,12 @@ public class SQLiteConnection {
         return readableDatabase.rawQuery(sql, new String[] {ativo.toString(), usuarioLogado.getCpfCnpj().toString()}).getCount();
     }
 
+    /**
+     * Consulta os empréstimos do usuário logado, no banco de dados
+     * @param ativo Indica se os empréstimos consultados serão os ativos(true), inativos(false) ou ambos(null)
+     * @param offset Offset usado na consulta
+     * @return Quantidade de empréstimos
+     */
     public List<EmprestimoDTO> getEmprestimos(Boolean ativo, Integer offset) {
         String sql = "SELECT * " +
                 "FROM emprestimo " +
@@ -100,6 +123,12 @@ public class SQLiteConnection {
         return emprestimos;
     }
 
+    /**
+     * Inserir o empréstimo, no banco de dados
+     * @param emprestimo Emprestimo a ser inserido
+     * @param ativo Indica se o empréstimo está ativo, inativo
+     * @return Quantidade de empréstimos
+     */
     public void insertEmprestimo(EmprestimoDTO emprestimo, Boolean ativo){
         insertBiblioteca(emprestimo.getBiblioteca());
         String sql = "REPLACE INTO emprestimo (" +
@@ -138,6 +167,11 @@ public class SQLiteConnection {
         writableDatabase.execSQL(sql);
     }
 
+    /**
+     * Inserir a bilbioteca no banco de dados
+     * @param biblioteca Bilioteca a ser inserida
+     * @return Quantidade de empréstimos
+     */
     private void insertBiblioteca(BibliotecaDTO biblioteca){
         String sql = "REPLACE INTO biblioteca (" +
                 "id_biblioteca, " +

@@ -17,7 +17,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by Joel Felipe on 02/10/17.
+ * Conexão com a <a href="https://api.ufrn.br/">API de Sistemas da UFRN</a>
+ *
+ * @author Joel Felipe
+ * @see <a href="https://pt.wikipedia.org/wiki/Singleton">Singleton</a>
  */
 
 public class APIConnection {
@@ -51,18 +54,28 @@ public class APIConnection {
             usuarioLogado = gson.fromJson(usuario, UsuarioDTO.class);
     }
 
+    /**
+     * Atualizar o usuário logado na aplicação
+     * @param token Token de acesso à API da UFRN
+     * @return Usuário logado na aplicação
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
     public UsuarioDTO setUsuarioLogado(String token) throws JsonStringInvalidaException, IOException, ConnectionException {
-        String url = Uri.parse(URL_BASE)
-                .buildUpon()
-                .appendEncodedPath(PATH_USUARIO_INFO)
-                .build()
-                .toString();
-        String usuario = getDados(token, url);
+        String usuario = getUsuarioLogado(token);
         usuarioLogado = JsonToObject.toUsuario(usuario);
         sqLiteConnection.setUsuarioLogado(usuarioLogado);
         return usuarioLogado;
     }
 
+    /**
+     * Consultar o usuário logado na aplicação
+     * @param token Token de acesso à API da UFRN
+     * @return JSON do usuário logado na aplicação
+     * @throws IOException
+     * @throws ConnectionException
+     */
     public String getUsuarioLogado(String token) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
@@ -72,6 +85,14 @@ public class APIConnection {
         return getDados(token, url);
     }
 
+    /**
+     * Consultar uma biblioteca de acordo com o seu Identificador, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @param idBiblioteca Identificador da biblioteca
+     * @return JSON da biblioteca
+     * @throws IOException
+     * @throws ConnectionException
+     */
     public String getBiblioteca(String token, Integer idBiblioteca) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
@@ -82,6 +103,14 @@ public class APIConnection {
         return getDados(token, url);
     }
 
+    /**
+     * Consultar a quantidade de empréstimos do usuário logado, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @param ativo Indica se os empréstimos consultados serão os ativos(true), inativos(false) ou ambos(null)
+     * @return Quantidade de empréstimos
+     * @throws IOException
+     * @throws ConnectionException
+     */
     public Integer getQuantidadeEmprestimos(String token, Boolean ativo) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
@@ -90,9 +119,18 @@ public class APIConnection {
                 .appendQueryParameter("emprestado", ativo.toString())
                 .build()
                 .toString();
-        return Integer.parseInt(getCabecalho(token, url));
+        return getQuantidadeConsulta(token, url);
     }
 
+    /**
+     * Consulta os empréstimos do usuário logado, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @param ativo Indica se os empréstimos consultados serão os ativos(true), inativos(false) ou ambos(null)
+     * @param offset Offset usado na consulta
+     * @return JSON da lista de empréstimos
+     * @throws IOException
+     * @throws ConnectionException
+     */
     public String getEmprestimos(String token, Boolean ativo, Integer offset) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
@@ -107,6 +145,14 @@ public class APIConnection {
         return getDados(token, url);
     }
 
+    /**
+     * Realizar a consulta, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @param url URL da consulta
+     * @return JSON da consulta
+     * @throws IOException
+     * @throws ConnectionException
+     */
     private String getDados(String token, String url) throws IOException, ConnectionException {
         Request request = new Request.Builder()
                 .url(url)
@@ -125,7 +171,15 @@ public class APIConnection {
         return result;
     }
 
-    private String getCabecalho(String token, String url) throws IOException, ConnectionException {
+    /**
+     * Resgatar a quantidade total de registros da consulta
+     * @param token Token de acesso à API da UFRN
+     * @param url URL da consulta
+     * @return JSON da consulta
+     * @throws IOException
+     * @throws ConnectionException
+     */
+    private Integer getQuantidadeConsulta(String token, String url) throws IOException, ConnectionException {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -141,6 +195,6 @@ public class APIConnection {
         System.out.println(result);
         if (!response.isSuccessful())
             throw new ConnectionException("Erro ao se conectar com o servidor", new Throwable(response.message()));
-        return result;
+        return Integer.parseInt(result);
     }
 }
