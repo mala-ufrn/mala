@@ -10,9 +10,9 @@ public class EmprestimoDTO implements Serializable {
 
     private String autor;
 
-    private String biblioteca;
-
     private String codigoBarras;
+
+    private Long cpfCnpjUsuario;
 
     private Long dataDevolucao;
 
@@ -20,9 +20,11 @@ public class EmprestimoDTO implements Serializable {
 
     private Long dataRenovacao;
 
+    private Integer idBiblioteca;
+
     private Integer idEmprestimo;
 
-    private Integer idUsuario;
+    private Integer idMaterialInformacional;
 
     private String numeroChamada;
 
@@ -32,6 +34,8 @@ public class EmprestimoDTO implements Serializable {
 
     private String titulo;
 
+    private BibliotecaDTO biblioteca;
+
     public String getAutor() {
         return autor;
     }
@@ -40,20 +44,20 @@ public class EmprestimoDTO implements Serializable {
         this.autor = autor;
     }
 
-    public String getBiblioteca() {
-        return biblioteca;
-    }
-
-    public void setBiblioteca(String biblioteca) {
-        this.biblioteca = biblioteca;
-    }
-
     public String getCodigoBarras() {
         return codigoBarras;
     }
 
     public void setCodigoBarras(String codigoBarras) {
         this.codigoBarras = codigoBarras;
+    }
+
+    public Long getCpfCnpjUsuario() {
+        return cpfCnpjUsuario;
+    }
+
+    public void setCpfCnpjUsuario(Long cpfCnpjUsuario) {
+        this.cpfCnpjUsuario = cpfCnpjUsuario;
     }
 
     public Long getDataDevolucao() {
@@ -80,6 +84,14 @@ public class EmprestimoDTO implements Serializable {
         this.dataRenovacao = dataRenovacao;
     }
 
+    public Integer getIdBiblioteca() {
+        return idBiblioteca;
+    }
+
+    public void setIdBiblioteca(Integer idBiblioteca) {
+        this.idBiblioteca = idBiblioteca;
+    }
+
     public Integer getIdEmprestimo() {
         return idEmprestimo;
     }
@@ -88,12 +100,12 @@ public class EmprestimoDTO implements Serializable {
         this.idEmprestimo = idEmprestimo;
     }
 
-    public Integer getIdUsuario() {
-        return idUsuario;
+    public Integer getIdMaterialInformacional() {
+        return idMaterialInformacional;
     }
 
-    public void setIdUsuario(Integer idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdMaterialInformacional(Integer idMaterialInformacional) {
+        this.idMaterialInformacional = idMaterialInformacional;
     }
 
     public String getNumeroChamada() {
@@ -126,5 +138,13 @@ public class EmprestimoDTO implements Serializable {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public BibliotecaDTO getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(BibliotecaDTO biblioteca) {
+        this.biblioteca = biblioteca;
     }
 }

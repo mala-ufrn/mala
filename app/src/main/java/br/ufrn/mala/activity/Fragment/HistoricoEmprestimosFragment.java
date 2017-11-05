@@ -23,7 +23,7 @@ import br.ufrn.mala.R;
 import br.ufrn.mala.activity.EmprestimoDetalheActivity;
 import br.ufrn.mala.activity.NovoEmprestimoActivity;
 import br.ufrn.mala.auxiliar.ListHistoricoEmprestimosAdaptador;
-import br.ufrn.mala.connection.FachadaAPI;
+import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -137,7 +137,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
-                return FachadaAPI.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
+                return FacadeDAO.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JsonStringInvalidaException e) {

@@ -67,7 +67,7 @@ public class EmprestimoDetalheActivity extends AppCompatActivity {
 
 
 
-        biblioteca.setText("Biblioteca: "+emprestimo.getBiblioteca());
+        biblioteca.setText("Biblioteca: "+emprestimo.getBiblioteca().getDescricao());
 
     }
 

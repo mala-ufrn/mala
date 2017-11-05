@@ -24,7 +24,6 @@ public class UsuarioDTO {
 
     private String chaveFoto;
 
-
     public String getChaveFoto() {
         return chaveFoto;
     }
