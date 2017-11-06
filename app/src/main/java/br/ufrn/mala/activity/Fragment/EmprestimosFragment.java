@@ -128,7 +128,6 @@ public class EmprestimosFragment extends Fragment {
                 Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
                 i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
                 startActivity(i);
-
                 return false;
             }
         });
