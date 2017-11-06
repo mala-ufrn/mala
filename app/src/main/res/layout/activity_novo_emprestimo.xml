@@ -11,23 +11,27 @@
 
     tools:context="br.ufrn.mala.activity.NovoEmprestimoActivity">
 
-
     <ImageView
-
+        android:contentDescription="Exemplo de código de barras"
         android:layout_centerHorizontal="true"
         android:id="@+id/img_barcode"
-        android:layout_width="200dip"
-        android:layout_height="100dip"
-        android:paddingTop="15dp"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_barcode" />
+        android:src="@drawable/ic_barcode"
+        android:background="@drawable/barcode_bg"/>
 
     <TextView
         android:id="@+id/new_loan_helper"
         android:layout_below="@+id/img_barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         android:text="@string/newLoanHelp" />
 
     <EditText
@@ -35,12 +39,10 @@
         android:id="@+id/new_loan_barcode_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_margin="15dp"
-        android:background="@drawable/edittext_bg"
-        android:ellipsize="end"
         android:layout_centerHorizontal="true"
-
+        android:background="@drawable/newloan_edit_text_bg"
+        android:ellipsize="end"
         android:hint="Ex.: 2017000000, L000000"
         android:inputType="text"
         android:maxLines="1" />
@@ -52,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="15dp"
         android:background="@color/blue"
         android:paddingLeft="18dp"
@@ -70,7 +72,6 @@
         android:layout_marginBottom="@dimen/fab_margin"
         app:fabSize="normal"
         app:backgroundTint="@color/blue"
-
         android:src="@drawable/ic_photo_camera_24dp" />
 
 </RelativeLayout>

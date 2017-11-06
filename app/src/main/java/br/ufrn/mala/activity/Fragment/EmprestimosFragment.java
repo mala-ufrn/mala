@@ -75,6 +75,9 @@ public class EmprestimosFragment extends Fragment {
         //Preenchendo lista de empréstimos ativos
         expandableListViewEmprestimo = (ExpandableListView) getActivity().findViewById(R.id.list_emprestimos);
 
+        expandableListViewEmprestimo.setGroupIndicator(null);
+        expandableListViewEmprestimo.setDivider(null);
+
         // cria os grupos
         List<String> listaGrupos = new ArrayList<>();
         listaGrupos.add("Normais");
