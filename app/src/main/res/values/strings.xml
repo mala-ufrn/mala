@@ -32,6 +32,7 @@
     <string name="app_new_loan">Novo Empréstimo</string>
     <string name="app_my_loans">Meus Empréstimos</string>
     <string name="app_my_loans_history">Histórico de Emprestimos</string>
+    <string name="app_my_loans_history_detail">Info. Empréstimo</string>
 
     <string name="newLoanHelp">Digite o código de barras do material:</string>
     <string name="btnSearchMaterial">Buscar Material</string>

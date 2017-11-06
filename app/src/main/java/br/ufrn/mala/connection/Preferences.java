@@ -32,7 +32,8 @@ public class Preferences {
         editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
         editor.putLong(Constants.KEY_EXPIRES_AT, expiresAt);
 
-        UsuarioDTO usuarioLogado = FachadaAPI.getInstance(context).setUsuarioLogado(accessToken);
+        UsuarioDTO usuarioLogado = APIConnection.getInstance(context).setUsuarioLogado(accessToken);
+        SQLiteConnection.getInstance(context).setUsuarioLogado(usuarioLogado);
         Gson gson = new Gson();
         String json = gson.toJson(usuarioLogado); // myObject - instance of MyObject
         editor.putString("UsuarioLogado", json);

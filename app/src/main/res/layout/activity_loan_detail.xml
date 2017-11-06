@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    tools:context="br.ufrn.mala.activity.EmprestimoDetalheActivity">
+
+    <TextView
+        android:id="@+id/lblCod_Barra_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:textSize="13dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblTitulo_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/lblAutor_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold" />
+
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volume:"
+        android:paddingTop="15dp"
+        android:textSize="13dip"
+        android:paddingBottom="2dp"
+        android:textStyle="bold"
+        android:textColor="@color/aluminum"/>
+
+    <TextView
+        android:id="@+id/lblEdicao_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblBiblioteca_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblDtEmprestimo_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblDtRenovacaEmprestimo_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblDtDevolucao_detail_loan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:textSize="13dip"
+        android:textStyle="bold"/>
+
+</LinearLayout>

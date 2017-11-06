@@ -5,22 +5,32 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import br.ufrn.mala.R;
+import br.ufrn.mala.barcode.*;
+
+
+/**
+ * Created by paulo on 20/10/17.
+ */
 
 public class NovoEmprestimoActivity extends AppCompatActivity {
 
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
-
+    private FloatingActionButton fab;
+    private TextView inputBarCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_emprestimo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_novo_emprestimo);
+        fab = (FloatingActionButton) findViewById(R.id.fab_novo_emprestimo);
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -29,13 +39,30 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
             }
 
         });
+        inputBarCode = (TextView) findViewById(R.id.new_loan_barcode_input);
 
 
     }
 
 
     public void camReader(View v) {
-        Toast.makeText(this, "Chama a activity da camera", Toast.LENGTH_SHORT).show();
+        IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+        scanIntegrator.initiateScan();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null){
+            String scanContent = scanResult.getContents();
+            String scanFormat = scanResult.getFormatName();
+
+            inputBarCode.setText(scanContent);
+
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
 

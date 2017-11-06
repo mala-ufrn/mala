@@ -71,7 +71,7 @@
             android:id="@+id/lbllistBiblioteca"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome da Biblioteca"
+
             android:textSize="12sp" />
 
         <TextView

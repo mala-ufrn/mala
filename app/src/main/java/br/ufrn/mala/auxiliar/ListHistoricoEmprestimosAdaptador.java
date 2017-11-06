@@ -2,18 +2,11 @@ package br.ufrn.mala.auxiliar;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.DataSetObserver;
-import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
@@ -68,7 +61,7 @@ public class ListHistoricoEmprestimosAdaptador extends BaseAdapter {
         tvTitulo.setText(emprestimo.getTitulo());
         tvAutor.setText("Autor: " + emprestimo.getAutor());
         tvDevolucao.setText("Devolvido em: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getDataDevolucao())));
-        tvBiblioteca.setText(emprestimo.getBiblioteca());
+        tvBiblioteca.setText(emprestimo.getBiblioteca().getDescricao());
         return convertView;
     }
 
