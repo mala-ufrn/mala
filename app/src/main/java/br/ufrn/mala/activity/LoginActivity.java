@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 new RefreshTokenAsyncTask().execute(refreshtoken);
             }
             else{
-                Intent intent = new Intent(this, EmprestimosAtivosActivity.class);
+                Intent intent = new Intent(this, PrincipalActivity.class);
                 startActivity(intent);
             }
         }
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(LoginActivity.this, EmprestimosAtivosActivity.class);
+                Intent startProfileActivity = new Intent(LoginActivity.this, PrincipalActivity.class);
                 LoginActivity.this.startActivity(startProfileActivity);
             }
         }

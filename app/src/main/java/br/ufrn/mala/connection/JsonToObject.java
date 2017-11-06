@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -50,13 +51,14 @@ public class JsonToObject {
                     JSONObject jsonList = array.getJSONObject(i);
                     EmprestimoDTO emprestimo = new EmprestimoDTO();
                     emprestimo.setAutor(convertJSONObject(jsonList, "autor", String.class));
-                    emprestimo.setBiblioteca(convertJSONObject(jsonList, "biblioteca", String.class));
                     emprestimo.setCodigoBarras(convertJSONObject(jsonList, "codigo-barras", String.class));
+                    emprestimo.setCpfCnpjUsuario(convertJSONObject(jsonList, "cpf-cnpj-usuario", Long.class));
                     emprestimo.setDataDevolucao(convertJSONObject(jsonList, "data-devolucao", Long.class));
                     emprestimo.setDataEmpretimo(convertJSONObject(jsonList, "data-emprestimo", Long.class));
                     emprestimo.setDataRenovacao(convertJSONObject(jsonList, "data-renovacao", Long.class));
+                    emprestimo.setIdBiblioteca(convertJSONObject(jsonList, "id-biblioteca", Integer.class));
                     emprestimo.setIdEmprestimo(convertJSONObject(jsonList, "id-emprestimo", Integer.class));
-                    emprestimo.setIdUsuario(convertJSONObject(jsonList, "id-usuario", Integer.class));
+                    emprestimo.setIdMaterialInformacional(convertJSONObject(jsonList, "id-material-informacional", Integer.class));
                     emprestimo.setNumeroChamada(convertJSONObject(jsonList, "numero-chamada", String.class));
                     emprestimo.setPrazo(convertJSONObject(jsonList, "prazo", Long.class));
                     emprestimo.setTipoEmprestimo(convertJSONObject(jsonList, "tipo-emprestimo", String.class));
@@ -72,6 +74,27 @@ public class JsonToObject {
             throw new JsonStringInvalidaException("String vazia!");
         }
         return emprestimos;
+    }
+
+    public static BibliotecaDTO toBiblioteca(String text) throws JsonStringInvalidaException {
+        BibliotecaDTO biblioteca = new BibliotecaDTO();
+        if(!text.equalsIgnoreCase("")){
+            try {
+                JSONObject jsonList = new JSONObject(text);
+                biblioteca.setDescricao(convertJSONObject(jsonList, "descricao", String.class));
+                biblioteca.setEmail(convertJSONObject(jsonList, "email", String.class));
+                biblioteca.setIdBiblioteca(convertJSONObject(jsonList, "id-biblioteca", Integer.class));
+                biblioteca.setSigla(convertJSONObject(jsonList, "sigla", String.class));
+                biblioteca.setSite(convertJSONObject(jsonList, "site", String.class));
+                biblioteca.setTelefone(convertJSONObject(jsonList, "telefone", String.class));
+            } catch (JSONException e) {
+                System.out.println(e.getMessage());
+                throw new JsonStringInvalidaException(e.getMessage());
+            }
+        }else{
+            throw new JsonStringInvalidaException("String vazia!");
+        }
+        return biblioteca;
     }
 
     private static <T> T convertJSONObject(JSONObject json, String param, Class<T> classOfT) throws JSONException {

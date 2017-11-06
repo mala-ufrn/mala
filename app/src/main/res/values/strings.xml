@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">MALA - UFRN</string>
+
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="title_activity_main2">Main2Activity</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_act_principal">ActPrincipalActivity</string>
     <string name="refresh">Atualizar</string>
     <string name="select">Selecionar</string>
     <string name="renewAll">Renovar todos Empréstimos</string>
@@ -19,6 +19,25 @@
     <string name="faq">Dúvidas Frequentes</string>
     <string name="aboutUs">Sobre o MALA</string>
     <string name="exit">Sair</string>
+
+
+    <string name="whatIs">Módulo de Autoempréstimo
+        de Livros do Acerto da UFRN</string>
+    <string name="disclaimer1">Este aplicativo utiliza o serviços de testes da API SIGAA.</string>
+    <string name="disclaimer2">Ao apertar o botão abaixo, você será encaminhado para uma tela do
+        navegador para confirmação de usuário/senha. Preencha ambos os campos apenas com seu usuário
+        do SIGAA.</string>
+    <!--Label das activities-->
+    <string name="app_sgl">MALA</string>
+    <string name="app_new_loan">Novo Empréstimo</string>
+    <string name="app_my_loans">Meus Empréstimos</string>
+    <string name="app_my_loans_history">Histórico de Emprestimos</string>
+    <string name="app_my_loans_history_detail">Info. Empréstimo</string>
+
+    <string name="newLoanHelp">Digite o código de barras do material:</string>
+    <string name="btnSearchMaterial">Buscar Material</string>
+
+
 
 
 </resources>

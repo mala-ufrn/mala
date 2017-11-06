@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+
+
+    tools:context="br.ufrn.mala.activity.NovoEmprestimoActivity">
+
+
+    <ImageView
+
+        android:layout_centerHorizontal="true"
+        android:id="@+id/img_barcode"
+        android:layout_width="200dip"
+        android:layout_height="100dip"
+        android:paddingTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_barcode" />
+
+    <TextView
+        android:id="@+id/new_loan_helper"
+        android:layout_below="@+id/img_barcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/newLoanHelp" />
+
+    <EditText
+        android:layout_below="@+id/new_loan_helper"
+        android:id="@+id/new_loan_barcode_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="15dp"
+        android:background="@drawable/edittext_bg"
+        android:ellipsize="end"
+        android:layout_centerHorizontal="true"
+
+        android:hint="Ex.: 2017000000, L000000"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/new_loan_barcode_input"
+        android:id="@+id/btn_buscar_Material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/blue"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:text="@string/btnSearchMaterial"
+        android:textColor="#FFFFFFFF"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_novo_emprestimo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/fab_margin"
+        app:fabSize="normal"
+        app:backgroundTint="@color/blue"
+
+        android:src="@drawable/ic_photo_camera_24dp" />
+
+</RelativeLayout>

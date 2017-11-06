@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/primary_dark">
+
+     <!--   <TextView
+            android:id="@+id/tvGrupo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+            android:textColor="@color/primary_blue"
+            android:textSize="15dip"
+            android:text="Grupo"/>
+
+        <TextView
+            android:id="@+id/tvQtde"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="Qtde"
+            android:textColor="@color/accent" />
+-->
+
+        <TextView
+            android:id="@+id/tvGrupo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_weight="8"
+            android:text="Grupo"
+            android:textColor="@color/primary_blue" />
+
+        <TextView
+            android:id="@+id/tvQtde"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="Qtde"
+            android:textColor="@color/primary_blue" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
