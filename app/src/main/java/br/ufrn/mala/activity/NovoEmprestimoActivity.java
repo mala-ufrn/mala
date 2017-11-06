@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,8 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
             String scanFormat = scanResult.getFormatName();
 
             inputBarCode.setText(scanContent);
+            EditText et = (EditText)inputBarCode;
+            et.setSelection(et.getText().length());
 
         }else{
             Toast toast = Toast.makeText(getApplicationContext(),

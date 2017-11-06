@@ -11,8 +11,6 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_marginTop="2dp"
         android:background="@color/listgreen">
 
@@ -29,7 +27,7 @@
                 android:layout_weight="9"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Titulo de livro aleatório só para testar a questão de títulos longos"
+                android:text="Titulo de livro"
                 android:textSize="16sp"/>
 
             <TextView
@@ -56,7 +54,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Nome de autor aleatório só para testar o tamanho da fonte e não quebra de linha"
+                android:text="Nome de autor"
                 android:textSize="12sp" />
 
             <Space
@@ -66,13 +64,30 @@
                 android:minWidth="200dp"/>
         </LinearLayout>
 
-        <TextView
-            android:textStyle="bold"
-            android:id="@+id/lbllistBiblioteca"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:orientation="horizontal">
 
-            android:textSize="12sp" />
+            <TextView
+
+                android:textStyle="bold"
+                android:id="@+id/lbllistBiblioteca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Nome da Biblioteca"
+                android:textSize="12sp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minWidth="200dp"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/lbllistPrazo"

@@ -116,7 +116,7 @@ public class ListEmprestimosAdaptador extends BaseExpandableListAdapter {
 
         EmprestimoDTO emprestimo = (EmprestimoDTO) getChild(groupPosition, childPosition);
         tvTitulo.setText(emprestimo.getTitulo());
-        tvAutor.setText("Autor: " + emprestimo.getAutor());
+        tvAutor.setText(emprestimo.getAutor());
         tvPrazo.setText("Prazo: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getPrazo())));
         tvCodigoBarras.setText(emprestimo.getCodigoBarras());
         tvBiblioteca.setText(emprestimo.getBiblioteca().getDescricao());

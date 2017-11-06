@@ -59,7 +59,7 @@ public class ListHistoricoEmprestimosAdaptador extends BaseAdapter {
         // Populando os campos
 
         tvTitulo.setText(emprestimo.getTitulo());
-        tvAutor.setText("Autor: " + emprestimo.getAutor());
+        tvAutor.setText(emprestimo.getAutor());
         tvDevolucao.setText("Devolvido em: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getDataDevolucao())));
         tvBiblioteca.setText(emprestimo.getBiblioteca().getDescricao());
         return convertView;
