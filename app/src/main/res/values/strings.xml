@@ -37,7 +37,11 @@
     <string name="newLoanHelp">Digite o código de barras do material:</string>
     <string name="btnSearchMaterial">Buscar Material</string>
 
-
+    <string name="newLoanDetHelp">Confira se o material não está danificado, e se os dados abaixo conferem:</string>
+    <string name="newLoanDetTipo">Tipo de Empréstimo:</string>
+    <string name="newLoanDetOb1">Caso o material esteja danificado, por favor, leve-o ao setor de circulação/empréstimos da biblioteca.</string>
+    <string name="newLoanDetOb2">É importante que só realize esta operação com o livro em mãos.</string>
+    <string name="btnNewLoan">Realizar Autoempréstimo</string>
 
 
 </resources>

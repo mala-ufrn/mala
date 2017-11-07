@@ -7,8 +7,8 @@
         android:id="@+id/list_historico_emprestimos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:childDivider="@android:color/transparent"
-        android:dividerHeight="2dp"
-        android:drawSelectorOnTop="true"/>
+        android:drawSelectorOnTop="true"
+        android:divider="@null"
+        android:scrollbarStyle="outsideOverlay"/>
 
 </LinearLayout>
