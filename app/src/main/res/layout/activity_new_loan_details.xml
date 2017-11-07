@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical"
+    tools:context="br.ufrn.mala.activity.NovoEmprestimoActivity">
+
+    <TextView
+        android:id="@+id/new_loan_det_helper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/newLoanDetHelp"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/barcode_bg">
+
+        <TextView
+            android:id="@+id/Cod_Barra_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:text="Cód Barras:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/lblCod_Barra_detail_new_loan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/Cod_Barra_label"
+            android:padding="3dp"
+            android:text="0000000000"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/Titulo_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Cod_Barra_label"
+            android:padding="3dp"
+            android:text="Título:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/lblTitulo_detail_new_loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Cod_Barra_label"
+            android:layout_toRightOf="@+id/Titulo_label"
+            android:padding="3dp"
+            android:text="Título longo só para testar a quebra de linha e reticências no final"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/Autor_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Titulo_label"
+            android:padding="3dp"
+            android:text="Autor:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/lblAutor_detail_new_loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Titulo_label"
+            android:layout_toRightOf="@+id/Autor_label"
+            android:padding="3dp"
+            android:text="Nome de autor a quebra de linha e reticências no final"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/Tipo_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Autor_label"
+            android:padding="3dp"
+            android:text="Tipo Mat.:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/lblTipo_detail_new_loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Autor_label"
+            android:layout_toRightOf="@+id/Tipo_label"
+            android:padding="3dp"
+            android:text="Obras UFRN"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/Status_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Tipo_label"
+            android:padding="3dp"
+            android:text="Status:"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/lblStatus_detail_new_loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Tipo_label"
+            android:layout_toRightOf="@+id/Status_label"
+            android:padding="3dp"
+            android:text="NORMAL"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/new_loan_type_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/newLoanDetTipo"
+        android:textColor="@color/black"
+        android:textSize="17sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/loan_type_spinner"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/btn_types_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_toRightOf="@id/loan_type_spinner"
+            android:src="@drawable/ic_help_outline_blue_30dp"
+            android:background="@android:color/transparent"/>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:theme="@style/AppTheme.Button"
+        android:gravity="center"
+        android:id="@+id/btn_buscar_Material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="@string/btnNewLoan"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:gravity="bottom">
+
+        <TextView
+            android:id="@+id/obs1_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="*"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/new_loan_obs1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/obs1_dot"
+            android:padding="2dp"
+            android:text="@string/newLoanDetOb1"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/obs2_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/new_loan_obs1"
+            android:padding="2dp"
+            android:text="*"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/new_loan_obs2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/new_loan_obs1"
+            android:layout_toRightOf="@id/obs2_dot"
+            android:padding="2dp"
+            android:text="@string/newLoanDetOb2"
+            android:textColor="@color/black"
+            android:textSize="12sp"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>
