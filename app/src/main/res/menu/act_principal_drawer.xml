@@ -5,7 +5,8 @@
         <item
             android:id="@+id/myLoan"
             android:icon="@drawable/ic_collections_bookmark_black_24dp"
-            android:title="@string/myLoans" />
+            android:title="@string/myLoans"
+            android:checked="true"/>
         <item
             android:id="@+id/loan_historical"
             android:icon="@drawable/ic_style_black_24dp"
@@ -13,11 +14,13 @@
         <item
             android:id="@+id/changePass_Sisbi"
             android:icon="@drawable/ic_vpn_key_black_24dp"
-            android:title="@string/changePass_Sisbi" />
+            android:title="@string/changePass_Sisbi"
+            android:enabled="false"/>
         <item
             android:id="@+id/issue_discharge"
             android:icon="@drawable/ic_folder_shared_black_24dp"
-            android:title="@string/issue_discharge" />
+            android:title="@string/issue_discharge"
+            android:enabled="false"/>
 
     </group>
 
@@ -27,11 +30,13 @@
         <item
             android:id="@+id/faq"
             android:icon="@drawable/ic_help_outline_black_24dp"
-            android:title="@string/faq" />
+            android:title="@string/faq"
+            android:enabled="false"/>
         <item
             android:id="@+id/aboutUs"
             android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="@string/aboutUs" />
+            android:title="@string/aboutUs"
+            android:enabled="false"/>
         <item
             android:id="@+id/exit"
             android:icon="@drawable/ic_exit_to_app_black_24dp"

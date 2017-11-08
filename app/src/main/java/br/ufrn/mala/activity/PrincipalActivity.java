@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,18 +15,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.io.File;
+
+import com.google.gson.Gson;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.Fragment.EmprestimosFragment;
 import br.ufrn.mala.activity.Fragment.HistoricoEmprestimosFragment;
+import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FragmentManager fm;
 
+    private UsuarioDTO usuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,15 @@ public class PrincipalActivity extends AppCompatActivity
         // Pegar o token de acesso
         SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
         String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
+
+        Gson gson = new Gson();
+        String usuario = preferences.getString("UsuarioLogado", null);
+        if (usuario != null)
+            usuarioLogado = gson.fromJson(usuario, UsuarioDTO.class);
+
+        View header = navigationView.getHeaderView(0);
+        TextView profName = (TextView)header.findViewById(R.id.profile_name);
+        profName.setText(usuarioLogado.getNomePessoa());
 
         // Cria um novo fragment
         fm = getSupportFragmentManager();

@@ -11,7 +11,7 @@
     <string name="refresh">Atualizar</string>
     <string name="select">Selecionar</string>
     <string name="renewAll">Renovar todos Empréstimos</string>
-    <string name="newLoan">Realizar Emprestimo</string>
+    <string name="newLoan">Realizar Novo Emprestimo</string>
     <string name="myLoans">Meus Emprestimos</string>
     <string name="loan_historical">Histórico de Emprestimos</string>
     <string name="changePass_Sisbi">Alterar Senha SISBI</string>

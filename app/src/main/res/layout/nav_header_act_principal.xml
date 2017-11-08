@@ -6,49 +6,49 @@
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:padding="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/profile_image"
-            android:layout_width="74dp"
-            android:layout_height="63dp"
-            android:layout_weight="1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:src="@mipmap/ic_portrait" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
             android:paddingLeft="10dp"
+            android:layout_alignLeft="@id/profile_image"
+            android:layout_alignTop="@id/profile_image"
+            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
                 android:text="Fulano de Tal"
+                android:paddingTop="4dp"
+                android:textSize="16sp"
+                android:maxLines="2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="aluno de graduação" />
+                android:text="Aluno de graduação" />
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>
