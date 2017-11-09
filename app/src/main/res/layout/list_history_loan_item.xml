@@ -2,48 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    android:paddingLeft="10dp"
-    android:paddingRight="5dp"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp">
-
-    <TextView
-        android:id="@+id/lbllistTitulo_history_loan"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="@color/listgray"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lbllistAutor_history_loan"
-        android:layout_below="@+id/lbllistTitulo_history_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="10dip" />
+        <TextView
+            android:id="@+id/lbllistTitulo_history_loan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Título do Livro"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/lbllistBiblioteca_history_loan"
-        android:layout_below="@+id/lbllistAutor_history_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="10dip"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/lbllistAutor_history_loan"
+            android:layout_below="@+id/lbllistTitulo_history_loan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Nome do Autor"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/lbllistDtDevolucao_history_loan"
-        android:layout_below="@+id/lbllistBiblioteca_history_loan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
-        android:textSize="10dip" />
+        <TextView
+            android:id="@+id/lbllistBiblioteca_history_loan"
+            android:layout_below="@+id/lbllistAutor_history_loan"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="12sp"
+            android:text="Nome da Biblioteca"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/lbllistDtDevolucao_history_loan"
+            android:layout_below="@+id/lbllistBiblioteca_history_loan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:text="Devolução: 00/00/00 00:00"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 </RelativeLayout>

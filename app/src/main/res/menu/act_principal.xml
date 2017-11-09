@@ -10,12 +10,14 @@
         android:id="@+id/action_select"
         android:orderInCategory="100"
         android:title="@string/select"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:enabled="false"/>
     <item
         android:id="@+id/action_renewAll"
         android:orderInCategory="100"
         android:title="@string/renewAll"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        android:enabled="false"/>
     <item
         android:id="@+id/action_newLoan"
         android:orderInCategory="100"

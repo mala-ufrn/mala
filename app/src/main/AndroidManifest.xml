@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -21,7 +22,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,15 +29,19 @@
             android:name=".activity.PrincipalActivity"
             android:label="@string/app_my_loans"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.NovoEmprestimoActivity"
             android:label="@string/app_new_loan"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NewLoanDetailsActivity"
+            android:label="@string/app_new_loan"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EmprestimoDetalheActivity"
             android:label="@string/app_my_loans_history_detail"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.LogonActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -53,9 +57,8 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
-
-
+            android:theme="@style/AppTheme.Dark" >
+        </activity>
     </application>
 
 </manifest>

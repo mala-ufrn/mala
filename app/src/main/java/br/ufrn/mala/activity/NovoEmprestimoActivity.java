@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.io.Serializable;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.barcode.*;
@@ -24,6 +28,8 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
     private static final String TAG = "BarcodeMain";
     private FloatingActionButton fab;
     private TextView inputBarCode;
+    private Button buscarMaterial;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +46,20 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
 
         });
         inputBarCode = (TextView) findViewById(R.id.new_loan_barcode_input);
-
-
+        buscarMaterial = (Button) findViewById(R.id.btn_buscar_Material);
+        buscarMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (inputBarCode.getText().toString().trim().equals("")) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Nenhum código de barras digitado", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Intent i = new Intent(NovoEmprestimoActivity.this, NewLoanDetailsActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
 
 
@@ -52,19 +70,20 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null){
+        if (scanResult != null) {
             String scanContent = scanResult.getContents();
             String scanFormat = scanResult.getFormatName();
 
             inputBarCode.setText(scanContent);
+            EditText et = (EditText) inputBarCode;
+            et.setSelection(et.getText().length());
 
-        }else{
+        } else {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {
