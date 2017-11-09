@@ -4,7 +4,8 @@
     <color name="primary_dark">#325775</color>
     <color name="primary_darker">#059F9E</color>
     <color name="primary_blue">#33CCFF</color>
-    <color name="accent">#c2edb1</color>
+    <color name="accent">#BDBDBD</color>
+    <color name="colorBackground">#ffffff</color>
 
 
     <color name="black">#000000</color>
@@ -16,7 +17,10 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
-    <color name="blue">#078bde</color>
-    <color name="verdehugo">#1a8220</color>
+    <color name="blue">#3366ff</color>
+    <color name="fabgreen">#40BF40</color>
+    <color name="listgreen">#E6FFE6</color>
+
+
 
 </resources>

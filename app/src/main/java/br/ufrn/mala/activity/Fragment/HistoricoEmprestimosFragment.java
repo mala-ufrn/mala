@@ -1,36 +1,29 @@
 package br.ufrn.mala.activity.Fragment;
 
-import android.animation.TimeInterpolator;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
 
 import br.ufrn.mala.R;
+import br.ufrn.mala.activity.EmprestimoDetalheActivity;
 import br.ufrn.mala.activity.NovoEmprestimoActivity;
-import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.auxiliar.ListHistoricoEmprestimosAdaptador;
-import br.ufrn.mala.connection.FachadaAPI;
+import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -48,8 +41,9 @@ public class HistoricoEmprestimosFragment extends Fragment {
 
 
     List<EmprestimoDTO> listaEmprestimos;
-    ExpandableListView expandableListViewEmprestimo;
+    ListView listViewEmprestimos;
     FloatingActionButton fab;
+
 
 
     @Override
@@ -78,47 +72,23 @@ public class HistoricoEmprestimosFragment extends Fragment {
         fab.setImageResource(R.drawable.ic_add_black_24dp);
 
 
-        return inflater.inflate(R.layout.fragment_list_loan, container, false);
+        return inflater.inflate(R.layout.fragment_list_history_loan, container, false);
     }
 
+
+    /**
+     * Método para preencher a lista de novos empréstimos
+     * @param lista
+     */
     private void prepareListEmprestimos(List<EmprestimoDTO> lista) {
-        //Preenchendo lista de empréstimos ativos
-        expandableListViewEmprestimo = (ExpandableListView) getActivity().findViewById(R.id.list_emprestimos);
 
-        // cria os grupos
-        List<String> listaGrupos = new ArrayList<>();
-        listaGrupos.add("Normais");
-        listaGrupos.add("Especiais");
-        listaGrupos.add("Fotocópias");
+        listViewEmprestimos = (ListView) getActivity().findViewById(R.id.list_historico_emprestimos);
+        // cria um listHistoricoEmprestimos com a lista de emprestimos
+        ListHistoricoEmprestimosAdaptador listEmprestimosAdaptador = new ListHistoricoEmprestimosAdaptador(getActivity(), lista);
+        // define o apadtador do listView
+        listViewEmprestimos.setAdapter(listEmprestimosAdaptador);
 
-        // cria os itens de cada grupo
-        List<EmprestimoDTO> listaNormais = new ArrayList<>();
-        for (EmprestimoDTO emprestimo : listaEmprestimos)
-            if (emprestimo.getTipoEmprestimo().equals("NORMAL"))
-                listaNormais.add(emprestimo);
-
-        List<EmprestimoDTO> listaEspeciais = new ArrayList<>();
-        for (EmprestimoDTO emprestimo : listaEmprestimos)
-            if (emprestimo.getTipoEmprestimo().equals("ESPECIAL"))
-                listaEspeciais.add(emprestimo);
-
-        List<EmprestimoDTO> listaFotocopias = new ArrayList<>();
-        for (EmprestimoDTO emprestimo : listaEmprestimos)
-            if (emprestimo.getTipoEmprestimo().equals("FOTOCÓPIA"))
-                listaFotocopias.add(emprestimo);
-
-        // cria o "relacionamento" dos grupos com seus itens
-        HashMap<String, List<EmprestimoDTO>> listaItensGrupo = new HashMap<>();
-        listaItensGrupo.put(listaGrupos.get(0), listaNormais);
-        listaItensGrupo.put(listaGrupos.get(1), listaEspeciais);
-        listaItensGrupo.put(listaGrupos.get(2), listaFotocopias);
-
-        // cria um listEmprestimosAdaptador (BaseExpandableListAdapter) com os dados acima
-        ListHistoricoEmprestimosAdaptador listEmprestimosAdaptador = new ListHistoricoEmprestimosAdaptador(getActivity(), listaGrupos, listaItensGrupo);
-        // define o apadtador do ExpandableListView
-        expandableListViewEmprestimo.setAdapter(listEmprestimosAdaptador);
-
-        expandableListViewEmprestimo.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listViewEmprestimos.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int btnPosY = fab.getScrollY();
@@ -143,12 +113,19 @@ public class HistoricoEmprestimosFragment extends Fragment {
             }
         });
 
-        expandableListViewEmprestimo.setOnScrollListener(new EndlessScrollListener());
+        //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
+        listViewEmprestimos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-        // Expande todos os grupos do ListView
-        for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
-            expandableListViewEmprestimo.expandGroup(i);
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Passando o emprestimoDTO pelo bundle
+                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                i.putExtra("emprestimo", (Serializable) listViewEmprestimos.getAdapter().getItem(position));
+                startActivity(i);
 
+                return false;
+            }
+        });
     }
 
 
@@ -160,7 +137,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
-                return FachadaAPI.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
+                return FacadeDAO.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JsonStringInvalidaException e) {
@@ -186,7 +163,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
         }
     }
 
-
+/*
     public class EndlessScrollListener implements AbsListView.OnScrollListener {
 
         private int visibleThreshold = 0;
@@ -207,7 +184,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
             if (loading) {
                 if (totalItemCount > previousTotal) {
                     loading = false;
-                    offsetEmprestimos = expandableListViewEmprestimo.getAdapter().getCount();
+                    offsetEmprestimos = listViewEmprestimos.getAdapter().getCount();
 
                 }
             }
@@ -217,7 +194,8 @@ public class HistoricoEmprestimosFragment extends Fragment {
                 SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
                 accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
                 if (accessToken != null) {
-                    new EmprestimosAtivosTask().execute(accessToken);
+                    //TODO Preciso ver como atualiza sem ficar no loading eterno
+                    //new EmprestimosAtivosTask().execute(accessToken);
                 }
                 loading = true;
             }
@@ -227,6 +205,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
+    */
 
 
 }

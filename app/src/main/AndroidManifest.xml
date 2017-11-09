@@ -34,6 +34,10 @@
             android:name=".activity.NovoEmprestimoActivity"
             android:label="@string/app_new_loan"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.EmprestimoDetalheActivity"
+            android:label="@string/app_my_loans_history_detail"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.LogonActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
