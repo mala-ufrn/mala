@@ -24,7 +24,7 @@
         android:background="@drawable/barcode_bg"/>
 
     <TextView
-        android:id="@+id/new_loan_helper"
+        android:id="@+id/new_loan_det_helper"
         android:layout_below="@+id/img_barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,19 +35,21 @@
         android:text="@string/newLoanHelp" />
 
     <EditText
-        android:layout_below="@+id/new_loan_helper"
+        android:layout_below="@+id/new_loan_det_helper"
         android:id="@+id/new_loan_barcode_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:background="@drawable/newloan_edit_text_bg"
         android:ellipsize="end"
-        android:hint="Ex.: 2017000000, L000000"
+        android:hint="Ex.: 2017000000"
         android:inputType="text"
         android:maxLines="1" />
 
     <android.support.v7.widget.AppCompatButton
+        android:theme="@style/AppTheme.Button"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/new_loan_barcode_input"
         android:id="@+id/btn_buscar_Material"
@@ -56,12 +58,10 @@
         android:layout_gravity="center"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="15dp"
-        android:background="@color/blue"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         android:text="@string/btnSearchMaterial"
-        android:textColor="#FFFFFFFF"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_novo_emprestimo"
@@ -71,7 +71,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/fab_margin"
         app:fabSize="normal"
-        app:backgroundTint="@color/blue"
+        app:backgroundTint="@color/fabblue"
         android:src="@drawable/ic_photo_camera_24dp" />
 
 </RelativeLayout>

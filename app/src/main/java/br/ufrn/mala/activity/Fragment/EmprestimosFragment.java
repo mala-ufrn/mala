@@ -78,9 +78,6 @@ public class EmprestimosFragment extends Fragment {
         //Preenchendo lista de empréstimos ativos
         expandableListViewEmprestimo = (ExpandableListView) getActivity().findViewById(R.id.list_emprestimos);
 
-        expandableListViewEmprestimo.setGroupIndicator(null);
-        expandableListViewEmprestimo.setDivider(null);
-
         // cria os grupos
         List<String> listaGrupos = new ArrayList<>();
         listaGrupos.add("Normais");
@@ -125,9 +122,14 @@ public class EmprestimosFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // Passando o emprestimoDTO pelo bundle
-                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
-                i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
-                startActivity(i);
+                long packedPosition = expandableListViewEmprestimo.getExpandableListPosition(position);
+                int itemType = ExpandableListView.getPackedPositionType(packedPosition);
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                    i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
+                    startActivity(i);
+                }
                 return false;
             }
         });

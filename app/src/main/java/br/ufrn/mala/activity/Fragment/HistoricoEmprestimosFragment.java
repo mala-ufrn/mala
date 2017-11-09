@@ -51,7 +51,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
         getActivity().setTitle(getResources().getText(R.string.app_my_loans_history));
 
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-
+        fab.setVisibility(View.GONE);
         // Pegar o token de acesso
         SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
         String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
@@ -60,21 +60,15 @@ public class HistoricoEmprestimosFragment extends Fragment {
         if (accessToken != null) {
             new EmprestimosAtivosTask().execute(accessToken);
         }
-        fab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), NovoEmprestimoActivity.class));
-            }
-
-        });
-
-        fab.setImageResource(R.drawable.ic_add_black_24dp);
-
 
         return inflater.inflate(R.layout.fragment_list_history_loan, container, false);
     }
 
+    @Override
+    public void onDestroyView() {
+        fab.setVisibility(View.VISIBLE);
+        super.onDestroyView();
+    }
 
     /**
      * Método para preencher a lista de novos empréstimos
@@ -87,31 +81,6 @@ public class HistoricoEmprestimosFragment extends Fragment {
         ListHistoricoEmprestimosAdaptador listEmprestimosAdaptador = new ListHistoricoEmprestimosAdaptador(getActivity(), lista);
         // define o apadtador do listView
         listViewEmprestimos.setAdapter(listEmprestimosAdaptador);
-
-        listViewEmprestimos.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int btnPosY = fab.getScrollY();
-
-                if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                    fab.animate().cancel();
-                    fab.animate().translationYBy(150);
-
-                } else if (scrollState == SCROLL_STATE_FLING) {
-                    fab.animate().cancel();
-                    fab.animate().translationYBy(150);
-
-                } else if (scrollState == SCROLL_STATE_IDLE) {
-                    fab.animate().cancel();
-                    fab.animate().translationY(btnPosY);
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
 
         //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
         listViewEmprestimos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
