@@ -26,8 +26,13 @@ public class SQLiteStrategyDAO implements StrategyDAO {
     private SQLiteConnection sqLiteConnection;
 
     public static SQLiteStrategyDAO getInstance(Context context){
-        if(sqLiteStrategyDAO == null)
-            sqLiteStrategyDAO = new SQLiteStrategyDAO(context);
+        if(sqLiteStrategyDAO == null){
+            synchronized (SQLiteStrategyDAO.class){
+                if(sqLiteStrategyDAO == null){
+                    sqLiteStrategyDAO = new SQLiteStrategyDAO(context);
+                }
+            }
+        }
         return sqLiteStrategyDAO;
     }
 
