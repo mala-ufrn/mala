@@ -86,18 +86,17 @@ public class APIConnection {
     }
 
     /**
-     * Consultar uma biblioteca de acordo com o seu Identificador, na API da UFRN
+     * Consultar todas as bibliotecas da UFRN, na API da UFRN
      * @param token Token de acesso à API da UFRN
-     * @param idBiblioteca Identificador da biblioteca
      * @return JSON da biblioteca
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getBiblioteca(String token, Integer idBiblioteca) throws IOException, ConnectionException {
+    public String getBibliotecas(String token) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_BIBLIOTECAS)
-                .appendPath(idBiblioteca.toString())
+                .appendQueryParameter("limit", "100")
                 .build()
                 .toString();
         return getDados(token, url);

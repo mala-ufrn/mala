@@ -1,6 +1,7 @@
 package br.ufrn.mala.connection;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,26 +51,32 @@ public class APIStrategyDAO implements StrategyDAO {
 
     @Override
     public List<EmprestimoDTO> getHistoricoEmprestimos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+        SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
+        for (BibliotecaDTO biblioteca: getBibliotecas(token))
+            bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
         String emprestimosJson = apiConnection.getEmprestimos(token, false, offset);
         List<EmprestimoDTO> historicoEmprestimos = JsonToObject.toEmprestimos(emprestimosJson);
         for (EmprestimoDTO emprestimo: historicoEmprestimos)
-            emprestimo.setBiblioteca(getBibliotecaById(token, emprestimo.getIdBiblioteca()));
+            emprestimo.setBiblioteca(bibliotecas.get(emprestimo.getIdBiblioteca()));
         sqLiteStrategyDAO.insertEmprestimos(historicoEmprestimos, false);
         return historicoEmprestimos;
     }
 
     @Override
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+        SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
+        for (BibliotecaDTO biblioteca: getBibliotecas(token))
+            bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
         String emprestimosJson = apiConnection.getEmprestimos(token, true, offset);
         List<EmprestimoDTO> emprestimosAtivos = JsonToObject.toEmprestimos(emprestimosJson);
         for (EmprestimoDTO emprestimo: emprestimosAtivos)
-            emprestimo.setBiblioteca(getBibliotecaById(token, emprestimo.getIdBiblioteca()));
+            emprestimo.setBiblioteca(bibliotecas.get(emprestimo.getIdBiblioteca()));
         sqLiteStrategyDAO.insertEmprestimos(emprestimosAtivos, true);
         return emprestimosAtivos;
     }
 
-    private BibliotecaDTO getBibliotecaById(String token, Integer idBiblioteca) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String biblioteca = apiConnection.getBiblioteca(token, idBiblioteca);
-        return JsonToObject.toBiblioteca(biblioteca);
+    private List<BibliotecaDTO> getBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String biblioteca = apiConnection.getBibliotecas(token);
+        return JsonToObject.toBibliotecas(biblioteca);
     }
 }

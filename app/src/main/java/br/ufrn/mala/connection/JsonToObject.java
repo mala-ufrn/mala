@@ -76,17 +76,23 @@ public class JsonToObject {
         return emprestimos;
     }
 
-    public static BibliotecaDTO toBiblioteca(String text) throws JsonStringInvalidaException {
-        BibliotecaDTO biblioteca = new BibliotecaDTO();
+    public static List<BibliotecaDTO> toBibliotecas(String text) throws JsonStringInvalidaException {
+        List<BibliotecaDTO> bibliotecas = new ArrayList<>();
         if(!text.equalsIgnoreCase("")){
             try {
-                JSONObject jsonList = new JSONObject(text);
-                biblioteca.setDescricao(convertJSONObject(jsonList, "descricao", String.class));
-                biblioteca.setEmail(convertJSONObject(jsonList, "email", String.class));
-                biblioteca.setIdBiblioteca(convertJSONObject(jsonList, "id-biblioteca", Integer.class));
-                biblioteca.setSigla(convertJSONObject(jsonList, "sigla", String.class));
-                biblioteca.setSite(convertJSONObject(jsonList, "site", String.class));
-                biblioteca.setTelefone(convertJSONObject(jsonList, "telefone", String.class));
+                JSONArray array = new JSONArray(text);
+                for(int i = 0; i < array.length(); ++i) {
+                    JSONObject jsonList = array.getJSONObject(i);
+                    BibliotecaDTO biblioteca = new BibliotecaDTO();
+                    biblioteca.setDescricao(convertJSONObject(jsonList, "descricao", String.class));
+                    biblioteca.setEmail(convertJSONObject(jsonList, "email", String.class));
+                    biblioteca.setIdBiblioteca(convertJSONObject(jsonList, "id-biblioteca", Integer.class));
+                    biblioteca.setSigla(convertJSONObject(jsonList, "sigla", String.class));
+                    biblioteca.setSite(convertJSONObject(jsonList, "site", String.class));
+                    biblioteca.setTelefone(convertJSONObject(jsonList, "telefone", String.class));
+
+                    bibliotecas.add(biblioteca);
+                }
             } catch (JSONException e) {
                 System.out.println(e.getMessage());
                 throw new JsonStringInvalidaException(e.getMessage());
@@ -94,7 +100,7 @@ public class JsonToObject {
         }else{
             throw new JsonStringInvalidaException("String vazia!");
         }
-        return biblioteca;
+        return bibliotecas;
     }
 
     private static <T> T convertJSONObject(JSONObject json, String param, Class<T> classOfT) throws JSONException {
