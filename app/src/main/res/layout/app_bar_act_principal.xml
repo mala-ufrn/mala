@@ -29,7 +29,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:fabSize="normal"
-        app:backgroundTint="@color/verdehugo"
+        app:backgroundTint="@color/fabgreen"
 
         android:src="@drawable/ic_add_black_24dp" />
 

@@ -34,7 +34,7 @@
             android:title="@string/aboutUs" />
         <item
             android:id="@+id/exit"
-            android:icon="@mipmap/ic_exit"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="@string/exit" />
     </group>
 

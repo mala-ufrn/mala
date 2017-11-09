@@ -110,7 +110,8 @@ public class ListEmprestimosAdaptador extends BaseExpandableListAdapter {
         TextView tvTitulo = (TextView) convertView.findViewById(R.id.lbllistTitulo);
         TextView tvAutor = (TextView) convertView.findViewById(R.id.lbllistAutor);
         TextView tvPrazo = (TextView) convertView.findViewById(R.id.lbllistPrazo);
-        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistBiblioteca);
+        TextView tvCodigoBarras = (TextView) convertView.findViewById(R.id.lbllistCodBarras);
+        TextView tvBiblioteca = (TextView) convertView.findViewById(R.id.lbllistBiblioteca);
 
 
         EmprestimoDTO emprestimo = (EmprestimoDTO) getChild(groupPosition, childPosition);
@@ -118,6 +119,7 @@ public class ListEmprestimosAdaptador extends BaseExpandableListAdapter {
         tvAutor.setText("Autor: " + emprestimo.getAutor());
         tvPrazo.setText("Prazo: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getPrazo())));
         tvCodigoBarras.setText(emprestimo.getCodigoBarras());
+        tvBiblioteca.setText(emprestimo.getBiblioteca().getDescricao());
 
         return convertView;
     }

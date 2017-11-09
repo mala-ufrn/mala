@@ -10,15 +10,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
+import br.ufrn.mala.activity.EmprestimoDetalheActivity;
 import br.ufrn.mala.activity.NovoEmprestimoActivity;
 import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.connection.FacadeDAO;
@@ -75,6 +78,9 @@ public class EmprestimosFragment extends Fragment {
         //Preenchendo lista de empréstimos ativos
         expandableListViewEmprestimo = (ExpandableListView) getActivity().findViewById(R.id.list_emprestimos);
 
+        expandableListViewEmprestimo.setGroupIndicator(null);
+        expandableListViewEmprestimo.setDivider(null);
+
         // cria os grupos
         List<String> listaGrupos = new ArrayList<>();
         listaGrupos.add("Normais");
@@ -112,6 +118,19 @@ public class EmprestimosFragment extends Fragment {
         // Expande todos os grupos do ListView
         for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
             expandableListViewEmprestimo.expandGroup(i);
+
+        //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
+        expandableListViewEmprestimo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Passando o emprestimoDTO pelo bundle
+                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
+                startActivity(i);
+                return false;
+            }
+        });
     }
 
 
