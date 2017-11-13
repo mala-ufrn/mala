@@ -1,5 +1,6 @@
 package br.ufrn.mala.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -97,6 +98,7 @@ public class PrincipalActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_newLoan) {
+            startActivity(new Intent(this, NovoEmprestimoActivity.class));
             return true;
         }
 
