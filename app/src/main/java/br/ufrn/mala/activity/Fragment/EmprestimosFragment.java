@@ -116,8 +116,26 @@ public class EmprestimosFragment extends Fragment {
         for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
             expandableListViewEmprestimo.expandGroup(i);
 
+        expandableListViewEmprestimo.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
+                int position = 1; // Sempre há o group header 0, que conta como primeiro item
+
+                for (int groupIndex = 0; groupIndex < groupPosition; groupIndex++)
+                    position += parent.getExpandableListAdapter().getChildrenCount(groupIndex);
+
+                position += groupPosition + childPosition;
+
+                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
+                startActivity(i);
+
+                return false;
+            }
+        });
+
         //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
-        expandableListViewEmprestimo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*expandableListViewEmprestimo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -132,7 +150,7 @@ public class EmprestimosFragment extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
     }
 
 

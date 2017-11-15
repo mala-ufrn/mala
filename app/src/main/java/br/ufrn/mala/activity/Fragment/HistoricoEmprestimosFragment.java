@@ -82,8 +82,18 @@ public class HistoricoEmprestimosFragment extends Fragment {
         // define o apadtador do listView
         listViewEmprestimos.setAdapter(listEmprestimosAdaptador);
 
+        listViewEmprestimos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Passando o emprestimoDTO pelo bundle
+                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                i.putExtra("emprestimo", (Serializable) listViewEmprestimos.getAdapter().getItem(position));
+                startActivity(i);
+            }
+        });
+
         //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
-        listViewEmprestimos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*listViewEmprestimos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -94,7 +104,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
 
                 return false;
             }
-        });
+        });*/
     }
 
 
