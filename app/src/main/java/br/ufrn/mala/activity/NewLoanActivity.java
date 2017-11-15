@@ -10,10 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
-
 import br.ufrn.mala.R;
 import br.ufrn.mala.barcode.*;
 
@@ -22,7 +18,7 @@ import br.ufrn.mala.barcode.*;
  * Created by paulo on 20/10/17.
  */
 
-public class NovoEmprestimoActivity extends AppCompatActivity {
+public class NewLoanActivity extends AppCompatActivity {
 
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
@@ -55,7 +51,7 @@ public class NovoEmprestimoActivity extends AppCompatActivity {
                             "Nenhum código de barras digitado", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
-                    Intent i = new Intent(NovoEmprestimoActivity.this, NewLoanDetailsActivity.class);
+                    Intent i = new Intent(NewLoanActivity.this, NewLoanDetailsActivity.class);
                     startActivity(i);
                 }
             }

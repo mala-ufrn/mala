@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -21,8 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.activity.EmprestimoDetalheActivity;
-import br.ufrn.mala.activity.NovoEmprestimoActivity;
+import br.ufrn.mala.activity.LoanDetailsActivity;
+import br.ufrn.mala.activity.NewLoanActivity;
 import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
@@ -54,7 +53,7 @@ public class EmprestimosFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(v.getContext(), NovoEmprestimoActivity.class));
+                startActivity(new Intent(v.getContext(), NewLoanActivity.class));
             }
 
         });
@@ -126,7 +125,7 @@ public class EmprestimosFragment extends Fragment {
 
                 position += groupPosition + childPosition;
 
-                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
                 i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
                 startActivity(i);
 
@@ -144,7 +143,7 @@ public class EmprestimosFragment extends Fragment {
                 int itemType = ExpandableListView.getPackedPositionType(packedPosition);
 
                 if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                    Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
                     i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
                     startActivity(i);
                 }

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,7 +27,7 @@ import br.ufrn.mala.activity.Fragment.HistoricoEmprestimosFragment;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 
-public class PrincipalActivity extends AppCompatActivity
+public class HubActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FragmentManager fm;
 
@@ -98,7 +97,7 @@ public class PrincipalActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_newLoan) {
-            startActivity(new Intent(this, NovoEmprestimoActivity.class));
+            startActivity(new Intent(this, NewLoanActivity.class));
             return true;
         }
 
@@ -114,7 +113,6 @@ public class PrincipalActivity extends AppCompatActivity
 
         if (id == R.id.myLoan) {
 
-
             FragmentTransaction ft = fm.beginTransaction();
             fm.popBackStackImmediate(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             ft.remove(fragment);
@@ -128,12 +126,13 @@ public class PrincipalActivity extends AppCompatActivity
             ft.commit();
 
         } else if (id == R.id.changePass_Sisbi) {
-
+            // Mudar Senha da Biblioteca
         } else if (id == R.id.issue_discharge) {
-            //Quitação de vinculo
+            // Quitação de vinculo
         } else if (id == R.id.faq) {
-
+            // Tela de FAQs
         } else if (id == R.id.aboutUs) {
+            // Tela dos Desenvolvedores
 
         } else if (id == R.id.exit) {
             sair(findViewById(R.id.principal_view));
@@ -157,7 +156,10 @@ public class PrincipalActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        super.finish();
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private boolean deleteDir(File dir) {

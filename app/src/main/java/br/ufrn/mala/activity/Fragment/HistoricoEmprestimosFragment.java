@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -20,8 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.activity.EmprestimoDetalheActivity;
-import br.ufrn.mala.activity.NovoEmprestimoActivity;
+import br.ufrn.mala.activity.LoanDetailsActivity;
 import br.ufrn.mala.auxiliar.ListHistoricoEmprestimosAdaptador;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
@@ -86,7 +84,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Passando o emprestimoDTO pelo bundle
-                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
                 i.putExtra("emprestimo", (Serializable) listViewEmprestimos.getAdapter().getItem(position));
                 startActivity(i);
             }
@@ -98,7 +96,7 @@ public class HistoricoEmprestimosFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // Passando o emprestimoDTO pelo bundle
-                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
                 i.putExtra("emprestimo", (Serializable) listViewEmprestimos.getAdapter().getItem(position));
                 startActivity(i);
 

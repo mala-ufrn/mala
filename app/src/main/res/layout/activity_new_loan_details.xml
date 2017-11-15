@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context="br.ufrn.mala.activity.NovoEmprestimoActivity">
+    tools:context="br.ufrn.mala.activity.NewLoanActivity">
 
     <ScrollView
         android:layout_width="match_parent"

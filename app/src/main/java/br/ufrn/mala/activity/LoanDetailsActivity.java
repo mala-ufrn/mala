@@ -13,7 +13,7 @@ import br.ufrn.mala.util.DataUtil;
  * Created by paulo on 03/11/17.
  */
 
-public class EmprestimoDetalheActivity extends AppCompatActivity {
+public class LoanDetailsActivity extends AppCompatActivity {
     EmprestimoDTO emprestimo;
 
     @Override

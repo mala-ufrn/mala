@@ -9,7 +9,7 @@
     android:paddingRight="15dp"
 
 
-    tools:context="br.ufrn.mala.activity.NovoEmprestimoActivity">
+    tools:context="br.ufrn.mala.activity.NewLoanActivity">
 
     <ImageView
         android:contentDescription="Exemplo de código de barras"

@@ -141,7 +141,8 @@ public class LogonActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(LogonActivity.this, PrincipalActivity.class);
+                Intent startProfileActivity = new Intent(LogonActivity.this, HubActivity.class);
+                startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 LogonActivity.this.startActivity(startProfileActivity);
             }
         }
