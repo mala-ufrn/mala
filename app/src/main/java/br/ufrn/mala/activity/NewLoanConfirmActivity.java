@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import br.ufrn.mala.R;
 
-public class NewLoanDetailsActivity extends AppCompatActivity {
+public class NewLoanConfirmActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

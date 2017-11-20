@@ -5,8 +5,7 @@
         <item
             android:id="@+id/myLoan"
             android:icon="@drawable/ic_collections_bookmark_black_24dp"
-            android:title="@string/myLoans"
-            android:checked="true"/>
+            android:title="@string/myLoans"/>
         <item
             android:id="@+id/loan_historical"
             android:icon="@drawable/ic_style_black_24dp"

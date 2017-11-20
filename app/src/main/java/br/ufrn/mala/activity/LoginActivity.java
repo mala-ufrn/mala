@@ -26,13 +26,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Disable going back to the LogonActivity
+        // Disable going back to the AuthorizationActivity
         moveTaskToBack(true);
     }
 
     public void logar(View v) {
         Log.d(TAG, "Login");
-        Intent i = new Intent(this, LogonActivity.class);
+        Intent i = new Intent(this, AuthorizationActivity.class);
         startActivity(i);
     }
 }

@@ -3,13 +3,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ExpandableListView
-        android:id="@+id/list_emprestimos"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawSelectorOnTop="true"
-        android:groupIndicator="@null"
-        android:divider="@null"
-        />
+        android:layout_height="match_parent">
+
+        <ExpandableListView
+            android:id="@+id/list_emprestimos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="true"
+            android:groupIndicator="@null"
+            android:divider="@null"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

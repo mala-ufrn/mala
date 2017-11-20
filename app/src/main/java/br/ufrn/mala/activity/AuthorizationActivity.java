@@ -32,7 +32,7 @@ import ca.mimic.oauth2library.OAuthResponse;
  * Created by Joel Felipe on 02/10/17.
  */
 
-public class LogonActivity extends AppCompatActivity {
+public class AuthorizationActivity extends AppCompatActivity {
 
     private WebView webView;
     private ProgressDialog pd;
@@ -101,7 +101,7 @@ public class LogonActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pd = ProgressDialog.show(LogonActivity.this, "", "loading", true);
+            pd = ProgressDialog.show(AuthorizationActivity.this, "", "loading", true);
         }
 
         @Override
@@ -120,16 +120,16 @@ public class LogonActivity extends AppCompatActivity {
 
                 OAuthResponse response = client.requestAccessToken();
                 if (response.isSuccessful()) {
-                    Preferences.savePreferences(LogonActivity.this, response);
+                    Preferences.savePreferences(AuthorizationActivity.this, response);
                     return true;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JsonStringInvalidaException e) {
-                Toast.makeText(LogonActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthorizationActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             } catch (ConnectionException e) {
-                Toast.makeText(LogonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthorizationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             return false;
@@ -141,9 +141,9 @@ public class LogonActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(LogonActivity.this, HubActivity.class);
+                Intent startProfileActivity = new Intent(AuthorizationActivity.this, MainActivity.class);
                 startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                LogonActivity.this.startActivity(startProfileActivity);
+                AuthorizationActivity.this.startActivity(startProfileActivity);
             }
         }
 
@@ -157,7 +157,7 @@ public class LogonActivity extends AppCompatActivity {
             CookieManager.getInstance().flush();
         } else {
             Log.d("removing cookie", "Using clearCookies code for API <" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
-            CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(LogonActivity.this);
+            CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(AuthorizationActivity.this);
             cookieSyncMngr.startSync();
             CookieManager cookieManager=CookieManager.getInstance();
             cookieManager.removeAllCookie();

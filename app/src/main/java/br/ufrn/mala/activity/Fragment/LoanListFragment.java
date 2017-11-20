@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.LoanDetailsActivity;
+import br.ufrn.mala.activity.MainActivity;
 import br.ufrn.mala.activity.NewLoanActivity;
 import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
 import br.ufrn.mala.connection.FacadeDAO;
@@ -33,34 +36,78 @@ import br.ufrn.mala.util.Constants;
  * Created by paulo on 23/10/17.
  */
 
-public class EmprestimosFragment extends Fragment {
+public class LoanListFragment extends Fragment {
     String accessToken;
     int offsetEmprestimos = 0;
+
     ProgressDialog pd;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
-
-    List<EmprestimoDTO> listaEmprestimos;
-    ExpandableListView expandableListViewEmprestimo;
-
+    private List<EmprestimoDTO> listaEmprestimos;
+    private ExpandableListView expandableListViewEmprestimo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle(getResources().getText(R.string.app_my_loans));
+        View fragmentView = inflater.inflate(R.layout.fragment_list_loan, container, false);
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        getActivity().setTitle(getResources().getText(R.string.myLoans));
+
+        ((NavigationView)getActivity().findViewById(R.id.nav_view)).getMenu().getItem(0).setChecked(true);
+
+        MainActivity ma = ((MainActivity)getActivity());
+        ma.showThreeDotsMenu(true);
+
+        FloatingActionButton fab = (FloatingActionButton) ma.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(v.getContext(), NewLoanActivity.class));
             }
-
         });
-
         fab.setImageResource(R.drawable.ic_add_black_24dp);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_darker));
+        swipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                 @Override
+                 public void onRefresh() {
+                     refreshList();
+                 }
+         });
+
+        refreshList();
+
+        return fragmentView;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            // Muda o título
+            getActivity().setTitle(getResources().getText(R.string.myLoans));
+
+            // Marca o Nav menu (para caso de backbutton)
+            ((NavigationView)getActivity().findViewById(R.id.nav_view)).getMenu().getItem(0).setChecked(true);
+
+            // Ativa o Fab e o ThreeDotsMenu
+            MainActivity ma = ((MainActivity)getActivity());
+            ma.showThreeDotsMenu(true);
+            FloatingActionButton fab = (FloatingActionButton) ma.findViewById(R.id.fab);
+            fab.setVisibility(View.VISIBLE);
+
+            // Expande o ExpandableView e mostra o topo
+            for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
+                expandableListViewEmprestimo.expandGroup(i);
+            expandableListViewEmprestimo.setSelectionAfterHeaderView();
+        }
+    }
+
+
+    public void refreshList() {
         // Pegar o token de acesso
         SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
         String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
@@ -68,9 +115,8 @@ public class EmprestimosFragment extends Fragment {
         // Popula a lista de emprestimos
         if (accessToken != null) {
             new EmprestimosAtivosTask().execute(accessToken);
+            ((MainActivity)getActivity()).refreshLoans = true;
         }
-
-        return inflater.inflate(R.layout.fragment_list_loan, container, false);
     }
 
     private void prepareListEmprestimos() {
@@ -156,7 +202,8 @@ public class EmprestimosFragment extends Fragment {
     private class EmprestimosAtivosTask extends AsyncTask<String, Void, List<EmprestimoDTO>> {
 
         protected void onPreExecute() {
-            pd = ProgressDialog.show(getActivity(), "", "loading", true);
+            if (!swipeRefreshLayout.isRefreshing())
+                pd = ProgressDialog.show(getActivity(), "", "loading", true);
         }
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
@@ -179,7 +226,10 @@ public class EmprestimosFragment extends Fragment {
                 listaEmprestimos = result;
                 prepareListEmprestimos();
             }
-            pd.dismiss();
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
+            else
+                pd.dismiss();
         }
     }
 

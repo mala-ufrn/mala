@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.WelcomeActivity"
             android:label="MALA - UFRN"
             android:theme="@style/TransparentTheme">
             <intent-filter>
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".activity.HubActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_my_loans"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.NewLoanDetailsActivity"
+            android:name=".activity.NewLoanConfirmActivity"
             android:label="@string/app_new_loan"
             android:screenOrientation="portrait" />
 
@@ -47,7 +47,7 @@
             android:label="@string/app_my_loans_history_detail"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.LogonActivity">
+        <activity android:name=".activity.AuthorizationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

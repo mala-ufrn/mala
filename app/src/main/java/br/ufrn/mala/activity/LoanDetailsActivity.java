@@ -28,8 +28,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
         if(emprestimo != null) {
             prepareDetail();
         }
-
-
     }
 
     /**

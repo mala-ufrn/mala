@@ -1,113 +1,241 @@
 package br.ufrn.mala.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+
+import com.google.gson.Gson;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.connection.Preferences;
-import br.ufrn.mala.exception.ConnectionException;
-import br.ufrn.mala.exception.JsonStringInvalidaException;
+import br.ufrn.mala.activity.Fragment.LoanListFragment;
+import br.ufrn.mala.activity.Fragment.HistoricalListFragment;
+import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
-import ca.mimic.oauth2library.OAuth2Client;
-import ca.mimic.oauth2library.OAuthResponse;
 
-/**
- * Created by Joel Felipe on 02/10/17.
- */
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private ProgressDialog pd;
+    public boolean refreshLoans;
+
+    private Menu threeDotsMenu;
+    private int previousMenuItemSelected;
+    private FragmentManager fm;
+    private UsuarioDTO usuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_principal);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Pegar o token de acesso
         SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
         String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
-        String refreshtoken = preferences.getString(Constants.KEY_REFRESH_TOKEN, null);
-        Long expiresAt = preferences.getLong(Constants.KEY_EXPIRES_AT, 0);
 
-        if (accessToken != null) {
-            if (System.currentTimeMillis() > expiresAt){
-                new MainActivity.RefreshTokenAsyncTask().execute(refreshtoken);
-            }
-            else{
-                Intent intent = new Intent(this, HubActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        }
-        else {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+        Gson gson = new Gson();
+        String usuario = preferences.getString("UsuarioLogado", null);
+        if (usuario != null)
+            usuarioLogado = gson.fromJson(usuario, UsuarioDTO.class);
+
+        View header = navigationView.getHeaderView(0);
+        TextView profName = (TextView)header.findViewById(R.id.profile_name);
+        profName.setText(usuarioLogado.getNomePessoa());
+
+        // Cria um novo fragment
+        fm = getSupportFragmentManager();
+        fm.beginTransaction()
+                .add(R.id.fragment_content, new LoanListFragment(), "LoanList")
+                .commit();
+
+        previousMenuItemSelected = R.id.myLoan;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            Fragment fragment = fm.findFragmentById(R.id.fragment_content);
+            Fragment loanList = fm.findFragmentByTag("LoanList");
+
+            if (loanList != null) {
+                if (!(fragment instanceof LoanListFragment)) {
+                    boolean flag = true;
+                    FragmentTransaction ft = fm.beginTransaction();
+                    for (Fragment f : fm.getFragments())
+                        if (!(f.isHidden()) && !(f instanceof LoanListFragment)) {
+                            ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_right_out);
+                            ft.hide(f);
+                            flag = false;
+                        }
+                    if (flag) {
+                        super.onBackPressed();
+                    }
+
+                    ft.show(loanList).commit();
+                    previousMenuItemSelected = R.id.myLoan;
+
+
+                } else
+                    super.onBackPressed();
+            } else
+                fm.beginTransaction()
+                        .add(R.id.fragment_content, new LoanListFragment(), "LoanList")
+                        .commit();
         }
     }
 
-    private class RefreshTokenAsyncTask extends AsyncTask<String, Void, Boolean> {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        threeDotsMenu = menu;
+        getMenuInflater().inflate(R.menu.act_main_three_dots, menu);
+        return true;
+    }
 
-        @Override
-        protected void onPreExecute() {
-            pd = ProgressDialog.show(MainActivity.this, "", "loading", true);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_reload) {
+            LoanListFragment loanList = (LoanListFragment)fm.findFragmentByTag("LoanList");
+            if (loanList != null) {
+                loanList.refreshList();
+            }
+        }
+        else if (id == R.id.action_newLoan) {
+            startActivity(new Intent(this, NewLoanActivity.class));
+            return true;
         }
 
-        @Override
-        protected Boolean doInBackground(String... params) {
-            Log.i("doInBackground", "doInBackground");
-            try {
-                OAuth2Client client;
-                Map<String, String> map = new HashMap<>();
-                map.put(Constants.RESPONSE_TYPE_REFRESH, params[0]);
+        return super.onOptionsItemSelected(item);
+    }
 
-                client = new OAuth2Client.Builder(Constants.CLIENT_ID_VALUE, Constants.SECRET_KEY, Constants.ACCESS_TOKEN_URL)
-                        .grantType(Constants.GRANT_TYPE_REFRESH)
-                        .parameters(map)
-                        .build();
+    public void showThreeDotsMenu(boolean showMenu){
+        if(threeDotsMenu == null)
+            return;
+        threeDotsMenu.setGroupVisible(R.id.act_loan_three_dots_group, showMenu);
+    }
 
-                OAuthResponse response = client.requestAccessToken();
-                if (response.isSuccessful()) {
-                    Preferences.savePreferences(MainActivity.this, response);
-                    return true;
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id != previousMenuItemSelected) {
+            previousMenuItemSelected = id;
+
+            FragmentTransaction ft = fm.beginTransaction();
+            // esconde todos os fragmentos
+            for (Fragment f : fm.getFragments())
+                ft.hide(f);
+
+            if (id == R.id.myLoan) {
+                Fragment loanList = fm.findFragmentByTag("LoanList");
+                if (loanList != null) {
+
+                    ft.show(loanList)
+                            .commit();
+                } else
+                    ft.add(R.id.fragment_content, new LoanListFragment(), "LoanList")
+                            .commit();
+
+            } else if (id == R.id.loan_historical) {
+                Fragment histList = fm.findFragmentByTag("HistList");
+
+                if (histList != null) {
+                    ft.show(histList)
+                            .commit();
+                } else
+                    ft.add(R.id.fragment_content, new HistoricalListFragment(), "HistList")
+                            .commit();
+
+            } else if (id == R.id.changePass_Sisbi) {
+                // Mudar Senha da Biblioteca
+            } else if (id == R.id.issue_discharge) {
+                // Quitação de vinculo
+            } else if (id == R.id.faq) {
+                // Tela de FAQs
+            } else if (id == R.id.aboutUs) {
+                // Tela dos Desenvolvedores
+
+            } else if (id == R.id.exit) {
+                quit(findViewById(R.id.principal_view));
+            }
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    public void quit(View view) {
+        SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
+        try {
+            File dir = this.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String aChildren : children) {
+                boolean success = deleteDir(new File(dir, aChildren));
+                if (!success) {
+                    return false;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                Toast.makeText(MainActivity.this, "Ocorreu algum erro na renovação do Token", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            } catch (ConnectionException e) {
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
             }
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean status) {
-            if (pd != null && pd.isShowing()) {
-                pd.dismiss();
-            }
-            if (status) {
-                Intent startProfileActivity = new Intent(MainActivity.this, HubActivity.class);
-                startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                MainActivity.this.startActivity(startProfileActivity);
-            }
-            else {
-                Intent startGetNewAcessActivity = new Intent(MainActivity.this, LoginActivity.class);
-                startGetNewAcessActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                MainActivity.this.startActivity(startGetNewAcessActivity);
-            }
-        }
+            return dir.delete();
+        } else
+            return dir != null && dir.isFile() && dir.delete();
     }
 }

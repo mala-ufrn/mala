@@ -51,7 +51,7 @@ public class NewLoanActivity extends AppCompatActivity {
                             "Nenhum código de barras digitado", Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
-                    Intent i = new Intent(NewLoanActivity.this, NewLoanDetailsActivity.class);
+                    Intent i = new Intent(NewLoanActivity.this, NewLoanConfirmActivity.class);
                     startActivity(i);
                 }
             }
