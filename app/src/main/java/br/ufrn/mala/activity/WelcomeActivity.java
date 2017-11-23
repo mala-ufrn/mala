@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.ufrn.mala.R;
 import br.ufrn.mala.connection.Preferences;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -44,14 +45,16 @@ public class WelcomeActivity extends AppCompatActivity {
             }
             else{
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);;
             }
         }
         else {
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);;
         }
     }
 
@@ -99,13 +102,15 @@ public class WelcomeActivity extends AppCompatActivity {
             }
             if (status) {
                 Intent startProfileActivity = new Intent(WelcomeActivity.this, MainActivity.class);
-                startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 WelcomeActivity.this.startActivity(startProfileActivity);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
             else {
                 Intent startGetNewAcessActivity = new Intent(WelcomeActivity.this, LoginActivity.class);
-                startGetNewAcessActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startGetNewAcessActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 WelcomeActivity.this.startActivity(startGetNewAcessActivity);
+                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         }
     }

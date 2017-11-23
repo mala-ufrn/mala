@@ -48,7 +48,7 @@ public class LoanListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_list_loan, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_loan_list, container, false);
 
         getActivity().setTitle(getResources().getText(R.string.myLoans));
 

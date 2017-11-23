@@ -23,7 +23,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loan_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         emprestimo = (EmprestimoDTO) getIntent().getSerializableExtra("emprestimo");
         if(emprestimo != null) {
             prepareDetail();
@@ -62,9 +61,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
             dtRenovado.setVisibility(TextView.VISIBLE);
             dtRenovado.setText("Renovado em: " + String.valueOf(DataUtil.formatLongToDate(emprestimo.getDataRenovacao())));
         }
-
-
-
         biblioteca.setText("Biblioteca: "+emprestimo.getBiblioteca().getDescricao());
 
     }

@@ -15,7 +15,7 @@ import br.ufrn.mala.barcode.*;
 
 
 /**
- * Created by paulo on 20/10/17.
+ * Created by Paulo Lopes on 20/10/17.
  */
 
 public class NewLoanActivity extends AppCompatActivity {
@@ -29,7 +29,7 @@ public class NewLoanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_novo_emprestimo);
+        setContentView(R.layout.activity_new_loan);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         fab = (FloatingActionButton) findViewById(R.id.fab_novo_emprestimo);
@@ -58,12 +58,15 @@ public class NewLoanActivity extends AppCompatActivity {
         });
     }
 
-
+    /*
+    * Método que executa leitura de código de barras, executado pelo Cam Scanner
+     */
     public void camReader(View v) {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
         scanIntegrator.initiateScan();
     }
 
+    //TODO Falta tratar os diversos modelos de código de barras ou aplicar regex no padrão usado nas bibliotecas
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
@@ -76,7 +79,7 @@ public class NewLoanActivity extends AppCompatActivity {
 
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "No scan data received!", Toast.LENGTH_SHORT);
+                    "Nenhum código de barras foi detectado", Toast.LENGTH_SHORT);
             toast.show();
         }
     }

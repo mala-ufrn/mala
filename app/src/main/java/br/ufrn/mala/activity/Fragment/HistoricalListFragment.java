@@ -56,7 +56,7 @@ public class HistoricalListFragment extends Fragment {
         refreshList();
         ma.refreshLoans = false;
 
-        return inflater.inflate(R.layout.fragment_list_history_loan, container, false);
+        return inflater.inflate(R.layout.fragment_historical_list, container, false);
     }
 
     @Override

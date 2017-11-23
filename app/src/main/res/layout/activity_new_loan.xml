@@ -49,7 +49,7 @@
         android:maxLines="1" />
 
     <android.support.v7.widget.AppCompatButton
-        android:theme="@style/AppTheme.Button"
+        android:theme="@style/AppDefaultButton"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/new_loan_barcode_input"
         android:id="@+id/btn_buscar_Material"

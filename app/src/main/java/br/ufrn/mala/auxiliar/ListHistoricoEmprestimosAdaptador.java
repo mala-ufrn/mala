@@ -47,7 +47,7 @@ public class ListHistoricoEmprestimosAdaptador extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_history_loan_item, parent, false);
+            convertView = ((Activity) context).getLayoutInflater().inflate(R.layout.list_historical_item, parent, false);
 
         }
         EmprestimoDTO emprestimo = lstGrupos.get(position);

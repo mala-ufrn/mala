@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
-                    android:text="Cód Barras:"
+                    android:text="@string/lbl_bar_code"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -56,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/Cod_Barra_label"
                     android:padding="3dp"
-                    android:text="0000000000"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -66,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Cod_Barra_label"
                     android:padding="3dp"
-                    android:text="Título:"
+                    android:text="@string/lbl_tittle"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -80,7 +79,6 @@
                     android:ellipsize="end"
                     android:padding="3dp"
                     android:singleLine="true"
-                    android:text="Título longo só para testar a quebra de linha e reticências no final"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -90,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Titulo_label"
                     android:padding="3dp"
-                    android:text="Autor:"
+                    android:text="@string/lbl_author"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -104,7 +102,6 @@
                     android:ellipsize="end"
                     android:padding="3dp"
                     android:singleLine="true"
-                    android:text="Nome de autor a quebra de linha e reticências no final"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -114,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Autor_label"
                     android:padding="3dp"
-                    android:text="Tipo Mat.:"
+                    android:text="@string/lbl_mat_type"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -128,7 +125,6 @@
                     android:ellipsize="end"
                     android:padding="3dp"
                     android:singleLine="true"
-                    android:text="Obras UFRN"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -138,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Tipo_label"
                     android:padding="3dp"
-                    android:text="Status:"
+                    android:text="@string/lbl_mat_status"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -152,20 +148,17 @@
                     android:ellipsize="end"
                     android:padding="3dp"
                     android:singleLine="true"
-                    android:text="NORMAL"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 
             <TextView
+                style="@style/SpinnerLabel"
                 android:id="@+id/new_loan_type_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="15dp"
-                android:text="@string/newLoanDetTipo"
-                android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:text="@string/newLoanDetTipo" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -174,7 +167,7 @@
                 <Spinner
                     android:id="@+id/loan_type_spinner"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btn_types_info"
@@ -199,7 +192,7 @@
                 android:paddingRight="25dp"
                 android:text="@string/btnNewLoan"
                 android:textSize="15sp"
-                android:theme="@style/AppTheme.Button" />
+                android:theme="@style/AppDefaultButton" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

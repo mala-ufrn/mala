@@ -18,8 +18,7 @@
 
         <activity
             android:name=".activity.WelcomeActivity"
-            android:label="MALA - UFRN"
-            android:theme="@style/TransparentTheme">
+            android:theme="@style/AppTheme.NoActionBar.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -31,6 +30,25 @@
             android:label="@string/app_my_loans"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activity.LoginActivity"
+
+            android:theme="@style/ActLoginTheme" />
+
+        <activity
+            android:name=".activity.AuthorizationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="flickr.com"
+                    android:pathPrefix="/photos/"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".activity.NewLoanActivity"
@@ -47,24 +65,5 @@
             android:label="@string/app_my_loans_history_detail"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.AuthorizationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="flickr.com"
-                    android:pathPrefix="/photos/"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
-
     </application>
-
 </manifest>

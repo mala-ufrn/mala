@@ -40,7 +40,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logon);
+        setContentView(R.layout.activity_authorization);
 
         webView = (WebView) findViewById(R.id.main_activity_web_view);
         webView.requestFocus(View.FOCUS_DOWN);

@@ -10,7 +10,7 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_loan_details);
+        setContentView(R.layout.activity_new_loan_confirm);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }

@@ -2,11 +2,11 @@ package br.ufrn.mala.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +27,9 @@ import br.ufrn.mala.activity.Fragment.LoanListFragment;
 import br.ufrn.mala.activity.Fragment.HistoricalListFragment;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
-
+/**
+ * Created by Paulo Lopes on 12/10/17.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_principal);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,35 +83,32 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
+    //Extreme Go Horse Rulez!
     public void onBackPressed() {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Fragment fragment = fm.findFragmentById(R.id.fragment_content);
             Fragment loanList = fm.findFragmentByTag("LoanList");
 
             if (loanList != null) {
-                if (!(fragment instanceof LoanListFragment)) {
-                    boolean flag = true;
-                    FragmentTransaction ft = fm.beginTransaction();
-                    for (Fragment f : fm.getFragments())
-                        if (!(f.isHidden()) && !(f instanceof LoanListFragment)) {
-                            ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_right_out);
-                            ft.hide(f);
-                            flag = false;
-                        }
-                    if (flag) {
-                        super.onBackPressed();
+                boolean flag = true;
+                FragmentTransaction ft = fm.beginTransaction();
+                for (Fragment f : fm.getFragments())
+                    if (!(f.isHidden()) && !(f instanceof LoanListFragment)) {
+                        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_right_out);
+                        ft.hide(f);
+                        flag = false;
                     }
-
-                    ft.show(loanList).commit();
-                    previousMenuItemSelected = R.id.myLoan;
-
-
-                } else
+                if (flag) {
+                    if(Build.VERSION.SDK_INT >= 16)
+                        this.finishAffinity();
                     super.onBackPressed();
+                }
+
+                ft.show(loanList).commit();
+                previousMenuItemSelected = R.id.myLoan;
             } else
                 fm.beginTransaction()
                         .add(R.id.fragment_content, new LoanListFragment(), "LoanList")

@@ -1,17 +1,14 @@
 <resources>
     <string name="app_name">MALA - UFRN</string>
+    <string name="description">MALA - Módulo de Autoempréstimo de Livros do Acervo</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--Act Bar Menu-->
     <string name="refresh">Atualizar</string>
     <string name="select">Selecionar</string>
     <string name="renewAll">Renovar todos Empréstimos</string>
     <string name="newLoan">Realizar Novo Emprestimo</string>
+
+    <!--Nav SideMenu Itens-->
     <string name="myLoans">Meus Emprestimos</string>
     <string name="loan_historical">Histórico de Emprestimos</string>
     <string name="changePass_Sisbi">Alterar Senha SISBI</string>
@@ -20,28 +17,39 @@
     <string name="aboutUs">Sobre o MALA</string>
     <string name="exit">Sair</string>
 
-
-    <string name="whatIs">Módulo de Autoempréstimo
-        de Livros do Acervo da UFRN</string>
-    <string name="disclaimer1">Este aplicativo utiliza o serviços de testes da API SIGAA.</string>
-    <string name="disclaimer2">Ao apertar o botão abaixo, você será encaminhado para uma tela do
-        navegador para confirmação de usuário/senha. Preencha ambos os campos apenas com seu usuário
-        do SIGAA.</string>
-    <!--Label das activities-->
-    <string name="app_sgl">MALA</string>
+    <!--Activities Label Headers-->
     <string name="app_new_loan">Novo Empréstimo</string>
     <string name="app_my_loans">Meus Empréstimos</string>
     <string name="app_my_loans_history">Histórico de Emprestimos</string>
     <string name="app_my_loans_history_detail">Info. Empréstimo</string>
 
+    <!--ActivityLogin texts-->
+    <string name="app_sgl">MALA</string>
+    <string name="whatIs">Módulo de Autoempréstimo\nde Livros do Acervo da UFRN</string>
+    <string name="disclaimer1">Este aplicativo utiliza o serviços de testes da API SIGAA.</string>
+    <string name="disclaimer2">Ao apertar o botão abaixo, você será encaminhado para uma tela do navegador para confirmação de usuário/senha. Preencha ambos os campos apenas com seu usuário do SIGAA.</string>
+
+    <!-- ActivityNewLoan texts-->
     <string name="newLoanHelp">Digite o código de barras do material:</string>
     <string name="btnSearchMaterial">Buscar Material</string>
 
+    <!-- ActivityNewLoanConfirm texts-->
     <string name="newLoanDetHelp">Confira se o material não está danificado, e se os dados abaixo conferem:</string>
     <string name="newLoanDetTipo">Tipo de Empréstimo:</string>
     <string name="newLoanDetOb1">Caso o material esteja danificado, por favor, leve-o ao setor de circulação/empréstimos da biblioteca.</string>
     <string name="newLoanDetOb2">É importante que só realize esta operação com o livro em mãos.</string>
     <string name="btnNewLoan">Realizar Autoempréstimo</string>
+    
+    <!-- Labels Utils-->
+    <string name="lbl_tittle">Título:</string>
+    <string name="lbl_author">Autor:</string>
+    <string name="lbl_bar_code">Cód. Barras:</string>
+    <string name="lbl_mat_type">Tipo Mat.:</string>
+    <string name="lbl_mat_status">Status:</string>
+    
+    <!--Navigation Drawer Utils-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
 </resources>
