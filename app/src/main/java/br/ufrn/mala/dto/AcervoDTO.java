@@ -54,7 +54,7 @@ public class AcervoDTO implements Serializable {
 
     private String subTitulo;
 
-    private Integer tipoMaterial;
+    private String tipoMaterial;
 
     private String titulo;
 
@@ -150,9 +150,9 @@ public class AcervoDTO implements Serializable {
 
     public void setSubTitulo(String subTitulo) { this.subTitulo = subTitulo; }
 
-    public Integer getTipoMaterial() { return tipoMaterial; }
+    public String getTipoMaterial() { return tipoMaterial; }
 
-    public void setTipoMaterial(Integer tipoMaterial) { this.tipoMaterial = tipoMaterial; }
+    public void setTipoMaterial(String tipoMaterial) { this.tipoMaterial = tipoMaterial; }
 
     public String getTitulo() { return titulo; }
 

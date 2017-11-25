@@ -128,9 +128,9 @@ public class WelcomeActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... params) {
             Log.i("doInBackground", "doInBackground");
-            boolean success = false;
+            boolean success = true;
             try {
-                success = FacadeDAO.getInstance(WelcomeActivity.this).loadBibliotecas(params[0]);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadBibliotecas(params[0]);
                 publishProgress(1);
                 success &= FacadeDAO.getInstance(WelcomeActivity.this).loadSituacoesMaterial(params[0]);
                 publishProgress(2);
@@ -145,6 +145,7 @@ public class WelcomeActivity extends AppCompatActivity {
             } catch (ConnectionException e) {
                 Toast.makeText(WelcomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
             return success;
         }
 
