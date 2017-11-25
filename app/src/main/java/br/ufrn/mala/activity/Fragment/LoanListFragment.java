@@ -178,32 +178,13 @@ public class LoanListFragment extends Fragment {
                 return false;
             }
         });
-
-        //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
-        /*expandableListViewEmprestimo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                // Passando o emprestimoDTO pelo bundle
-                long packedPosition = expandableListViewEmprestimo.getExpandableListPosition(position);
-                int itemType = ExpandableListView.getPackedPositionType(packedPosition);
-
-                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
-                    i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
-                    startActivity(i);
-                }
-                return false;
-            }
-        });*/
     }
-
 
     private class EmprestimosAtivosTask extends AsyncTask<String, Void, List<EmprestimoDTO>> {
 
         protected void onPreExecute() {
             if (!swipeRefreshLayout.isRefreshing())
-                pd = ProgressDialog.show(getActivity(), "", "loading", true);
+                pd = ProgressDialog.show(getActivity(), "", getString(R.string.load_active_loans), true);
         }
 
         protected List<EmprestimoDTO> doInBackground(String... params) {

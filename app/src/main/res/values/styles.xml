@@ -17,7 +17,7 @@
 
     <!-- WelcomeActivity Theme -->
     <style name="AppTheme.NoActionBar.Dark">
-        <item name="android:windowBackground">@drawable/logo_mala_bg</item>
+        <item name="android:windowBackground">@drawable/splash_bg</item>
     </style>
 
     <!-- ActivityLogin theme (Without ActionBar)-->

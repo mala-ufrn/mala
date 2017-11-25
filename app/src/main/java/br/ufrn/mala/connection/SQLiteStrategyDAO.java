@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.List;
 
+import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
@@ -63,5 +64,10 @@ public class SQLiteStrategyDAO implements StrategyDAO {
     public void insertEmprestimos(List<EmprestimoDTO> emprestimos, Boolean ativo){
         for (EmprestimoDTO emprestimo: emprestimos)
             sqLiteConnection.insertEmprestimo(emprestimo, ativo);
+    }
+
+    public void insertBibliotecas(List<BibliotecaDTO> bibliotecas){
+        for (BibliotecaDTO biblioteca: bibliotecas)
+            sqLiteConnection.insertBiblioteca(biblioteca);
     }
 }

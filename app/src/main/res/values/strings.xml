@@ -46,6 +46,14 @@
     <string name="lbl_bar_code">Cód. Barras:</string>
     <string name="lbl_mat_type">Tipo Mat.:</string>
     <string name="lbl_mat_status">Status:</string>
+
+    <!-- Loading Messages -->
+    <string name="load_active_loans">Carregando empréstimos</string>
+    <string name="load_loans_history">Carregando histórico\n de empréstimos</string>
+    <string name="load_libraries">Carregando dados\n das bibliotecas</string>
+    <string name="load_mat_situations">Carregando situações\n de materiais</string>
+    <string name="load_mat_status">Carregando status\n de materiais</string>
+    <string name="load_mat_types">carregando tipos\n de materiais</string>
     
     <!--Navigation Drawer Utils-->
     <string name="navigation_drawer_open">Open navigation drawer</string>

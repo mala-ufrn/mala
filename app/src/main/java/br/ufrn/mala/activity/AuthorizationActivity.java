@@ -1,15 +1,19 @@
 package br.ufrn.mala.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
@@ -76,6 +80,13 @@ public class AuthorizationActivity extends AppCompatActivity {
 
                     new PostRequestAsyncTask().execute(authorizationToken);
 
+                    // Fecha o teclado, caso esteja aberto.
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    try {
+                        imm.hideSoftInputFromWindow(webView.getWindowToken(),0);
+                    } catch (NullPointerException e) {
+                        Log.e("HideKeyboard", "Exception" + e);
+                    }
                 } else {
                     webView.loadUrl(authorizationUrl);
                 }
@@ -141,7 +152,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(AuthorizationActivity.this, MainActivity.class);
+                Intent startProfileActivity = new Intent(AuthorizationActivity.this, WelcomeActivity.class);
                 startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 AuthorizationActivity.this.startActivity(startProfileActivity);
             }

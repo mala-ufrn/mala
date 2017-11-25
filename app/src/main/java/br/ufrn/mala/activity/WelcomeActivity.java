@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.ufrn.mala.R;
+import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.connection.Preferences;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -39,15 +40,15 @@ public class WelcomeActivity extends AppCompatActivity {
         String refreshtoken = preferences.getString(Constants.KEY_REFRESH_TOKEN, null);
         Long expiresAt = preferences.getLong(Constants.KEY_EXPIRES_AT, 0);
 
+        Log.d("ExpiresAt", String.valueOf(expiresAt));
+        Log.d("CurrentTime", String.valueOf(System.currentTimeMillis()));
+
         if (accessToken != null) {
             if (System.currentTimeMillis() > expiresAt){
                 new WelcomeActivity.RefreshTokenAsyncTask().execute(refreshtoken);
             }
             else{
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);;
+                new WelcomeActivity.LoadResourcesAsyncTask().execute(accessToken);
             }
         }
         else {
@@ -58,6 +59,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
+    // TODO Ver como vai ficar a renovação do token, por enquanto estou chamando AsyncTask de carregar recursos no posExecute
     private class RefreshTokenAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -101,10 +103,11 @@ public class WelcomeActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(WelcomeActivity.this, MainActivity.class);
-                startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                WelcomeActivity.this.startActivity(startProfileActivity);
-                overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                // Provisório?
+                SharedPreferences preferences = WelcomeActivity.this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
+                String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
+
+                new WelcomeActivity.LoadResourcesAsyncTask().execute(accessToken);
             }
             else {
                 Intent startGetNewAcessActivity = new Intent(WelcomeActivity.this, LoginActivity.class);
@@ -112,6 +115,66 @@ public class WelcomeActivity extends AppCompatActivity {
                 WelcomeActivity.this.startActivity(startGetNewAcessActivity);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
+        }
+    }
+
+    private class LoadResourcesAsyncTask extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            pd = ProgressDialog.show(WelcomeActivity.this, "", getString(R.string.load_libraries), true);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            Log.i("doInBackground", "doInBackground");
+            boolean success = false;
+            try {
+                success = FacadeDAO.getInstance(WelcomeActivity.this).loadBibliotecas(params[0]);
+                publishProgress(1);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadSituacoesMaterial(params[0]);
+                publishProgress(2);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadStatusMaterial(params[0]);
+                publishProgress(3);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadTiposMaterial(params[0]);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JsonStringInvalidaException e) {
+                Toast.makeText(WelcomeActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
+            } catch (ConnectionException e) {
+                Toast.makeText(WelcomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            return success;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            switch (values[0]) {
+                case 1 :
+                    pd.setMessage(getString(R.string.load_mat_situations));
+                    break;
+                case 2:
+                    pd.setMessage(getString(R.string.load_mat_status));
+                    break;
+                case 3:
+                    pd.setMessage(getString(R.string.load_mat_types));
+                    break;
+                default:
+                    pd.setMessage("Loading");
+            }
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean status) {
+            if (pd != null && pd.isShowing()) {
+                pd.dismiss();
+            }
+            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);;
         }
     }
 }

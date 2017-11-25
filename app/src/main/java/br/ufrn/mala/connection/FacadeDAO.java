@@ -26,13 +26,15 @@ import br.ufrn.mala.exception.JsonStringInvalidaException;
 public class FacadeDAO {
 
     private StrategyDAO strategyDAO;
+    private boolean connected;
 
     public static FacadeDAO getInstance(Context context){
         return new FacadeDAO(context);
     }
 
     private FacadeDAO(Context context) {
-        if (isOnline(context))
+        connected = isOnline(context);
+        if (connected)
             strategyDAO = APIStrategyDAO.getInstance(context);
         else
             strategyDAO = SQLiteStrategyDAO.getInstance(context);
@@ -89,11 +91,59 @@ public class FacadeDAO {
     }
 
     /**
+     * Carrega as bibliotecas cadastradas na SINFO para o banco SQLite
+     * @param token Token de acesso à API da UFRN
+     * @return true se o load for correto
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadBibliotecas(token);
+    }
+
+    /**
+     * Carrega as situações de materiais informacionais cadastradas na SINFO para o banco SQLite
+     * @param token Token de acesso à API da UFRN
+     * @return true se o load for correto
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public boolean loadSituacoesMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadSituacoesMaterial(token);
+    }
+
+    /**
+     * Carrega os status de materiais informacionais cadastrados na SINFO para o banco SQLite
+     * @param token Token de acesso à API da UFRN
+     * @return true se o load for correto
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public boolean loadStatusMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadStatusMaterial(token);
+    }
+
+    /**
+     * Carrega os tipos de materiais informacionais cadastrados na SINFO para o banco SQLite
+     * @param token Token de acesso à API da UFRN
+     * @return true se o load for correto
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public boolean loadTiposMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadTiposMaterial(token);
+    }
+
+    /**
      * Verifica se o aparelho possui conexão com a internet
      * @param context
      * @return
      */
-    public boolean isOnline(Context context) {
+    private boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm != null ? cm.getActiveNetworkInfo() : null;
         return netInfo != null && netInfo.isConnectedOrConnecting();

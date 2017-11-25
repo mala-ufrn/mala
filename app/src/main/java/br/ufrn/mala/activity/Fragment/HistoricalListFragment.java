@@ -131,7 +131,7 @@ public class HistoricalListFragment extends Fragment {
     private class HistoricoEmprestimosTask extends AsyncTask<String, Void, List<EmprestimoDTO>> {
 
         protected void onPreExecute() {
-            pd = ProgressDialog.show(getActivity(), "", "loading", true);
+            pd = ProgressDialog.show(getActivity(), "", getString(R.string.load_loans_history), true);
         }
 
         protected List<EmprestimoDTO> doInBackground(String... params) {

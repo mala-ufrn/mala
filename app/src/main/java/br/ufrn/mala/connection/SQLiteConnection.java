@@ -120,17 +120,40 @@ public class SQLiteConnection {
             emprestimo.setBiblioteca(biblioteca);
             emprestimos.add(emprestimo);
         }
+        result.close();
         return emprestimos;
+    }
+
+    /**
+     * Consulta as bibliotecas cadastradas no banco de dados
+     * @return Lista de bibliotecas
+     */
+    public List<BibliotecaDTO> getBibliotecas() {
+        String sql = "SELECT * " +
+                "FROM biblioteca";
+        Cursor result = readableDatabase.rawQuery(sql, new String[] {});
+        List<BibliotecaDTO> bibliotecas = new ArrayList<>();
+        while (result.moveToNext()){
+            BibliotecaDTO biblioteca = new BibliotecaDTO();
+            biblioteca.setIdBiblioteca(result.getInt(result.getColumnIndex("id_biblioteca")));
+            biblioteca.setDescricao(result.getString(result.getColumnIndex("descricao")));
+            biblioteca.setEmail(result.getString(result.getColumnIndex("email")));
+            biblioteca.setSigla(result.getString(result.getColumnIndex("sigla")));
+            biblioteca.setSite(result.getString(result.getColumnIndex("site")));
+            biblioteca.setTelefone(result.getString(result.getColumnIndex("telefone")));
+            bibliotecas.add(biblioteca);
+        }
+        result.close();
+        return bibliotecas;
     }
 
     /**
      * Inserir o empréstimo, no banco de dados
      * @param emprestimo Emprestimo a ser inserido
      * @param ativo Indica se o empréstimo está ativo, inativo
-     * @return Quantidade de empréstimos
      */
     public void insertEmprestimo(EmprestimoDTO emprestimo, Boolean ativo){
-        insertBiblioteca(emprestimo.getBiblioteca());
+        //insertBiblioteca(emprestimo.getBiblioteca());
         String sql = "REPLACE INTO emprestimo (" +
                 "id_emprestimo, " +
                 "autor, " +
@@ -170,9 +193,8 @@ public class SQLiteConnection {
     /**
      * Inserir a bilbioteca no banco de dados
      * @param biblioteca Bilioteca a ser inserida
-     * @return Quantidade de empréstimos
      */
-    private void insertBiblioteca(BibliotecaDTO biblioteca){
+    public void insertBiblioteca(BibliotecaDTO biblioteca){
         String sql = "REPLACE INTO biblioteca (" +
                 "id_biblioteca, " +
                 "descricao, " +
