@@ -50,7 +50,7 @@ public class LoanListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_loan_list, container, false);
 
-        getActivity().setTitle(getResources().getText(R.string.myLoans));
+        getActivity().setTitle(getResources().getText(R.string.my_loans));
 
         ((NavigationView)getActivity().findViewById(R.id.nav_view)).getMenu().getItem(0).setChecked(true);
 
@@ -69,7 +69,6 @@ public class LoanListFragment extends Fragment {
 
         swipeRefreshLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_darker));
-        swipeRefreshLayout.setSize(SwipeRefreshLayout.LARGE);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                  @Override
@@ -88,7 +87,7 @@ public class LoanListFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             // Muda o título
-            getActivity().setTitle(getResources().getText(R.string.myLoans));
+            getActivity().setTitle(getResources().getText(R.string.my_loans));
 
             // Marca o Nav menu (para caso de backbutton)
             ((NavigationView)getActivity().findViewById(R.id.nav_view)).getMenu().getItem(0).setChecked(true);

@@ -7,6 +7,9 @@ import java.util.List;
 
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.SituacaoMaterialDTO;
+import br.ufrn.mala.dto.StatusMaterialDTO;
+import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -69,5 +72,20 @@ public class SQLiteStrategyDAO implements StrategyDAO {
     public void insertBibliotecas(List<BibliotecaDTO> bibliotecas){
         for (BibliotecaDTO biblioteca: bibliotecas)
             sqLiteConnection.insertBiblioteca(biblioteca);
+    }
+
+    public void insertSituacoesMaterial(List<SituacaoMaterialDTO> situacoesMaterial){
+        for (SituacaoMaterialDTO situacaoMaterial: situacoesMaterial)
+            sqLiteConnection.insertSituacaoMaterial(situacaoMaterial);
+    }
+
+    public void insertStatusMaterial(List<StatusMaterialDTO> statusMateriais){
+        for (StatusMaterialDTO statusMaterial: statusMateriais)
+            sqLiteConnection.insertStatusMaterial(statusMaterial);
+    }
+
+    public void insertTiposMaterial(List<TipoMaterialDTO> tiposMaterial){
+        for (TipoMaterialDTO tipoMaterial: tiposMaterial)
+            sqLiteConnection.insertTipoMaterial(tipoMaterial);
     }
 }

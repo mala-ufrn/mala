@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
                 .add(R.id.fragment_content, new LoanListFragment(), "LoanList")
                 .commit();
 
-        previousMenuItemSelected = R.id.myLoan;
+        previousMenuItemSelected = R.id.my_loan;
     }
 
 
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 ft.show(loanList).commit();
-                previousMenuItemSelected = R.id.myLoan;
+                previousMenuItemSelected = R.id.my_loan;
             } else
                 fm.beginTransaction()
                         .add(R.id.fragment_content, new LoanListFragment(), "LoanList")
@@ -162,11 +162,12 @@ public class MainActivity extends AppCompatActivity
             previousMenuItemSelected = id;
 
             FragmentTransaction ft = fm.beginTransaction();
+
             // esconde todos os fragmentos
             for (Fragment f : fm.getFragments())
                 ft.hide(f);
 
-            if (id == R.id.myLoan) {
+            if (id == R.id.my_loan) {
                 Fragment loanList = fm.findFragmentByTag("LoanList");
                 if (loanList != null) {
 
@@ -175,7 +176,6 @@ public class MainActivity extends AppCompatActivity
                 } else
                     ft.add(R.id.fragment_content, new LoanListFragment(), "LoanList")
                             .commit();
-
             } else if (id == R.id.loan_historical) {
                 Fragment histList = fm.findFragmentByTag("HistList");
 
@@ -185,14 +185,15 @@ public class MainActivity extends AppCompatActivity
                 } else
                     ft.add(R.id.fragment_content, new HistoricalListFragment(), "HistList")
                             .commit();
-
-            } else if (id == R.id.changePass_Sisbi) {
+            } else if (id == R.id.search_in_collection) {
+                // Tela de buscas
+            } else if (id == R.id.change_pass_sisbi) {
                 // Mudar Senha da Biblioteca
             } else if (id == R.id.issue_discharge) {
                 // Quitação de vinculo
             } else if (id == R.id.faq) {
                 // Tela de FAQs
-            } else if (id == R.id.aboutUs) {
+            } else if (id == R.id.about_us) {
                 // Tela dos Desenvolvedores
 
             } else if (id == R.id.exit) {

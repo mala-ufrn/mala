@@ -9,12 +9,13 @@
     <string name="newLoan">Realizar Novo Emprestimo</string>
 
     <!--Nav SideMenu Itens-->
-    <string name="myLoans">Meus Emprestimos</string>
+    <string name="my_loans">Meus Emprestimos</string>
     <string name="loan_historical">Histórico de Emprestimos</string>
-    <string name="changePass_Sisbi">Alterar Senha SISBI</string>
+    <string name="search_in_collection">Consultar Acervo</string>
+    <string name="change_pass_sisbi">Alterar Senha SISBI</string>
     <string name="issue_discharge">Emitir Quitação de Vinculo</string>
     <string name="faq">Dúvidas Frequentes</string>
-    <string name="aboutUs">Sobre o MALA</string>
+    <string name="about_us">Sobre o MALA</string>
     <string name="exit">Sair</string>
 
     <!--Activities Label Headers-->

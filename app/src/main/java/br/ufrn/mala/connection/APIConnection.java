@@ -36,7 +36,12 @@ public class APIConnection {
 
     private String PATH_BIBLIOTECA = "biblioteca/v0.1";
     private String PATH_BIBLIOTECA_BIBLIOTECAS = PATH_BIBLIOTECA + "/bibliotecas";
+    private String PATH_BIBLIOTECA_SITUACOES = PATH_BIBLIOTECA + "/sitacoes-materiais";
+    private String PATH_BIBLIOTECA_STATUS = PATH_BIBLIOTECA + "/status-materiais";
+    private String PATH_BIBLIOTECA_TIPOS_MATERIAL = PATH_BIBLIOTECA + "/tipos-materiais";
     private String PATH_BIBLIOTECA_EMPRESTIMOS = PATH_BIBLIOTECA + "/emprestimos";
+    private String PATH_BIBLIOTECA_MATERIAIS_INFO = PATH_BIBLIOTECA + "/materiais-informacionais";
+    private String PATH_BIBLIOTECA_ACERVOS = PATH_BIBLIOTECA + "/acervos";
 
     public static APIConnection getInstance(Context context){
         if(apiConnection == null)
@@ -96,6 +101,57 @@ public class APIConnection {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_BIBLIOTECAS)
+                .appendQueryParameter("limit", "100")
+                .build()
+                .toString();
+        return getDados(token, url);
+    }
+
+    /**
+     * Consultar todas as Situações de Material, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @return JSON das Situações
+     * @throws IOException
+     * @throws ConnectionException
+     */
+    public String getSituacoesMaterial(String token) throws IOException, ConnectionException {
+        String url = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_BIBLIOTECA_SITUACOES)
+                .appendQueryParameter("limit", "100")
+                .build()
+                .toString();
+        return getDados(token, url);
+    }
+
+    /**
+     * Consultar todos os Status de Material, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @return JSON dos Status
+     * @throws IOException
+     * @throws ConnectionException
+     */
+    public String getStatusMaterial(String token) throws IOException, ConnectionException {
+        String url = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_BIBLIOTECA_STATUS)
+                .appendQueryParameter("limit", "100")
+                .build()
+                .toString();
+        return getDados(token, url);
+    }
+
+    /**
+     * Consultar todos os Tipos de Material, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @return JSON dos Tipos de Material
+     * @throws IOException
+     * @throws ConnectionException
+     */
+    public String getTiposMaterial(String token) throws IOException, ConnectionException {
+        String url = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_BIBLIOTECA_TIPOS_MATERIAL)
                 .appendQueryParameter("limit", "100")
                 .build()
                 .toString();

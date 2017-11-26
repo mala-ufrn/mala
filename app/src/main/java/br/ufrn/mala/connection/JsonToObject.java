@@ -108,7 +108,7 @@ public class JsonToObject {
         return emprestimos;
     }
 
-    public static List<AcervoDTO> toAcervoList(String text) throws JsonStringInvalidaException {
+    public static List<AcervoDTO> toAcervos(String text) throws JsonStringInvalidaException {
         List<AcervoDTO> acervoList = new ArrayList<>();
         if(!text.equalsIgnoreCase("")){
             try {

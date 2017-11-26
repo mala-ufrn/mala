@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -12,6 +13,9 @@ import java.util.List;
 
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.SituacaoMaterialDTO;
+import br.ufrn.mala.dto.StatusMaterialDTO;
+import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 
@@ -98,9 +102,18 @@ public class SQLiteConnection {
             emprestimo.setAutor(result.getString(result.getColumnIndex("autor")));
             emprestimo.setCodigoBarras(result.getString(result.getColumnIndex("codigo_barras")));
             emprestimo.setCpfCnpjUsuario(result.getLong(result.getColumnIndex("cpf_cnpj_usuario")));
-            emprestimo.setDataDevolucao(result.getLong(result.getColumnIndex("data_devolucao")));
             emprestimo.setDataEmpretimo(result.getLong(result.getColumnIndex("data_emprestimo")));
-            emprestimo.setDataRenovacao(result.getLong(result.getColumnIndex("data_renovacao")));
+
+            if (!result.isNull(result.getColumnIndex("data_renovacao")))
+                emprestimo.setDataRenovacao(result.getLong(result.getColumnIndex("data_renovacao")));
+            else
+                emprestimo.setDataRenovacao(null);
+
+            if (!result.isNull(result.getColumnIndex("data_devolucao")))
+                emprestimo.setDataDevolucao(result.getLong(result.getColumnIndex("data_devolucao")));
+            else
+                emprestimo.setDataDevolucao(null);
+
             emprestimo.setIdBiblioteca(result.getInt(result.getColumnIndex("id_biblioteca")));
             emprestimo.setIdEmprestimo(result.getInt(result.getColumnIndex("id_emprestimo")));
             emprestimo.setIdMaterialInformacional(result.getInt(result.getColumnIndex("id_material_informacional")));
@@ -145,6 +158,63 @@ public class SQLiteConnection {
         }
         result.close();
         return bibliotecas;
+    }
+
+    /**
+     * Consulta as situacoes de material cadastradas no banco de dados
+     * @return Lista de situações de matarial
+     */
+    public List<SituacaoMaterialDTO> getSituacoesMaterial() {
+        String sql = "SELECT * " +
+                "FROM situacao_material";
+        Cursor result = readableDatabase.rawQuery(sql, new String[] {});
+        List<SituacaoMaterialDTO> situacoesMaterial = new ArrayList<>();
+        while (result.moveToNext()){
+            SituacaoMaterialDTO situacaoMaterial = new SituacaoMaterialDTO();
+            situacaoMaterial.setDescricao(result.getString(result.getColumnIndex("descricao")));
+            situacaoMaterial.setIdSituacaoMaterial(result.getInt(result.getColumnIndex("id_situacao_material")));
+            situacoesMaterial.add(situacaoMaterial);
+        }
+        result.close();
+        return situacoesMaterial;
+    }
+
+    /**
+     * Consulta os status de material cadastrados no banco de dados
+     * @return Lista de status de material
+     */
+    public List<StatusMaterialDTO> getStatusMateriais() {
+        String sql = "SELECT * " +
+                "FROM situacao_material";
+        Cursor result = readableDatabase.rawQuery(sql, new String[] {});
+        List<StatusMaterialDTO> statusMateriais = new ArrayList<>();
+        while (result.moveToNext()){
+            StatusMaterialDTO statusMaterial = new StatusMaterialDTO();
+            statusMaterial.setDescricao(result.getString(result.getColumnIndex("descricao")));
+            statusMaterial.setIdStatusMaterial(result.getInt(result.getColumnIndex("id_status_material")));
+            statusMateriais.add(statusMaterial);
+        }
+        result.close();
+        return statusMateriais;
+    }
+
+    /**
+     * Consulta os tipos de material cadastrados no banco de dados
+     * @return Lista de tipos de material
+     */
+    public List<TipoMaterialDTO> getTiposMaterial() {
+        String sql = "SELECT * " +
+                "FROM situacao_material";
+        Cursor result = readableDatabase.rawQuery(sql, new String[] {});
+        List<TipoMaterialDTO> tiposMaterial = new ArrayList<>();
+        while (result.moveToNext()){
+            TipoMaterialDTO tipoMaterial = new TipoMaterialDTO();
+            tipoMaterial.setDescricao(result.getString(result.getColumnIndex("descricao")));
+            tipoMaterial.setIdTipoMaterial(result.getInt(result.getColumnIndex("id_tipo_material")));
+            tiposMaterial.add(tipoMaterial);
+        }
+        result.close();
+        return tiposMaterial;
     }
 
     /**
@@ -210,6 +280,57 @@ public class SQLiteConnection {
                 "'" + biblioteca.getTelefone() + "', " +
                 "'" + biblioteca.getSigla() + "', " +
                 "'" + biblioteca.getSite() + "' " +
+                ")";
+
+        writableDatabase.execSQL(sql);
+    }
+
+    /**
+     * Inserir a situacao de material no banco de dados
+     * @param situacaoMaterial Situacao de material a ser inserida
+     */
+    public void insertSituacaoMaterial(SituacaoMaterialDTO situacaoMaterial){
+        String sql = "REPLACE INTO situacao_material (" +
+                "descricao, " +
+                "id_situacao_material" +
+                ") " +
+                "VALUES (" +
+                "'" + situacaoMaterial.getDescricao() + "', " +
+                situacaoMaterial.getIdSituacaoMaterial() +
+                ")";
+
+        writableDatabase.execSQL(sql);
+    }
+
+    /**
+     * Inserir o status de material no banco de dados
+     * @param statusMaterial Status de material a ser inserido
+     */
+    public void insertStatusMaterial(StatusMaterialDTO statusMaterial){
+        String sql = "REPLACE INTO status_material (" +
+                "descricao, " +
+                "id_status_material" +
+                ") " +
+                "VALUES (" +
+                "'" + statusMaterial.getDescricao() + "', " +
+                statusMaterial.getIdStatusMaterial() +
+                ")";
+
+        writableDatabase.execSQL(sql);
+    }
+
+    /**
+     * Inserir a situacao de material no banco de dados
+     * @param tipoMaterial Situacao de material a ser inserida
+     */
+    public void insertTipoMaterial(TipoMaterialDTO tipoMaterial){
+        String sql = "REPLACE INTO tipo_material (" +
+                "descricao, " +
+                "id_tipo_material" +
+                ") " +
+                "VALUES (" +
+                "'" + tipoMaterial.getDescricao() + "', " +
+                tipoMaterial.getIdTipoMaterial() +
                 ")";
 
         writableDatabase.execSQL(sql);

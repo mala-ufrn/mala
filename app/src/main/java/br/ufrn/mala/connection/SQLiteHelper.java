@@ -21,6 +21,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     "sigla TEXT, " +
                     "site TEXT " +
             ");";
+
+    private static final String SITUACAO_MATERIAL_CREATE =
+            "CREATE TABLE situacao_material ( " +
+                    "descricao TEXT, " +
+                    "id_situacao_material INTEGER PRIMARY KEY" +
+                    ");";
+
+    private static final String STATUS_MATERIAL_CREATE =
+            "CREATE TABLE status_material ( " +
+                    "descricao TEXT, " +
+                    "id_status_material INTEGER PRIMARY KEY" +
+                    ");";
+
+    private static final String TIPO_MATERIAL_CREATE =
+            "CREATE TABLE tipo_material ( " +
+                    "descricao TEXT, " +
+                    "id_tipo_material INTEGER PRIMARY KEY" +
+                    ");";
+
     private static final String EMPRESTIMO_CREATE =
             "CREATE TABLE emprestimo ( " +
                     "id_emprestimo INTEGER PRIMARY KEY, " +
@@ -47,6 +66,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(BIBLIOTECA_CREATE);
+        db.execSQL(SITUACAO_MATERIAL_CREATE);
+        db.execSQL(STATUS_MATERIAL_CREATE);
+        db.execSQL(TIPO_MATERIAL_CREATE);
         db.execSQL(EMPRESTIMO_CREATE);
     }
 

@@ -3,11 +3,16 @@ package br.ufrn.mala.connection;
 import android.content.Context;
 import android.util.SparseArray;
 
+import com.squareup.moshi.Json;
+
 import java.io.IOException;
 import java.util.List;
 
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.SituacaoMaterialDTO;
+import br.ufrn.mala.dto.StatusMaterialDTO;
+import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -89,9 +94,39 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    boolean loadSituacoesMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException { return false; }
+    public boolean loadSituacoesMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String situacoesJson = apiConnection.getSituacoesMaterial(token);
+        List<SituacaoMaterialDTO> situacoesMaterial = JsonToObject.toSituacoesMaterial(situacoesJson);
+        if (!situacoesMaterial.isEmpty()) {
+            sqLiteStrategyDAO.insertSituacoesMaterial(situacoesMaterial);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
-    boolean loadStatusMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException { return false; }
+    public boolean loadStatusMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String statusJson = apiConnection.getStatusMaterial(token);
+        List<StatusMaterialDTO> statusMateriais = JsonToObject.toStatusMaterial(statusJson);
+        if (!statusMateriais.isEmpty()) {
+            sqLiteStrategyDAO.insertStatusMaterial(statusMateriais);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
-    boolean loadTiposMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException { return false; }
+    public boolean loadTiposMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String tiposJson = apiConnection.getTiposMaterial(token);
+        List<TipoMaterialDTO> tiposMateriais = JsonToObject.toTiposMaterial(tiposJson);
+        if (!tiposMateriais.isEmpty()) {
+            sqLiteStrategyDAO.insertTiposMaterial(tiposMateriais);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
