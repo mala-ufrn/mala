@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.MaterialInformacionalDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -88,6 +89,15 @@ public class FacadeDAO {
      */
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return strategyDAO.getEmprestimosAtivos(token, offset);
+    }
+
+    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
+        if (connected) {
+            return ((APIStrategyDAO)strategyDAO).getMaterialInformacional(token, codBarras);
+        }
+        else {
+            return null;
+        }
     }
 
     /**

@@ -134,13 +134,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                     Preferences.savePreferences(AuthorizationActivity.this, response);
                     return true;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                Toast.makeText(AuthorizationActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            } catch (ConnectionException e) {
-                Toast.makeText(AuthorizationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return false;

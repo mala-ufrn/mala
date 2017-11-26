@@ -1,5 +1,7 @@
 package br.ufrn.mala.connection;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,13 +53,14 @@ public class JsonToObject {
         MaterialInformacionalDTO materialInformacional = new MaterialInformacionalDTO();
         if(!text.equalsIgnoreCase("")){
             try {
-                JSONObject jsonList = new JSONObject(text);
+                JSONArray array = new JSONArray(text);
+                JSONObject jsonList = array.getJSONObject(0);
                 materialInformacional.setAutor(convertJSONObject(jsonList, "autor", String.class));
                 materialInformacional.setCodigoBarras(convertJSONObject(jsonList, "codigo-barras", String.class));
                 materialInformacional.setColecao(convertJSONObject(jsonList, "colecao", String.class));
                 materialInformacional.setDataDisponivel(convertJSONObject(jsonList, "data-disponivel", Long.class));
                 materialInformacional.setIdBiblioteca(convertJSONObject(jsonList, "id-biblioteca", Integer.class));
-                materialInformacional.setIdMaterialInformacional(convertJSONObject(jsonList, "id-material-informacional", Long.class));
+                materialInformacional.setIdMaterialInformacional(jsonList.getLong("id-material-informacional"));
                 materialInformacional.setIdSituacaoMaterial(convertJSONObject(jsonList, "id-situacao-material", Integer.class));
                 materialInformacional.setIdStatusMaterial(convertJSONObject(jsonList, "id-status-material", Integer.class));
                 materialInformacional.setIdTipoMaterial(convertJSONObject(jsonList, "id-tipo-material", Integer.class));
@@ -258,8 +261,6 @@ public class JsonToObject {
         }
         return tiposMateriais;
     }
-
-
 
     private static <T> T convertJSONObject(JSONObject json, String param, Class<T> classOfT) throws JSONException {
         if (json.isNull(param))

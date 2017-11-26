@@ -9,12 +9,6 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     tools:context="br.ufrn.mala.activity.NewLoanActivity">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,7 +45,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/lblCod_Barra_detail_new_loan"
+                    android:id="@+id/cod_Barra_detail_new_loan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/Cod_Barra_label"
@@ -71,7 +65,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/lblTitulo_detail_new_loan"
+                    android:id="@+id/titulo_detail_new_loan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Cod_Barra_label"
@@ -94,7 +88,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/lblAutor_detail_new_loan"
+                    android:id="@+id/autor_detail_new_loan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Titulo_label"
@@ -117,7 +111,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/lblTipo_detail_new_loan"
+                    android:id="@+id/tipo_detail_new_loan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Autor_label"
@@ -140,7 +134,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/lblStatus_detail_new_loan"
+                    android:id="@+id/status_detail_new_loan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Tipo_label"
@@ -164,7 +158,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Spinner
+                <android.support.v7.widget.AppCompatSpinner
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:theme="@style/SpinnerUnderlineColors"
                     android:id="@+id/loan_type_spinner"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"/>
@@ -176,6 +172,7 @@
                     android:layout_toRightOf="@id/loan_type_spinner"
                     android:background="@android:color/transparent"
                     android:gravity="center"
+                    android:paddingLeft="8dp"
                     android:src="@drawable/ic_help_outline_blue_30dp" />
 
             </RelativeLayout>
@@ -240,10 +237,7 @@
                     android:text="@string/newLoanDetOb2"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
-
-
             </RelativeLayout>
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

@@ -40,7 +40,7 @@ public class APIConnection {
     private String PATH_BIBLIOTECA_STATUS = PATH_BIBLIOTECA + "/status-materiais";
     private String PATH_BIBLIOTECA_TIPOS_MATERIAL = PATH_BIBLIOTECA + "/tipos-materiais";
     private String PATH_BIBLIOTECA_EMPRESTIMOS = PATH_BIBLIOTECA + "/emprestimos";
-    private String PATH_BIBLIOTECA_MATERIAIS_INFO = PATH_BIBLIOTECA + "/materiais-informacionais";
+    private String PATH_BIBLIOTECA_MATERIAIS = PATH_BIBLIOTECA + "/materiais-informacionais";
     private String PATH_BIBLIOTECA_ACERVOS = PATH_BIBLIOTECA + "/acervos";
 
     public static APIConnection getInstance(Context context){
@@ -195,6 +195,24 @@ public class APIConnection {
                 .appendQueryParameter("limit", Integer.toString(20))
                 .appendQueryParameter("offset", offset.toString())
                 .appendQueryParameter("order-desc", "data-emprestimo")
+                .build()
+                .toString();
+        return getDados(token, url);
+    }
+
+    /**
+     * Consulta um material informacional pelo cód. barras fornecido, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @param codBarras Código de barras a ser consultado
+     * @return JSON do Material Informacional
+     * @throws IOException
+     * @throws ConnectionException
+     */
+    public String getMaterialInformacional(String token, String codBarras) throws IOException, ConnectionException {
+        String url = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_BIBLIOTECA_MATERIAIS)
+                .appendQueryParameter("codigo-barras", codBarras)
                 .build()
                 .toString();
         return getDados(token, url);

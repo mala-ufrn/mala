@@ -137,12 +137,8 @@ public class HistoricalListFragment extends Fragment {
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
                 return FacadeDAO.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                // Toast.makeText(getActivity(), "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
-            } catch (ConnectionException e) {
-                // Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             return null;
         }

@@ -33,7 +33,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
      * Prepara a tela de detalhes do empréstimo
      */
 
-    public void prepareDetail(){
+    private void prepareDetail(){
 
         TextView codigo = (TextView) findViewById(R.id.lblCod_Barra_detail_loan);
         TextView titulo = (TextView) findViewById(R.id.lblTitulo_detail_loan);

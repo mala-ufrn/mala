@@ -32,6 +32,14 @@ public class MaterialInformacionalDTO implements Serializable {
 
     private String titulo;
 
+    private BibliotecaDTO biblioteca;
+
+    private SituacaoMaterialDTO situacaoMaterial;
+
+    private StatusMaterialDTO statusMaterial;
+
+    private TipoMaterialDTO tipoMaterial;
+
     public String getAutor() { return autor; }
 
     public void setAutor(String autor) { this.autor = autor; }
@@ -79,4 +87,20 @@ public class MaterialInformacionalDTO implements Serializable {
     public String getTitulo() { return titulo; }
 
     public void setTitulo(String titulo) { this.titulo = titulo; }
+
+    public BibliotecaDTO getBiblioteca() { return biblioteca; }
+
+    public void setBiblioteca(BibliotecaDTO biblioteca) { this.biblioteca = biblioteca; }
+
+    public SituacaoMaterialDTO getSituacaoMaterial() { return situacaoMaterial;  }
+
+    public void setSituacaoMaterial(SituacaoMaterialDTO situacaoMaterial) { this.situacaoMaterial = situacaoMaterial; }
+
+    public StatusMaterialDTO getStatusMaterial() { return statusMaterial; }
+
+    public void setStatusMaterial(StatusMaterialDTO statusMaterial) { this.statusMaterial = statusMaterial; }
+
+    public TipoMaterialDTO getTipoMaterial() { return tipoMaterial; }
+
+    public void setTipoMaterial(TipoMaterialDTO tipoMaterial) { this.tipoMaterial = tipoMaterial; }
 }

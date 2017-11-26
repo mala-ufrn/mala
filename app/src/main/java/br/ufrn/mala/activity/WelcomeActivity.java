@@ -40,9 +40,6 @@ public class WelcomeActivity extends AppCompatActivity {
         String refreshtoken = preferences.getString(Constants.KEY_REFRESH_TOKEN, null);
         Long expiresAt = preferences.getLong(Constants.KEY_EXPIRES_AT, 0);
 
-        Log.d("ExpiresAt", String.valueOf(expiresAt));
-        Log.d("CurrentTime", String.valueOf(System.currentTimeMillis()));
-
         if (accessToken != null) {
             if (System.currentTimeMillis() > expiresAt){
                 new WelcomeActivity.RefreshTokenAsyncTask().execute(refreshtoken);
@@ -85,13 +82,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     Preferences.savePreferences(WelcomeActivity.this, response);
                     return true;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                Toast.makeText(WelcomeActivity.this, "Ocorreu algum erro na renovação do Token", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            } catch (ConnectionException e) {
-                Toast.makeText(WelcomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return false;
@@ -138,14 +129,9 @@ public class WelcomeActivity extends AppCompatActivity {
                 publishProgress(3);
                 success &= FacadeDAO.getInstance(WelcomeActivity.this).loadTiposMaterial(params[0]);
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                Toast.makeText(WelcomeActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
-            } catch (ConnectionException e) {
-                Toast.makeText(WelcomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
             return success;
         }
 

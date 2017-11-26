@@ -37,14 +37,21 @@
     </style>
 
     <style name="SpinnerLabel" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:paddingLeft">4dp</item>
         <item name="android:paddingRight">4dp</item>
+    </style>
+
+
+    <style name="SpinnerUnderlineColors">
+        <item name="colorAccent">@color/fabblue</item>
+        <item name="colorControlNormal">@color/accent</item>
     </style>
 
     <!-- etc -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
     <!--
        <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">

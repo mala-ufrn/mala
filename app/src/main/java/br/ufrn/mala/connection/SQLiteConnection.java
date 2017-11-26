@@ -185,7 +185,7 @@ public class SQLiteConnection {
      */
     public List<StatusMaterialDTO> getStatusMateriais() {
         String sql = "SELECT * " +
-                "FROM situacao_material";
+                "FROM status_material";
         Cursor result = readableDatabase.rawQuery(sql, new String[] {});
         List<StatusMaterialDTO> statusMateriais = new ArrayList<>();
         while (result.moveToNext()){
@@ -204,7 +204,7 @@ public class SQLiteConnection {
      */
     public List<TipoMaterialDTO> getTiposMaterial() {
         String sql = "SELECT * " +
-                "FROM situacao_material";
+                "FROM tipo_material";
         Cursor result = readableDatabase.rawQuery(sql, new String[] {});
         List<TipoMaterialDTO> tiposMaterial = new ArrayList<>();
         while (result.moveToNext()){

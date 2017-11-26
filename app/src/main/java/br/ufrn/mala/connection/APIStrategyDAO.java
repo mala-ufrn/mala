@@ -1,6 +1,7 @@
 package br.ufrn.mala.connection;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.squareup.moshi.Json;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.MaterialInformacionalDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
 import br.ufrn.mala.dto.StatusMaterialDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
@@ -80,6 +82,33 @@ public class APIStrategyDAO implements StrategyDAO {
             emprestimo.setBiblioteca(bibliotecas.get(emprestimo.getIdBiblioteca()));
         sqLiteStrategyDAO.insertEmprestimos(emprestimosAtivos, true);
         return emprestimosAtivos;
+    }
+
+    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String materialJson = apiConnection.getMaterialInformacional(token, codBarras);
+        if (!materialJson.equalsIgnoreCase("[]")) {
+            SparseArray<BibliotecaDTO> bibliotecaSparseArray = new SparseArray<>();
+            for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas())
+                bibliotecaSparseArray.put(biblioteca.getIdBiblioteca(), biblioteca);
+            SparseArray<SituacaoMaterialDTO> situacaoMaterialSparseArray = new SparseArray<>();
+            for (SituacaoMaterialDTO situacaoMaterial: sqLiteConnection.getSituacoesMaterial())
+                situacaoMaterialSparseArray.put(situacaoMaterial.getIdSituacaoMaterial(), situacaoMaterial);
+            SparseArray<StatusMaterialDTO> statusMaterialSparseArray = new SparseArray<>();
+            for (StatusMaterialDTO statusMaterial : sqLiteConnection.getStatusMateriais())
+                statusMaterialSparseArray.put(statusMaterial.getIdStatusMaterial(), statusMaterial);
+            SparseArray<TipoMaterialDTO> tipoMaterialparseArray = new SparseArray<>();
+            for (TipoMaterialDTO tipoMaterial : sqLiteConnection.getTiposMaterial())
+                tipoMaterialparseArray.put(tipoMaterial.getIdTipoMaterial(), tipoMaterial);
+            MaterialInformacionalDTO materialInformacional = JsonToObject.toMaterialInformacional(materialJson);
+            materialInformacional.setBiblioteca(bibliotecaSparseArray.get(materialInformacional.getIdBiblioteca()));
+            materialInformacional.setSituacaoMaterial(situacaoMaterialSparseArray.get(materialInformacional.getIdSituacaoMaterial()));
+            materialInformacional.setStatusMaterial(statusMaterialSparseArray.get(materialInformacional.getIdStatusMaterial()));
+            materialInformacional.setTipoMaterial(tipoMaterialparseArray.get(materialInformacional.getIdTipoMaterial()));
+            return materialInformacional;
+        }
+        else {
+            return null;
+        }
     }
 
     public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {

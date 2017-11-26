@@ -99,9 +99,11 @@ public class LoanListFragment extends Fragment {
             fab.setVisibility(View.VISIBLE);
 
             // Expande o ExpandableView e mostra o topo
-            for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
-                expandableListViewEmprestimo.expandGroup(i);
-            expandableListViewEmprestimo.setSelectionAfterHeaderView();
+            if (expandableListViewEmprestimo != null) {
+                for (int i = 0; i < expandableListViewEmprestimo.getExpandableListAdapter().getGroupCount(); i++)
+                    expandableListViewEmprestimo.expandGroup(i);
+                expandableListViewEmprestimo.setSelectionAfterHeaderView();
+            }
         }
     }
 
@@ -189,12 +191,8 @@ public class LoanListFragment extends Fragment {
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
                 return FacadeDAO.getInstance(getActivity()).getEmprestimosAtivos(params[0], offsetEmprestimos);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                Toast.makeText(getActivity(), "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
-            } catch (ConnectionException e) {
-                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             return null;
         }

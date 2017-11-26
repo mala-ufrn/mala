@@ -51,10 +51,19 @@
     <!-- Loading Messages -->
     <string name="load_active_loans">Carregando empréstimos</string>
     <string name="load_loans_history">Carregando histórico\n de empréstimos</string>
-    <string name="load_libraries">Carregando dados\n das bibliotecas</string>
+    <string name="load_libraries">Carregando bibliotecas</string>
     <string name="load_mat_situations">Carregando situações\n de materiais</string>
     <string name="load_mat_status">Carregando status\n de materiais</string>
-    <string name="load_mat_types">carregando tipos\n de materiais</string>
+    <string name="load_mat_types">Carregando tipos\n de materiais</string>
+    <string name="search_material">Buscando material</string>
+    
+    <!-- Toasts Messages -->
+    <string name="materail_not_found">Material não encontrado</string>
+
+    <!-- Spinners Options -->
+    <string name="spinner_normal_option">NORMAL</string>
+    <string name="spinner_special_option">ESPECIAL</string>
+    <string name="spinner_fotocopy_option">FOTOCÓPIA</string>
     
     <!--Navigation Drawer Utils-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
