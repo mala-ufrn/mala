@@ -160,7 +160,6 @@
 
                 <android.support.v7.widget.AppCompatSpinner
                     style="@style/Widget.AppCompat.Spinner.Underlined"
-                    android:theme="@style/SpinnerUnderlineColors"
                     android:id="@+id/loan_type_spinner"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"/>

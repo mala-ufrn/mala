@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.Fragment.LoanListFragment;
 import br.ufrn.mala.activity.Fragment.HistoricalListFragment;
+import br.ufrn.mala.activity.Fragment.SearchFragment;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 /**
@@ -186,7 +187,14 @@ public class MainActivity extends AppCompatActivity
                     ft.add(R.id.fragment_content, new HistoricalListFragment(), "HistList")
                             .commit();
             } else if (id == R.id.search_in_collection) {
-                // Tela de buscas
+                Fragment searchFrag = fm.findFragmentByTag("Search");
+
+                if (searchFrag != null) {
+                    ft.show(searchFrag)
+                            .commit();
+                } else
+                    ft.add(R.id.fragment_content, new SearchFragment(), "Search")
+                            .commit();
             } else if (id == R.id.change_pass_sisbi) {
                 // Mudar Senha da Biblioteca
             } else if (id == R.id.issue_discharge) {

@@ -19,4 +19,13 @@ public class TipoMaterialDTO implements Serializable {
     public Integer getIdTipoMaterial() { return idTipoMaterial; }
 
     public void setIdTipoMaterial(Integer idTipoMaterial) { this.idTipoMaterial = idTipoMaterial; }
+
+    @Override
+    public String toString() {
+        if (descricao == null) {
+            return "Todos";
+        } else {
+            return descricao;
+        }
+    }
 }

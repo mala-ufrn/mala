@@ -13,8 +13,7 @@
         <item
             android:id="@+id/search_in_collection"
             android:icon="@drawable/ic_search_black_24dp"
-            android:title="@string/search_in_collection"
-            android:enabled="false"/>
+            android:title="@string/search_in_collection"/>
         <item
             android:id="@+id/change_pass_sisbi"
             android:icon="@drawable/ic_vpn_key_black_24dp"

@@ -64,6 +64,14 @@ public class SQLiteStrategyDAO implements StrategyDAO {
         return sqLiteConnection.getEmprestimos(true, offset);
     }
 
+    public List<BibliotecaDTO> getBibliotecas(boolean toSearch) {
+        return sqLiteConnection.getBibliotecas(toSearch);
+    }
+
+    public List<TipoMaterialDTO> getTiposMaterial() {
+        return sqLiteConnection.getTiposMaterial();
+    }
+
     public void insertEmprestimos(List<EmprestimoDTO> emprestimos, Boolean ativo){
         for (EmprestimoDTO emprestimo: emprestimos)
             sqLiteConnection.insertEmprestimo(emprestimo, ativo);

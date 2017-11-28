@@ -61,7 +61,7 @@ public class APIStrategyDAO implements StrategyDAO {
     @Override
     public List<EmprestimoDTO> getHistoricoEmprestimos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
-        for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas())
+        for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
             bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
         String emprestimosJson = apiConnection.getEmprestimos(token, false, offset);
         List<EmprestimoDTO> historicoEmprestimos = JsonToObject.toEmprestimos(emprestimosJson);
@@ -74,7 +74,7 @@ public class APIStrategyDAO implements StrategyDAO {
     @Override
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
-        for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas())
+        for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
             bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
         String emprestimosJson = apiConnection.getEmprestimos(token, true, offset);
         List<EmprestimoDTO> emprestimosAtivos = JsonToObject.toEmprestimos(emprestimosJson);
@@ -88,7 +88,7 @@ public class APIStrategyDAO implements StrategyDAO {
         String materialJson = apiConnection.getMaterialInformacional(token, codBarras);
         if (!materialJson.equalsIgnoreCase("[]")) {
             SparseArray<BibliotecaDTO> bibliotecaSparseArray = new SparseArray<>();
-            for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas())
+            for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
                 bibliotecaSparseArray.put(biblioteca.getIdBiblioteca(), biblioteca);
             SparseArray<SituacaoMaterialDTO> situacaoMaterialSparseArray = new SparseArray<>();
             for (SituacaoMaterialDTO situacaoMaterial: sqLiteConnection.getSituacoesMaterial())

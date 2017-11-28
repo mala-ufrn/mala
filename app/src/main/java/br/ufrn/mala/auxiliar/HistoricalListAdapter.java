@@ -17,13 +17,13 @@ import br.ufrn.mala.util.DataUtil;
  * Created by Paulo Lopes on 30/10/2017
  */
 
-public class ListHistoricoEmprestimosAdaptador extends BaseAdapter {
+public class HistoricalListAdapter extends BaseAdapter {
 
     private List<EmprestimoDTO> lstGrupos;
 
     private Context context;
 
-    public ListHistoricoEmprestimosAdaptador(Context context, List<EmprestimoDTO> grupos) {
+    public HistoricalListAdapter(Context context, List<EmprestimoDTO> grupos) {
         // inicializa as variáveis da classe
         this.context = context;
         lstGrupos = grupos;

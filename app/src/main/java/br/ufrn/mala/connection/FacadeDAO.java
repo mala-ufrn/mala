@@ -7,8 +7,10 @@ import android.net.NetworkInfo;
 import java.io.IOException;
 import java.util.List;
 
+import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
+import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -27,6 +29,7 @@ import br.ufrn.mala.exception.JsonStringInvalidaException;
 public class FacadeDAO {
 
     private StrategyDAO strategyDAO;
+    private Context context;
     private boolean connected;
 
     public static FacadeDAO getInstance(Context context){
@@ -35,6 +38,7 @@ public class FacadeDAO {
 
     private FacadeDAO(Context context) {
         connected = isOnline(context);
+        this.context = context;
         if (connected)
             strategyDAO = APIStrategyDAO.getInstance(context);
         else
@@ -79,6 +83,43 @@ public class FacadeDAO {
     }
 
     /**
+     * Consultar as bibliotecas disponíveis no banco
+     * @return Lista de bibliotecas
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public List<BibliotecaDTO> getBibliotecas(boolean toSearch) {
+        return SQLiteStrategyDAO.getInstance(context).getBibliotecas(toSearch);
+    }
+
+    /**
+     * Consultar os tipos de material disponíveis no banco
+     * @return Lista de tipos de empréstimo
+     */
+    public List<TipoMaterialDTO> getTiposMaterial() {
+        return SQLiteStrategyDAO.getInstance(context).getTiposMaterial();
+    }
+
+    /**
+     * Consultar o Material Informacional pelo código de barras, na API
+     * @param token Token de acesso à API da UFRN
+     * @param codBarras Código de Barras
+     * @return Empréstimos ativos
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
+        if (connected) {
+            return ((APIStrategyDAO)strategyDAO).getMaterialInformacional(token, codBarras);
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
      * Consultar os empréstimos ativos do usuário logado
      * @param token Token de acesso à API da UFRN
      * @param offset Offset usado na consulta
@@ -89,15 +130,6 @@ public class FacadeDAO {
      */
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return strategyDAO.getEmprestimosAtivos(token, offset);
-    }
-
-    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
-        if (connected) {
-            return ((APIStrategyDAO)strategyDAO).getMaterialInformacional(token, codBarras);
-        }
-        else {
-            return null;
-        }
     }
 
     /**

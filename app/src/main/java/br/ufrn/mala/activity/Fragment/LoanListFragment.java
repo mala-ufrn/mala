@@ -13,9 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,11 +23,9 @@ import br.ufrn.mala.R;
 import br.ufrn.mala.activity.LoanDetailsActivity;
 import br.ufrn.mala.activity.MainActivity;
 import br.ufrn.mala.activity.NewLoanActivity;
-import br.ufrn.mala.auxiliar.ListEmprestimosAdaptador;
+import br.ufrn.mala.auxiliar.LoanListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
-import br.ufrn.mala.exception.ConnectionException;
-import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 /**
@@ -37,7 +33,6 @@ import br.ufrn.mala.util.Constants;
  */
 
 public class LoanListFragment extends Fragment {
-    String accessToken;
     int offsetEmprestimos = 0;
 
     ProgressDialog pd;
@@ -152,10 +147,10 @@ public class LoanListFragment extends Fragment {
         listaItensGrupo.put(listaGrupos.get(1), listaEspeciais);
         listaItensGrupo.put(listaGrupos.get(2), listaFotocopias);
 
-        // cria um listEmprestimosAdaptador (BaseExpandableListAdapter) com os dados acima
-        ListEmprestimosAdaptador listEmprestimosAdaptador = new ListEmprestimosAdaptador(getActivity(), listaGrupos, listaItensGrupo);
+        // cria um loanListAdapter (BaseExpandableListAdapter) com os dados acima
+        LoanListAdapter loanListAdapter = new LoanListAdapter(getActivity(), listaGrupos, listaItensGrupo);
         // define o apadtador do ExpandableListView
-        expandableListViewEmprestimo.setAdapter(listEmprestimosAdaptador);
+        expandableListViewEmprestimo.setAdapter(loanListAdapter);
 
 
         // Expande todos os grupos do ListView

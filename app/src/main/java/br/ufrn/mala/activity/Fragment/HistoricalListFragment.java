@@ -14,18 +14,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.LoanDetailsActivity;
 import br.ufrn.mala.activity.MainActivity;
-import br.ufrn.mala.auxiliar.ListHistoricoEmprestimosAdaptador;
+import br.ufrn.mala.auxiliar.HistoricalListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
-import br.ufrn.mala.exception.ConnectionException;
-import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 /**
@@ -34,7 +31,6 @@ import br.ufrn.mala.util.Constants;
 
 public class HistoricalListFragment extends Fragment {
 
-    String accessToken;
     int offsetEmprestimos = 0;
     ProgressDialog pd;
 
@@ -97,7 +93,7 @@ public class HistoricalListFragment extends Fragment {
 
         listViewEmprestimos = (ListView) getActivity().findViewById(R.id.list_historico_emprestimos);
         // cria um listHistoricoEmprestimos com a lista de emprestimos
-        ListHistoricoEmprestimosAdaptador listEmprestimosAdaptador = new ListHistoricoEmprestimosAdaptador(getActivity(), listaEmprestimos);
+        HistoricalListAdapter listEmprestimosAdaptador = new HistoricalListAdapter(getActivity(), listaEmprestimos);
         // define o apadtador do listView
         listViewEmprestimos.setAdapter(listEmprestimosAdaptador);
 

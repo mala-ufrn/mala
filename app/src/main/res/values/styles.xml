@@ -42,10 +42,9 @@
         <item name="android:paddingRight">4dp</item>
     </style>
 
-
-    <style name="SpinnerUnderlineColors">
-        <item name="colorAccent">@color/fabblue</item>
-        <item name="colorControlNormal">@color/accent</item>
+    <style name="ErrorAppearance" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- etc -->

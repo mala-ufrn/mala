@@ -11,7 +11,7 @@
     <!--Nav SideMenu Itens-->
     <string name="my_loans">Meus Emprestimos</string>
     <string name="loan_historical">Histórico de Emprestimos</string>
-    <string name="search_in_collection">Consultar Acervo</string>
+    <string name="search_in_collection">Consultar no Acervo</string>
     <string name="change_pass_sisbi">Alterar Senha SISBI</string>
     <string name="issue_discharge">Emitir Quitação de Vinculo</string>
     <string name="faq">Dúvidas Frequentes</string>
@@ -21,6 +21,7 @@
     <!--Activities Label Headers-->
     <string name="app_new_loan">Novo Empréstimo</string>
     <string name="app_my_loans">Meus Empréstimos</string>
+    <string name="app_search">Consultar no Acervo</string>
     <string name="app_my_loans_history">Histórico de Emprestimos</string>
     <string name="app_my_loans_history_detail">Info. Empréstimo</string>
 
@@ -64,6 +65,16 @@
     <string name="spinner_normal_option">NORMAL</string>
     <string name="spinner_special_option">ESPECIAL</string>
     <string name="spinner_fotocopy_option">FOTOCÓPIA</string>
+
+    <!-- Search form labels -->
+    <string name="search_form_title">Título</string>
+    <string name="search_form_author">Autor</string>
+    <string name="search_form_subject">Assunto</string>
+    <string name="search_form_year">Ano publicação de</string>
+    <string name="search_form_help_year">até o ano atual</string>
+    <string name="search_form_library">Biblioteca</string>
+    <string name="search_form_mat_type">Tipo de material</string>
+    <string name="search_form_button">Consultar</string>
     
     <!--Navigation Drawer Utils-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
