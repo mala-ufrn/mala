@@ -6,13 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,17 +17,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.io.File;
 
 import com.google.gson.Gson;
 
+import java.io.File;
+
 import br.ufrn.mala.R;
-import br.ufrn.mala.activity.Fragment.LoanListFragment;
 import br.ufrn.mala.activity.Fragment.HistoricalListFragment;
+import br.ufrn.mala.activity.Fragment.LoanListFragment;
 import br.ufrn.mala.activity.Fragment.SearchFragment;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
@@ -92,7 +91,9 @@ public class MainActivity extends AppCompatActivity
 
         View header = navigationView.getHeaderView(0);
         TextView profName = (TextView)header.findViewById(R.id.profile_name);
+        ImageView profPhoto = (ImageView)header.findViewById(R.id.profile_image);
         profName.setText(usuarioLogado.getNomePessoa());
+        profPhoto.setImageBitmap(usuarioLogado.getFoto());
 
         // Cria um novo fragment
         fm = getSupportFragmentManager();

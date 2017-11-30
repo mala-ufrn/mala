@@ -1,10 +1,7 @@
 package br.ufrn.mala.connection;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseArray;
-
-import com.squareup.moshi.Json;
 
 import org.json.JSONArray;
 import org.json.JSONException;
