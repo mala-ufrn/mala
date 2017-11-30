@@ -4,16 +4,19 @@
     <color name="primary_dark">#325775</color>
     <color name="primary_darker">#059F9E</color>
     <color name="primary_blue">#33CCFF</color>
-    <color name="accent">#c2edb1</color>
+    <color name="accent">#BDBDBD</color>
 
-
-    <color name="black">#000000</color>
-    <color name="jet">#222222</color>
-    <color name="oil">#333333</color>
-    <color name="monsoon">#777777</color>
-    <color name="jumbo">#888888</color>
-    <color name="aluminum">#999999</color>
-    <color name="base">#AAAAAA</color>
-    <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#2196f3</color>
+
+    <color name="secButClr">#6E6E6E</color>
+    <color name="secBtnBg">#FAFAFA</color>
+    <color name="fabblue">#33ADFF</color>
+    <color name="fabgreen">#61CC61</color>
+    <color name="listgreen">#E6FFE6</color>
+    <color name="listgray">#f2f2f2</color>
+
+
+
 </resources>

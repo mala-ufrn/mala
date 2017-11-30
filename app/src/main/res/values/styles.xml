@@ -1,41 +1,78 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/white</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/accent</item>
-
-        <item name="android:windowBackground">@color/primary</item>
-
-        <item name="colorControlNormal">@color/iron</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-        <item name="android:textColorHint">@color/iron</item>
-
-        <item name="colorButtonNormal">@color/primary_darker</item>
-    </style>
-
-    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
-        <item name="colorAccent">@color/white</item>
-        <item name="android:textColorPrimary">@color/iron</item>
-        <item name="android:background">@color/primary</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <!-- Without ActionBar -->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <!-- WelcomeActivity Theme -->
+    <style name="AppTheme.NoActionBar.Dark">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+
+    <!-- ActivityLogin theme (Without ActionBar)-->
+    <style name="ActLoginTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/primary</item>
+        <item name="colorButtonNormal">@color/primary_darker</item>
+    </style>
+
+    <!-- Stuffs themes -->
+    <style name="AppDefaultButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/blue</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppSecondaryButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/secBtnBg</item>
+        <item name="android:textColor">@color/secButClr</item>
+    </style>
+
+    <style name="SpinnerLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+    <style name="ErrorAppearance" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- etc -->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--
+       <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+            <item name="colorAccent">@color/white</item>
+            <item name="android:textColorPrimary">@color/iron</item>
+            <item name="android:background">@color/primary</item>
+        </style>
+
+        <style name="AppTheme.NoActionBar.TransparentTheme">
+
+            <item name="android:background">@null</item>
+            <item name="background">@null</item>
+
+            <item name="android:windowBackground">@android:color/transparent</item>
+            <item name="android:colorBackgroundCacheHint">@null</item>
+            <item name="android:windowContentOverlay">@null</item>
+            <item name="android:windowIsTranslucent">true</item>
+            <item name="android:windowAnimationStyle">@null</item>
+        </style> -->
 
 </resources>

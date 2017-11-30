@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -12,43 +15,55 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".activity.MainActivity"
-            android:label="MALA - UFRN"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".activity.WelcomeActivity"
+            android:theme="@style/AppTheme.NoActionBar.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.PrincipalActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/app_name">
 
-        </activity>
-        <activity android:name=".activity.LogonActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_my_loans"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activity.LoginActivity"
+
+            android:theme="@style/ActLoginTheme" />
+
+        <activity
+            android:name=".activity.AuthorizationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="flickr.com"
                     android:pathPrefix="/photos/"
                     android:scheme="http" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".activity.EmprestimosAtivosActivity"
-            android:label="Meus Empréstimos"
-            android:theme="@style/AppTheme" />
+            android:name=".activity.NewLoanActivity"
+            android:label="@string/app_new_loan"
+            android:screenOrientation="portrait" />
+
         <activity
-            android:name=".activity.LoginActivity"
-            android:theme="@style/AppTheme.Dark" />
+            android:name=".activity.NewLoanConfirmActivity"
+            android:label="@string/app_new_loan"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.LoanDetailsActivity"
+            android:label="@string/app_my_loans_history_detail"
+            android:screenOrientation="portrait" />
 
     </application>
-
 </manifest>

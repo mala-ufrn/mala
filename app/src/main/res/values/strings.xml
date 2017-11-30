@@ -1,32 +1,89 @@
 <resources>
     <string name="app_name">MALA - UFRN</string>
-    <string name="app_sgl">MALA</string>
-    <string name="action_settings">Settings</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="description">MALA - Módulo de Autoempréstimo de Livros do Acervo</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!--Act Bar Menu-->
     <string name="refresh">Atualizar</string>
     <string name="select">Selecionar</string>
     <string name="renewAll">Renovar todos Empréstimos</string>
-    <string name="newLoan">Realizar Emprestimo</string>
-    <string name="myLoans">Meus Emprestimos</string>
+    <string name="newLoan">Realizar Novo Emprestimo</string>
+
+    <!--Nav SideMenu Itens-->
+    <string name="my_loans">Meus Emprestimos</string>
     <string name="loan_historical">Histórico de Emprestimos</string>
-    <string name="changePass_Sisbi">Alterar Senha SISBI</string>
+    <string name="search_in_collection">Consultar no Acervo</string>
+    <string name="change_pass_sisbi">Alterar Senha SISBI</string>
     <string name="issue_discharge">Emitir Quitação de Vinculo</string>
     <string name="faq">Dúvidas Frequentes</string>
-    <string name="aboutUs">Sobre o MALA</string>
+    <string name="about_us">Sobre o MALA</string>
     <string name="exit">Sair</string>
 
+    <!--Activities Label Headers-->
+    <string name="app_new_loan">Novo Empréstimo</string>
+    <string name="app_my_loans">Meus Empréstimos</string>
+    <string name="app_search">Consultar no Acervo</string>
+    <string name="app_my_loans_history">Histórico de Emprestimos</string>
+    <string name="app_my_loans_history_detail">Info. Empréstimo</string>
 
-    <string name="whatIs">Módulo de Autoempréstimo
-        de Livros do Acerto da UFRN</string>
+    <!--ActivityLogin texts-->
+    <string name="app_sgl">MALA</string>
+    <string name="whatIs">Módulo de Autoempréstimo\nde Livros do Acervo da UFRN</string>
     <string name="disclaimer1">Este aplicativo utiliza o serviços de testes da API SIGAA.</string>
-    <string name="disclaimer2">Ao apertar o botão abaixo, você será encaminhado para uma tela do
-        navegador para confirmação de usuário/senha. Preencha ambos os campos apenas com seu usuário
-        do SIGAA.</string>
+    <string name="disclaimer2">Ao apertar o botão abaixo, você será encaminhado para uma tela do navegador para confirmação de usuário/senha. Preencha ambos os campos apenas com seu usuário do SIGAA.</string>
+
+    <!-- ActivityNewLoan texts-->
+    <string name="newLoanHelp">Digite o código de barras do material:</string>
+    <string name="btnSearchMaterial">Buscar Material</string>
+
+    <!-- ActivityNewLoanConfirm texts-->
+    <string name="newLoanDetHelp">Confira se o material não está danificado, e se os dados abaixo conferem:</string>
+    <string name="newLoanDetTipo">Tipo de Empréstimo:</string>
+    <string name="newLoanDetOb1">Caso o material esteja danificado, por favor, leve-o ao setor de circulação/empréstimos da biblioteca.</string>
+    <string name="newLoanDetOb2">É importante que só realize esta operação com o livro em mãos.</string>
+    <string name="btnNewLoan">Realizar Autoempréstimo</string>
+    
+    <!-- Labels Utils-->
+    <string name="lbl_tittle">Título:</string>
+    <string name="lbl_author">Autor:</string>
+    <string name="lbl_bar_code">Cód. Barras:</string>
+    <string name="lbl_mat_type">Tipo Mat.:</string>
+    <string name="lbl_mat_status">Status:</string>
+
+    <!-- Loading Messages -->
+    <string name="load_active_loans">Carregando empréstimos</string>
+    <string name="load_loans_history">Carregando histórico\nde empréstimos</string>
+    <string name="load_libraries">Carregando bibliotecas</string>
+    <string name="load_mat_situations">Carregando situações\nde materiais</string>
+    <string name="load_mat_status">Carregando status\nde materiais</string>
+    <string name="load_mat_types">Carregando tipos\nde materiais</string>
+    <string name="search_material">Buscando material</string>
+    <string name="search_collection">Efetuando consulta\nno acervo</string>
+    
+    <!-- Toasts Messages -->
+    <string name="materail_not_found">Material não encontrado</string>
+    <string name="no_barcode">Nenhum código de barras foi detectado</string>
+    <string name="no_search_fields">Nenhum campo preenchido</string>
+    <string name="titles_not_found">Nenhum título foi encontrado</string>
+
+    <!-- Spinners Options -->
+    <string name="spinner_normal_option">NORMAL</string>
+    <string name="spinner_special_option">ESPECIAL</string>
+    <string name="spinner_fotocopy_option">FOTOCÓPIA</string>
+
+    <!-- Search form labels -->
+    <string name="search_form_title">Título</string>
+    <string name="search_form_author">Autor</string>
+    <string name="search_form_subject">Assunto</string>
+    <string name="search_form_year">Ano publicação de</string>
+    <string name="search_form_help_year">até o ano atual</string>
+    <string name="search_form_library">Biblioteca</string>
+    <string name="search_form_mat_type">Tipo de material</string>
+    <string name="search_form_button">Consultar</string>
+    <string name="search_form_clear_button">Limpar</string>
+    
+    <!--Navigation Drawer Utils-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
 </resources>
