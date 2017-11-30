@@ -1,5 +1,7 @@
 package br.ufrn.mala.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +20,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.File;
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private int previousMenuItemSelected;
     private FragmentManager fm;
     private UsuarioDTO usuarioLogado;
+    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +60,30 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.principal_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                View v = getCurrentFocus();
+
+                if (v != null && v instanceof EditText) {
+                        hideKeyboard(MainActivity.this);
+                        v.clearFocus();
+                    }
+
+                super.onDrawerSlide(drawerView, slideOffset);
+            }
+        };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // Pegar o token de acesso
         SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
-        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
+        accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
 
         Gson gson = new Gson();
         String usuario = preferences.getString("UsuarioLogado", null);
@@ -82,6 +103,9 @@ public class MainActivity extends AppCompatActivity
         previousMenuItemSelected = R.id.my_loan;
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
 
     @Override
     //Extreme Go Horse Rulez!
@@ -245,5 +269,12 @@ public class MainActivity extends AppCompatActivity
             return dir.delete();
         } else
             return dir != null && dir.isFile() && dir.delete();
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        if (activity != null && activity.getWindow() != null && activity.getWindow().getDecorView() != null) {
+            InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        }
     }
 }

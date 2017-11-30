@@ -51,15 +51,19 @@
 
     <!-- Loading Messages -->
     <string name="load_active_loans">Carregando empréstimos</string>
-    <string name="load_loans_history">Carregando histórico\n de empréstimos</string>
+    <string name="load_loans_history">Carregando histórico\nde empréstimos</string>
     <string name="load_libraries">Carregando bibliotecas</string>
-    <string name="load_mat_situations">Carregando situações\n de materiais</string>
-    <string name="load_mat_status">Carregando status\n de materiais</string>
-    <string name="load_mat_types">Carregando tipos\n de materiais</string>
+    <string name="load_mat_situations">Carregando situações\nde materiais</string>
+    <string name="load_mat_status">Carregando status\nde materiais</string>
+    <string name="load_mat_types">Carregando tipos\nde materiais</string>
     <string name="search_material">Buscando material</string>
+    <string name="search_collection">Efetuando consulta\nno acervo</string>
     
     <!-- Toasts Messages -->
     <string name="materail_not_found">Material não encontrado</string>
+    <string name="no_barcode">Nenhum código de barras foi detectado</string>
+    <string name="no_search_fields">Nenhum campo preenchido</string>
+    <string name="titles_not_found">Nenhum título foi encontrado</string>
 
     <!-- Spinners Options -->
     <string name="spinner_normal_option">NORMAL</string>
@@ -75,6 +79,7 @@
     <string name="search_form_library">Biblioteca</string>
     <string name="search_form_mat_type">Tipo de material</string>
     <string name="search_form_button">Consultar</string>
+    <string name="search_form_clear_button">Limpar</string>
     
     <!--Navigation Drawer Utils-->
     <string name="navigation_drawer_open">Open navigation drawer</string>

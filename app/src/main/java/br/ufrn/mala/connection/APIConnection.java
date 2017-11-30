@@ -3,6 +3,7 @@ package br.ufrn.mala.connection;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -215,6 +216,45 @@ public class APIConnection {
                 .appendQueryParameter("codigo-barras", codBarras)
                 .build()
                 .toString();
+        return getDados(token, url);
+    }
+
+    /**
+     * Consulta Títulos no acervo pelos parâmetros fornecidos, na API da UFRN
+     * @param token Token de acesso à API da UFRN
+     * @param titulo título de material a ser consultado
+     * @param autor autor principal ou secundário do material a ser consultado
+     * @param assunto assunto de material a ser consultado
+     * @param idBib identificador da biblioteca a ser consultada
+     * @param idTipoMat identificador do tipo de materais serem consultados
+     * @param offset Offset usado na consulta
+     * @return JSON dos Títulos do Acervo
+     * @throws IOException
+     * @throws ConnectionException
+     */
+    public String getAcervo(String token, String titulo, String autor, String assunto, String idBib,
+                            String idTipoMat, Integer offset) throws IOException, ConnectionException {
+        Uri.Builder uriBuilder = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_BIBLIOTECA_ACERVOS);
+
+        if (!titulo.equalsIgnoreCase(""))
+            uriBuilder.appendQueryParameter("titulo", titulo);
+        if (!autor.equalsIgnoreCase(""))
+            uriBuilder.appendQueryParameter("autor", autor);
+        if (!assunto.equalsIgnoreCase(""))
+            uriBuilder.appendQueryParameter("assunto", assunto);
+        if (!idBib.equalsIgnoreCase(""))
+            uriBuilder.appendQueryParameter("id-biblioteca", idBib);
+        if (!idTipoMat.equalsIgnoreCase(""))
+            uriBuilder.appendQueryParameter("id-tipo-material", idTipoMat);
+
+        String url = uriBuilder.appendQueryParameter("limit", "100")
+                .appendQueryParameter("offset", offset.toString())
+                .build()
+                .toString();
+
+        Log.d("URL", url);
         return getDados(token, url);
     }
 

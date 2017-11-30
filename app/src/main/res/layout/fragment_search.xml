@@ -1,103 +1,117 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="15dp"
-    android:orientation="vertical"
-    android:focusableInTouchMode="true">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/layout_search_title"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
-        <EditText
-            android:id="@+id/search_title"
+        android:padding="15dp"
+        android:focusableInTouchMode="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_search_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/search_form_title"
-            />
-    </android.support.design.widget.TextInputLayout>
+            android:paddingBottom="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/search_title_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/search_form_title" />
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-    android:id="@+id/layout_search_author"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="10dp">
-    <EditText
-        android:id="@+id/search_author"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:hint="@string/search_form_author"
-        />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/layout_search_subject"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
-        <EditText
-            android:id="@+id/search_subject"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_search_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:hint="@string/search_form_subject"
+            android:layout_below="@id/layout_search_title"
+            android:paddingBottom="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/search_author_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/search_form_author" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/layout_search_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_search_author"
+            android:paddingBottom="10dp">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/search_subject_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="@string/search_form_subject" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            style="@style/SpinnerLabel"
+            android:id="@+id/search_lib_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_search_subject"
+            android:paddingBottom="6dp"
+            android:textColor="@color/accent"
+            android:text="@string/search_form_library" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:id="@+id/search_lib_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_lib_label"
+            android:dropDownWidth="300dp"/>
+
+        <TextView
+            style="@style/SpinnerLabel"
+            android:id="@+id/search_mat_type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_lib_spinner"
+            android:paddingTop="14dp"
+            android:paddingBottom="6dp"
+            android:textColor="@color/accent"
+            android:text="@string/search_form_mat_type" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:id="@+id/search_mat_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_mat_type_label"
+            android:dropDownWidth="300dp"
             />
-    </android.support.design.widget.TextInputLayout>
-
-    <TextView
-        style="@style/SpinnerLabel"
-        android:id="@+id/search_lib_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="6dp"
-        android:textColor="@color/accent"
-        android:text="@string/search_form_library" />
-
-    <android.support.v7.widget.AppCompatSpinner
-        style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:id="@+id/search_lib_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dropDownWidth="300dp"/>
-
-    <TextView
-        style="@style/SpinnerLabel"
-        android:id="@+id/search_mat_type_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="14dp"
-        android:paddingBottom="6dp"
-        android:textColor="@color/accent"
-        android:text="@string/search_form_mat_type" />
-
-    <android.support.v7.widget.AppCompatSpinner
-        style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:id="@+id/search_mat_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dropDownWidth="300dp"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_search_form"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
+            android:layout_below="@id/search_mat_type_spinner"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/search_form_button"
             android:textSize="15sp"
             android:theme="@style/AppDefaultButton" />
-    </LinearLayout>
 
-
-</LinearLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_clear_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_mat_type_spinner"
+            android:layout_toRightOf="@id/btn_search_form"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/search_form_clear_button"
+            android:textSize="15sp"
+            android:theme="@style/AppSecondaryButton" />
+    </RelativeLayout>
+</ScrollView>

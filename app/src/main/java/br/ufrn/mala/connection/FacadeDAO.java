@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.List;
 
+import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
@@ -130,6 +133,27 @@ public class FacadeDAO {
      */
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return strategyDAO.getEmprestimosAtivos(token, offset);
+    }
+
+    /**
+     * Consultar os empréstimos ativos do usuário logado
+     * @param token Token de acesso à API da UFRN
+     * @param titulo Título para a consulta
+     * @param autor autor para a consulta
+     * @param assunto assunto para a consulta
+     * @param idBiblioteca biblioteca desejada para a consulta
+     * @param idTipoMaterial tipo de material desejado na consulta
+     * @return Lista de Títulos consultados no Acervo
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public List<AcervoDTO> getAcervo(String token, String titulo, String autor, String assunto,
+                                     String idBiblioteca, String idTipoMaterial) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
+        if (connected)
+            return ((APIStrategyDAO)strategyDAO).getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial);
+        else
+            return null;
     }
 
     /**

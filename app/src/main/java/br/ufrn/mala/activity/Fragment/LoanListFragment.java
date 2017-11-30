@@ -33,13 +33,16 @@ import br.ufrn.mala.util.Constants;
  */
 
 public class LoanListFragment extends Fragment {
+
     int offsetEmprestimos = 0;
 
-    ProgressDialog pd;
+    private ProgressDialog pd;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<EmprestimoDTO> listaEmprestimos;
     private ExpandableListView expandableListViewEmprestimo;
+
+    private String accessToken;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,6 +74,8 @@ public class LoanListFragment extends Fragment {
                      refreshList();
                  }
          });
+
+        accessToken = ((MainActivity)getActivity()).getAccessToken();
 
         refreshList();
 
@@ -104,11 +109,6 @@ public class LoanListFragment extends Fragment {
 
 
     public void refreshList() {
-        // Pegar o token de acesso
-        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
-        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
-
-        // Popula a lista de emprestimos
         if (accessToken != null) {
             new EmprestimosAtivosTask().execute(accessToken);
             ((MainActivity)getActivity()).refreshLoans = true;

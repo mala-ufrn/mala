@@ -3,7 +3,7 @@
     <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
@@ -29,11 +29,15 @@
         <item name="colorButtonNormal">@color/primary_darker</item>
     </style>
 
-
     <!-- Stuffs themes -->
     <style name="AppDefaultButton" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/blue</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AppSecondaryButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/secBtnBg</item>
+        <item name="android:textColor">@color/secButClr</item>
     </style>
 
     <style name="SpinnerLabel" parent="TextAppearance.AppCompat.Caption">

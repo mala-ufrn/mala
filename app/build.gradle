@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        applicationId "sinfo.ufrn.br.authorizationcode"
+        applicationId "imd.ufrn.br.mala"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1

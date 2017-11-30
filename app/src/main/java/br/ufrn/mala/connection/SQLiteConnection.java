@@ -32,6 +32,14 @@ public class SQLiteConnection {
     private SQLiteDatabase writableDatabase;
     private UsuarioDTO usuarioLogado;
 
+    private final String BIB_BLACKLIST = "723675, 792473, 792657, 1266705, 1606845," +
+                                        " 1607401, 1645680, 1698319, 1857962, 1863870," +
+                                        " 2001419, 2040152, 2040954, 2055309, 2094851," +
+                                        " 2094948, 2094949, 2094953, 2094955, 2094956," +
+                                        " 2094961, 2094962, 2094963, 2095036, 2095037," +
+                                        " 2095045, 2095046, 2095047, 2096829, 2108193," +
+                                        " 2156263, 2159842, 2210677";
+
     public static SQLiteConnection getInstance(Context context){
         if(sqLiteConnection == null)
             sqLiteConnection = new SQLiteConnection(context);
@@ -145,15 +153,16 @@ public class SQLiteConnection {
         String sql = "SELECT * " +
                 "FROM biblioteca";
         if (toSearch) {
-            sql += " WHERE id_biblioteca NOT IN (723675, 792473, 792657, 1266705, 1606845," +
-                                               " 1607401, 1645680, 1698319, 1857962, 1863870," +
-                                               " 2001419, 2040152, 2040954, 2055309, 2094851," +
-                                               " 2094948, 2094949, 2094953, 2094955, 2094956," +
-                                               " 2094961, 2094962, 2094963, 2095036, 2095037," +
-                                               " 2095045, 2095046, 2095047, 2096829, 2108193," +
-                                               " 2156263, 2159842, 2210677)";
+
+            sql += " WHERE id_biblioteca NOT IN ( 723675, 792473, 792657, 1266705, 1606845," +
+                                                " 1607401, 1645680, 1698319, 1857962, 1863870," +
+                                                " 2001419, 2040152, 2040954, 2055309, 2094851," +
+                                                " 2094948, 2094949, 2094953, 2094955, 2094956," +
+                                                " 2094961, 2094962, 2094963, 2095036, 2095037," +
+                                                " 2095045, 2095046, 2095047, 2096829, 2108193," +
+                                                " 2156263, 2159842, 2210677 )";
         }
-        Cursor result = readableDatabase.rawQuery(sql, new String[] {});
+        Cursor result = readableDatabase.rawQuery(sql, new String[]{});
         List<BibliotecaDTO> bibliotecas = new ArrayList<>();
         while (result.moveToNext()){
             BibliotecaDTO biblioteca = new BibliotecaDTO();

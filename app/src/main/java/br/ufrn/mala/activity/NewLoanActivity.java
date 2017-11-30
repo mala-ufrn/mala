@@ -66,7 +66,7 @@ public class NewLoanActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (inputBarCode.getText().toString().trim().equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(),
-                            "Nenhum código de barras digitado", Toast.LENGTH_SHORT);
+                            getString(R.string.no_barcode), Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     new NewLoanActivity.SearchMaterailTask().execute(accessToken, inputBarCode.getText().toString());
@@ -94,9 +94,11 @@ public class NewLoanActivity extends AppCompatActivity {
             EditText et = (EditText) inputBarCode;
             et.setSelection(et.getText().length());
 
+            new NewLoanActivity.SearchMaterailTask().execute(accessToken, scanContent);
+
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "Nenhum código de barras foi detectado", Toast.LENGTH_SHORT);
+                    getString(R.string.no_barcode), Toast.LENGTH_SHORT);
             toast.show();
         }
     }

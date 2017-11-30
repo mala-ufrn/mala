@@ -32,18 +32,6 @@
         android:textSize="13dip"
         android:textStyle="bold" />
 
-
-    <TextView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Volume:"
-        android:paddingTop="15dp"
-        android:textSize="13dip"
-        android:paddingBottom="2dp"
-        android:textStyle="bold"
-        android:textColor="@color/aluminum"/>
-
     <TextView
         android:id="@+id/lblEdicao_detail_loan"
         android:layout_width="fill_parent"

@@ -6,9 +6,13 @@ import android.util.SparseArray;
 
 import com.squareup.moshi.Json;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.List;
 
+import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
@@ -109,6 +113,25 @@ public class APIStrategyDAO implements StrategyDAO {
         else {
             return null;
         }
+    }
+
+    public List<AcervoDTO> getAcervo(String token, String titulo, String autor, String assunto,
+                                     String idBiblioteca, String idTipoMaterial) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
+
+        int arrSize, offset = 0;
+
+        do {
+            arrSize = 0;
+            String acervosJson = apiConnection.getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
+            if (!acervosJson.equalsIgnoreCase("")) {
+                JSONArray acervoJsonArray = new JSONArray(acervosJson);
+                arrSize = acervoJsonArray.length();
+            }
+            if (arrSize == 100) {
+                offset += arrSize;
+            }
+        } while (offset < 300 && arrSize == 100);
+        return null;
     }
 
     public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
