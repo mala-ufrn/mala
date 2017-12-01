@@ -148,12 +148,12 @@ public class FacadeDAO {
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public List<AcervoDTO> getAcervo(String token, String titulo, String autor, String assunto,
+    public boolean buscarAcervo(String token, String titulo, String autor, String assunto,
                                      String idBiblioteca, String idTipoMaterial) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
         if (connected)
-            return ((APIStrategyDAO)strategyDAO).getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial);
+            return ((APIStrategyDAO)strategyDAO).buscarAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial);
         else
-            return null;
+            return false;
     }
 
     /**

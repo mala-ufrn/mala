@@ -8,15 +8,21 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
 import br.ufrn.mala.dto.StatusMaterialDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
+import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 /**
@@ -31,14 +37,6 @@ public class SQLiteConnection {
     private SQLiteDatabase readableDatabase;
     private SQLiteDatabase writableDatabase;
     private UsuarioDTO usuarioLogado;
-
-    private final String BIB_BLACKLIST = "723675, 792473, 792657, 1266705, 1606845," +
-                                        " 1607401, 1645680, 1698319, 1857962, 1863870," +
-                                        " 2001419, 2040152, 2040954, 2055309, 2094851," +
-                                        " 2094948, 2094949, 2094953, 2094955, 2094956," +
-                                        " 2094961, 2094962, 2094963, 2095036, 2095037," +
-                                        " 2095045, 2095046, 2095047, 2096829, 2108193," +
-                                        " 2156263, 2159842, 2210677";
 
     public static SQLiteConnection getInstance(Context context){
         if(sqLiteConnection == null)
@@ -278,6 +276,144 @@ public class SQLiteConnection {
         writableDatabase.execSQL(sql);
     }
 
+    /**
+     * Inserir um titulo do acervo no banco de dados
+     * @param acervoObj objeto Json representndo um título
+     */
+    public void insertAcervo (JSONObject acervoObj) throws JSONException {
+        String sql = "INSERT INTO acervo (" +
+                "ano, " +
+                "autor, " +
+                "descricao_fisica, " +
+                "edicao, " +
+                "editora, " +
+                "endereco_eletronico, " +
+                "id_biblioteca, " +
+                "id_tipo_material, " +
+                "intervalo_paginas, " +
+                "isbn TEXT, " +
+                "issn TEXT, " +
+                "local_publicacao, " +
+                "nota_conteudo, " +
+                "notas_gerais, " +
+                "notas_locais, " +
+                "numero_chamada, " +
+                "quantidade, " +
+                "registro_sistema, " +
+                "resumo, " +
+                "serie, " +
+                "sub_titulo, " +
+                "tipo_material" +
+                "titulo, " +
+                ") " +
+                "VALUES (" +
+                acervoObj.getString("ano") + ", " +
+                acervoObj.getString("autor") + "', " +
+                acervoObj.getString("descricao-fisica") + "', " +
+                acervoObj.getString("edicao") + "', " +
+                acervoObj.getString("editora") + "', " +
+                acervoObj.getString("endereco-eletronico") + "', " +
+                acervoObj.getInt("id-biblioteca") + "', " +
+                acervoObj.getInt("id-tipo-material") + "', " +
+                acervoObj.getString("intervalo-paginas") + "', " +
+                acervoObj.getString("isbn") + "', " +
+                acervoObj.getString("issn") + "', " +
+                acervoObj.getString("local-publicacao") + "', " +
+                acervoObj.getString("nota-conteudo") + "', " +
+                acervoObj.getString("notas-gerais") + "', " +
+                acervoObj.getString("notas-locais") + "', " +
+                acervoObj.getString("numero-chamada") + "', " +
+                acervoObj.getInt("quantidade") + "', " +
+                acervoObj.getInt("registro-sistema") + "', " +
+                acervoObj.getString("resumo") + "', " +
+                acervoObj.getString("serie") + "', " +
+                acervoObj.getString("sub-titulo") + "', " +
+                acervoObj.getString("tipo-material") + "', " +
+                acervoObj.getString("titulo") + "', " +
+                ")";
+        writableDatabase.execSQL(sql);
+    }
+
+    /**
+     * Inserir um autor secundário para titulo do acervo no banco de dados
+     * @param autor autor secundário
+     * @param registroSist chave do título ao qual o autor é relacionado
+     */
+    public void insertAutorSecundario (String autor, int registroSist) {
+        String sql = "INSERT INTO acervo_autor_secundario (" +
+                "autor, " +
+                "id_acervo, " +
+                ") " +
+                "VALUES (" +
+                autor + ", " +
+                registroSist + "', " +
+                ")";
+        writableDatabase.execSQL(sql);
+    }
+
+    /**
+     * Inserir um autor secundário para titulo do acervo no banco de dados
+     * @param assunto Assunto relacionado ao título
+     * @param registroSist chave do título ao qual o autor é relacionado
+     */
+    public void insertAssunto (String assunto, int registroSist) {
+        String sql = "INSERT INTO acervo_assunto (" +
+                "autor, " +
+                "id_acervo, " +
+                ") " +
+                "VALUES (" +
+                assunto + ", " +
+                registroSist + "', " +
+                ")";
+        writableDatabase.execSQL(sql);
+    }
+
+    public int insertAcervoJsonList(String acervosJson) throws JSONException, JsonStringInvalidaException {
+
+        int listSize = 0;
+
+        if (!acervosJson.equalsIgnoreCase("")) {
+            JSONArray array = new JSONArray(acervosJson);
+            listSize = array.length();
+
+            for (int i = 0; i < array.length(); ++i) {
+                JSONObject jsonObject = array.getJSONObject(i);
+
+                // Inicia uma TRANSACTION
+                writableDatabase.beginTransaction();
+                try {
+                    // insere o título
+                    insertAcervo(jsonObject);
+                    int regSistema = jsonObject.getInt("registro-sistema");
+
+                    // insere os assuntos
+                    String[] assuntosArray = (String[])jsonObject.get("assunto");
+                    if (assuntosArray != null)
+                        for (String assunto: assuntosArray) {
+                            if (!assunto.equalsIgnoreCase("")){
+                                insertAssunto(assunto, regSistema);
+                            }
+                        }
+                    // insere os autores secundários
+                    String[] autorSecArray = (String[])jsonObject.get("autores-secundarios");
+                    if (autorSecArray != null)
+                    for (String autor: autorSecArray) {
+                        if (!autor.equalsIgnoreCase("")){
+                            insertAutorSecundario(autor, regSistema);
+                        }
+                    }
+                    writableDatabase.setTransactionSuccessful();
+                } catch (Exception e) {
+                    throw e;
+                // fecha a TRANSACTION
+                } finally {
+                    writableDatabase.endTransaction();
+                }
+            }
+        }
+
+        return listSize;
+    }
     /**
      * Inserir a bilbioteca no banco de dados
      * @param biblioteca Bilioteca a ser inserida

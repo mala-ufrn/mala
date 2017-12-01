@@ -1,6 +1,7 @@
 package br.ufrn.mala.connection;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -10,7 +11,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
@@ -115,23 +120,26 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public List<AcervoDTO> getAcervo(String token, String titulo, String autor, String assunto,
+    public boolean buscarAcervo(String token, String titulo, String autor, String assunto,
                                      String idBiblioteca, String idTipoMaterial) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
 
         int arrSize, offset = 0;
-
         do {
             arrSize = 0;
             String acervosJson = apiConnection.getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
-            if (!acervosJson.equalsIgnoreCase("")) {
-                JSONArray acervoJsonArray = new JSONArray(acervosJson);
-                arrSize = acervoJsonArray.length();
-            }
-            if (arrSize == 100) {
-                offset += arrSize;
-            }
+
+            // Busca não retornou nada
+            if (offset == 0 && acervosJson.equalsIgnoreCase("[]"))
+                return false;
+
+            // Identifica se a busca veio cheia
+            arrSize = sqLiteConnection.insertAcervoJsonList(acervosJson);
+            offset += arrSize;
+
         } while (offset < 300 && arrSize == 100);
-        return null;
+
+        // Busca retornou resultados
+        return true;
     }
 
     public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {

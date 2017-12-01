@@ -81,7 +81,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     "registro_sistema INTEGER PRIMARY KEY, " +
                     "resumo TEXT, " +
                     "serie TEXT, " +
-                    "sub_itulo TEXT, " +
+                    "sub_titulo TEXT, " +
                     "tipo_material TEXT" +
                     "titulo TEXT, " +
                     "FOREIGN KEY(id_tipo_material) REFERENCES tipo_material(id_tipo_material), " +
