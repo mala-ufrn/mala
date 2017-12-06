@@ -23,7 +23,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loan_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        emprestimo = (EmprestimoDTO) getIntent().getSerializableExtra("tituloAcervo");
+        emprestimo = (EmprestimoDTO) getIntent().getSerializableExtra("emprestimo");
         if(emprestimo != null) {
             prepareDetail();
         }
