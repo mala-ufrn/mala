@@ -275,7 +275,7 @@ public class APIConnection {
                 .addHeader("Authorization", "Bearer " + token)
                 .addHeader("X-Api-Key", API_KEY)
                 .build();
-        System.out.println(">>>>>>>>>>>" + token);
+
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
         String result = response.body().string();

@@ -180,11 +180,11 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
         private boolean loanProceed() {
             Calendar calendar = Calendar.getInstance();
             EmprestimoDTO emprestimo = new EmprestimoDTO();
+
             emprestimo.setTitulo(material.getTitulo());
             emprestimo.setAutor(material.getAutor());
             emprestimo.setBiblioteca(material.getBiblioteca());
             emprestimo.setDataEmpretimo(calendar.getTimeInMillis());
-
 
             String tipo = loanTypeSpinner.getSelectedItem().toString();
             if (tipo.equals(R.string.spinner_special_option)) {

@@ -95,9 +95,9 @@
     <string name="partial_search_alert">Houve algum problema durante a busca e, portanto, serão exibidos os resultados parciais obtidos até então.</string>
     <string name="status_material_nao_circula">Este material tem status de NÃO CIRCULA.\n\nPortanto, seu empréstimo não é permitido.</string>
     <string name="situacao_material_nao_disponivel">Este material não pode ser emprestado no momento. \n\nPor favor, entregue-o ao setor de circulação da biblioteca para sua liberação.</string>
-    <string name="type_of_loans"><![CDATA[
+    <string name="type_of_loans"><![CDATA[ <medium>
     <p>
-    <b>Normal.</b><br/>
+    <b>Normal</b><br/>
     Prazo: 15 dias, pode renovar.<br/>
     Limite: 3 materiais.<br/>
     </p>
@@ -110,7 +110,7 @@
     <b>Fotocópia</b><br />
         Prazo: 3 horas, não pode renovar. <br />
         Limite: 2 materiais <br />
-    </p>]]></string>
+    </p> </medium>]]></string>
 
 
     <!-- Spinners Options -->
