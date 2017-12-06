@@ -78,7 +78,7 @@ public class NewLoanActivity extends AppCompatActivity {
     }
 
     /*
-    * Método que executa leitura de código de barras, executado pelo Cam Scanner
+    * Método que executa leitura de código de barras pelo Cam Scanner
      */
     public void camReader(View v) {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
     Spinner loanTypeSpinner;
     Button realizeEmprestimo;
     AppCompatImageButton typesInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +143,7 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
 
         SQLiteConnection sqLiteConnection = SQLiteConnection.getInstance(this.getActivity());
 
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
@@ -149,34 +152,11 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
             builder.setView(inflater.inflate(R.layout.dialog_senha_sisbi, null))
                     .setPositiveButton(R.string.loan_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Calendar calendar = Calendar.getInstance();
-                            EmprestimoDTO emprestimo = new EmprestimoDTO();
-                            emprestimo.setTitulo(material.getTitulo());
-                            emprestimo.setAutor(material.getAutor());
-                            emprestimo.setBiblioteca(material.getBiblioteca());
-                            emprestimo.setDataEmpretimo(calendar.getTimeInMillis());
-
-                            // tipo normal && statusMaterial := regular  => 15 dias
-                            // tipo especial && statusMaterial := regular || especial => 1 dia
-                            // tipo fotocopia&& statusMaterial := regular || especial => 3 horas
-
-                            String tipo = loanTypeSpinner.getSelectedItem().toString();
-                            if (tipo.equals(R.string.spinner_special_option)) {
-                                calendar.add(Calendar.DAY_OF_YEAR, 1);
-                            } else if (tipo.equals(R.string.spinner_fotocopy_option))
-                                calendar.add(Calendar.HOUR, 3);
-                            else
-                                calendar.add(Calendar.DAY_OF_YEAR, 15);
-                            emprestimo.setPrazo(calendar.getTimeInMillis());
-                            emprestimo.setCodigoBarras(material.getCodigoBarras());
-                            emprestimo.setTipoEmprestimo(tipo);
-                            sqLiteConnection.insertEmprestimo(emprestimo, true);
-
-                            Toast toast = Toast.makeText(getApplicationContext(),
-                                    getString(R.string.loan_concluded), Toast.LENGTH_SHORT);
-                            toast.show();
-
-                            onSupportNavigateUp();
+                            if(!loanProceed()) {
+                                Toast toast = Toast.makeText(getApplicationContext(),
+                                        getString(R.string.sisbi_pass_error), Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
 
                         }
                     })
@@ -189,5 +169,43 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
             // Create the AlertDialog object and return it
             return builder.create();
         }
+
+
+        /*
+         * tipo normal && statusMaterial := regular  => 15 dias
+         * tipo especial && statusMaterial := regular || especial => 1 dia
+         *tipo fotocópia && statusMaterial := regular || especial => 3 horas
+         */
+
+        private boolean loanProceed() {
+            Calendar calendar = Calendar.getInstance();
+            EmprestimoDTO emprestimo = new EmprestimoDTO();
+            emprestimo.setTitulo(material.getTitulo());
+            emprestimo.setAutor(material.getAutor());
+            emprestimo.setBiblioteca(material.getBiblioteca());
+            emprestimo.setDataEmpretimo(calendar.getTimeInMillis());
+
+
+            String tipo = loanTypeSpinner.getSelectedItem().toString();
+            if (tipo.equals(R.string.spinner_special_option)) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            } else if (tipo.equals(R.string.spinner_fotocopy_option))
+                calendar.add(Calendar.HOUR, 3);
+            else
+                calendar.add(Calendar.DAY_OF_YEAR, 15);
+            emprestimo.setPrazo(calendar.getTimeInMillis());
+            emprestimo.setCodigoBarras(material.getCodigoBarras());
+            emprestimo.setTipoEmprestimo(tipo);
+            sqLiteConnection.insertEmprestimo(emprestimo, true);
+
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    getString(R.string.loan_concluded), Toast.LENGTH_SHORT);
+            toast.show();
+
+            onSupportNavigateUp();
+            return true;
+        }
     }
+
+
 }

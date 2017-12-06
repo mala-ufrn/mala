@@ -76,6 +76,7 @@
 
     <!-- Toasts Messages -->
     <string name="materail_not_found">Material não encontrado</string>
+    <string name="sisbi_pass_error">Senha inválida</string>
     <string name="loan_concluded">Empréstimo realizado.</string>
     <string name="no_barcode">Nenhum código de barras foi detectado</string>
     <string name="no_search_fields">Nenhum campo preenchido</string>
