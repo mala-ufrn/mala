@@ -18,7 +18,8 @@
     <color name="listgray">#f2f2f2</color>
     <color name="listblue">#F4FDFF</color>
     <color name="listblueborder">#CAF5FF</color>
-    <color name="local_orange">#ffc04c</color>
+    <color name="local_orange">#ffa500</color>
+    <color name="bold_orange">#ff8c00</color>
 
 
 

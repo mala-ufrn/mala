@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,6 +212,9 @@ public class SearchFragment extends Fragment {
             }
             } while (answer == 100 && offset <= 200);
 
+            if (answer == 100 && offset == 300) {
+                return 102;
+            }
             if (answer == 101 && offset == 0)
                 return -1;
 
@@ -230,6 +234,9 @@ public class SearchFragment extends Fragment {
 
             if (result >= 0) {
                 Intent i = new Intent(getActivity(), SearchResultsListActivity.class);
+                if (result > 100) {
+                    i.putExtra("SearchWarning", result);
+                }
                 startActivity(i);
             }
             else if (result == -1) {

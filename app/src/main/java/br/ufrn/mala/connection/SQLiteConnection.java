@@ -260,10 +260,21 @@ public class SQLiteConnection {
         return bibliotecas;
     }
 
-    public List<AcervoDTO> getAcervo() {
-        String sql = "SELECT * " +
-                "FROM acervo";
-        Cursor result = readableDatabase.rawQuery(sql, new String[]{});
+    public List<AcervoDTO> getAcervo(String orderBy) {
+        Cursor result;
+        if (orderBy.equalsIgnoreCase("titulo")) {
+            result = readableDatabase.query("acervo", null, null, null, null, null, "titulo ASC");
+        }
+        else if (orderBy.equalsIgnoreCase("autor")){
+            result = readableDatabase.query("acervo", null, null, null, null, null, "autor ASC");
+        }
+        else if (orderBy.equalsIgnoreCase("ano")){
+            result = readableDatabase.query("acervo", null, null, null, null, null, "ano DESC");
+        }
+        else {
+            result = readableDatabase.query("acervo", null, null, null, null, null, null);
+        }
+
         List<AcervoDTO> acervo = new ArrayList<>();
         while (result.moveToNext()){
             AcervoDTO tituloAcervo = new AcervoDTO();
@@ -296,6 +307,54 @@ public class SQLiteConnection {
         result.close();
         return acervo;
     }
+
+    public String[] getAutoresSec(int idAcervo) {
+        Cursor result = readableDatabase.query("acervo_autor_secundario", null, "id_acervo = ? ", new String[] {String.valueOf(idAcervo)}, null, null, null);
+        List<String> autores = new ArrayList<>();
+        while (result.moveToNext()){
+            autores.add(result.getString(result.getColumnIndex("autor")));
+        }
+        result.close();
+
+        // Gerando o String[]
+        String[] autoresStr = new String[autores.size()];
+        for(int i = 0; i < autores.size(); ++i) {
+            autoresStr[i] = autores.get(i);
+        }
+        return autoresStr;
+    }
+
+    public String[] getAssuntos(int idAcervo) {
+        Cursor result = readableDatabase.query("acervo_assunto", null, "id_acervo = ? ", new String[] {String.valueOf(idAcervo)}, null, null, null);
+        List<String> assuntos = new ArrayList<>();
+        while (result.moveToNext()){
+            assuntos.add(result.getString(result.getColumnIndex("assunto")));
+        }
+        result.close();
+
+        // Gerando o String[]
+        String[] assuntosStr = new String[assuntos.size()];
+        for(int i = 0; i < assuntos.size(); ++i) {
+            assuntosStr[i] = assuntos.get(i);
+        }
+        return assuntosStr;
+    }
+
+    public BibliotecaDTO getBiblioteca(int idBiblioteca) {
+        Cursor result = readableDatabase.query("biblioteca", null, "id_biblioteca = ? ", new String[] {String.valueOf(idBiblioteca)}, null, null, null);
+        BibliotecaDTO biblioteca = new BibliotecaDTO();
+        result.moveToNext();
+        biblioteca.setIdBiblioteca(result.getInt(result.getColumnIndex("id_biblioteca")));
+        biblioteca.setDescricao(result.getString(result.getColumnIndex("descricao")));
+        biblioteca.setEmail(result.getString(result.getColumnIndex("email")));
+        biblioteca.setSigla(result.getString(result.getColumnIndex("sigla")));
+        biblioteca.setSite(result.getString(result.getColumnIndex("site")));
+        biblioteca.setTelefone(result.getString(result.getColumnIndex("telefone")));
+
+        return biblioteca;
+    }
+
+
 
     /**
      * Inserir o empréstimo, no banco de dados
@@ -431,9 +490,8 @@ public class SQLiteConnection {
                     if (jsonObject.has("assunto")){
                         JSONArray assuntosArray = jsonObject.optJSONArray("assunto");
                         if (assuntosArray != null) {
-                            for (int j = 0; j < array.length(); ++j) {
-                                JSONObject assuntoObject = array.getJSONObject(j);
-                                String assunto = (assuntoObject.keys()).next();
+                            for (int j = 0; j < assuntosArray.length(); ++j) {
+                                String assunto = assuntosArray.getString(j);
                                 if (!assunto.equalsIgnoreCase("")) {
                                     insertAssunto(assunto, offset + i);
                                 }
@@ -444,9 +502,8 @@ public class SQLiteConnection {
                     if (jsonObject.has("autores-secundarios")) {
                         JSONArray autorSecArray = jsonObject.optJSONArray("autores-secundarios");
                         if (autorSecArray != null) {
-                            for (int j = 0; j < array.length(); ++j) {
-                                JSONObject AutorSecObject = array.getJSONObject(j);
-                                String autor = (AutorSecObject.keys()).next();
+                            for (int j = 0; j < autorSecArray.length(); ++j) {
+                                String autor = autorSecArray.getString(j);
                                 if (!autor.equalsIgnoreCase("")) {
                                     insertAutorSecundario(autor, offset + i);
                                 }

@@ -144,4 +144,9 @@ public class ResultsListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    public void setNewItems(List<String> listDataHeader,HashMap<String, List<AcervoDTO>> listChildData) {
+        this.lstGrupos = listDataHeader;
+        this.lstItensGrupos = listChildData;
+        notifyDataSetChanged();
+    }
 }

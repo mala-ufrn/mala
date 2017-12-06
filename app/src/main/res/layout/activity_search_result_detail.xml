@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.ufrn.mala.activity.SearchResultDetailsActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/sr_regsis_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Registro: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_regsis_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/sr_regsis_lbl"/>
+
+        <TextView
+            android:id="@+id/sr_title_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_regsis_lbl"
+            android:text="Título: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_title_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_regsis_lbl"
+            android:layout_toRightOf="@id/sr_title_lbl"/>
+
+        <TextView
+            android:id="@+id/sr_subtitle_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_title_input"
+            android:text="Subtítulo: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_subtitle_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_title_input"
+            android:layout_toRightOf="@id/sr_subtitle_lbl"/>
+
+        <TextView
+            android:id="@+id/sr_author_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_subtitle_input"
+            android:text="Autor(es): "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:id="@+id/sr_author_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/sr_author_lbl"
+            android:layout_below="@id/sr_subtitle_input">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sr_subject_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_author_input"
+            android:text="Assunto(s): "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:id="@+id/sr_subject_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/sr_subject_lbl"
+            android:layout_below="@id/sr_author_input">
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sr_edition_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_subject_input"
+            android:text="Edição: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_edition_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_subject_input"
+            android:layout_toRightOf="@id/sr_edition_lbl"/>
+
+        <TextView
+            android:id="@+id/sr_pub_house_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_edition_input"
+            android:text="Editora: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_pub_house_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_edition_input"
+            android:layout_toRightOf="@id/sr_pub_house_lbl"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/sr_year_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_pub_house_input"
+            android:text="Ano: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_year_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_pub_house_input"
+            android:layout_toRightOf="@id/sr_year_lbl"/>
+
+        <TextView
+            android:id="@+id/sr_library_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_year_input"
+            android:text="Biblioteca: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_library_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_year_input"
+            android:layout_toRightOf="@id/sr_library_lbl"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/sr_local_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_library_input"
+            android:text="Localização: "
+            android:textStyle="bold"
+            android:textColor="@color/bold_orange"/>
+
+        <TextView
+            android:id="@+id/sr_local_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_library_input"
+            android:layout_toRightOf="@id/sr_local_lbl"
+            android:textColor="@color/local_orange"/>
+
+        <TextView
+            android:id="@+id/sr_mat_type_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_local_input"
+            android:text="Tipo Material: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_mat_type_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_local_input"
+            android:layout_toRightOf="@id/sr_mat_type_lbl"/>
+
+        <TextView
+            android:id="@+id/sr_qnt_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_mat_type_input"
+            android:text="Quantidade: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/sr_qnt_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sr_mat_type_input"
+            android:layout_toRightOf="@id/sr_qnt_lbl"/>
+
+    </RelativeLayout>
+</ScrollView>

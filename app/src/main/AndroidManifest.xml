@@ -62,6 +62,9 @@
         <activity android:name=".activity.SearchResultsListActivity"
             android:label="@string/app_search_results"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.SearchResultDetailsActivity"
+            android:label="Detalhes do Item"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

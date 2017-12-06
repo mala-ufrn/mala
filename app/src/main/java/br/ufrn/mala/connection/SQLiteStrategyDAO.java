@@ -77,11 +77,24 @@ public class SQLiteStrategyDAO implements StrategyDAO {
         return sqLiteConnection.getBibliotecasAcervo();
     }
 
-    public List<AcervoDTO> getAcervo() {
-        return sqLiteConnection.getAcervo();
+    public List<AcervoDTO> getAcervo(String orderBy) {
+        return sqLiteConnection.getAcervo(orderBy);
     }
 
-    public void limparAcervoBD () {
+    public String[] getAutoresSec(int idAcervo) {
+        return sqLiteConnection.getAutoresSec(idAcervo);
+    }
+
+    public String[] getAssuntos(int idAcervo) {
+        return sqLiteConnection.getAssuntos(idAcervo);
+    }
+
+    public BibliotecaDTO getBiblioteca(int idBibl) {
+        return sqLiteConnection.getBiblioteca(idBibl);
+    }
+
+
+        public void limparAcervoBD () {
         sqLiteConnection.limparAcervoBD();
     }
 

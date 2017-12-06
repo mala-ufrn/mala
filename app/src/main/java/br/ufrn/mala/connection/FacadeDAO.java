@@ -144,8 +144,20 @@ public class FacadeDAO {
      * Consultar os títulos resultantes da busca
      * @return Lista de Títulos da Busca
      */
-    public List<AcervoDTO> getAcervo() {
-        return SQLiteStrategyDAO.getInstance(context).getAcervo();
+    public List<AcervoDTO> getAcervo(String orderBy) {
+        return SQLiteStrategyDAO.getInstance(context).getAcervo(orderBy);
+    }
+
+    public String[] getAutoresSec(int idAcervo) {
+        return SQLiteStrategyDAO.getInstance(context).getAutoresSec(idAcervo);
+    }
+
+    public String[] getAssuntos(int idAcervo) {
+        return SQLiteStrategyDAO.getInstance(context).getAssuntos(idAcervo);
+    }
+
+    public BibliotecaDTO getBiblioteca(int idBibl) {
+        return SQLiteStrategyDAO.getInstance(context).getBiblioteca(idBibl);
     }
 
     /**

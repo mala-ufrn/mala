@@ -8,10 +8,9 @@
     <string name="renewAll">Renovar todos Empréstimos</string>
     <string name="newLoan">Realizar Novo Emprestimo</string>
     <string name="sort_menu">Organizar por:</string>
-    <string name="by_title">título</string>
-    <string name="by_author">autor</string>
-    <string name="by_date">ano</string>
-
+    <string name="by_title">Título</string>
+    <string name="by_author">Autor</string>
+    <string name="by_date">Mais novo</string>
 
     <!--Nav SideMenu Itens-->
     <string name="my_loans">Meus Emprestimos</string>
@@ -73,6 +72,7 @@
     <string name="search_progress2">títulos, continuando busca&#8230;</string>
     <string name="please_wait">Aguarde&#8230;</string>
     <string name="generate_list">Gerando a lista de resultados&#8230;</string>
+    <string name="sorting">Ordenando resultados&#8230;</string>
 
     <!-- Toasts Messages -->
     <string name="materail_not_found">Material não encontrado</string>
@@ -81,6 +81,11 @@
     <string name="titles_not_found">Nenhum título foi encontrado</string>
     <string name="no_connection">Não há conexão no momento</string>
     <string name="db_error">Houve algum problema com o banco interno</string>
+
+    <!-- Dialogs Utils -->
+    <string name="ok_button">OK</string>
+    <string name="overflow_alert">A busca retornou muitos resultados e, portanto, só serão exibidos os 300 primeiros.\n\nRecomenda-se o uso de um parâmetro auxiliar (autor, assunto&#8230;) para filtrar os resultados</string>
+    <string name="partial_search_alert">Houve algum problema durante a busca e, portanto, serão exibidos os resultados parciais obtidos até então.</string>
 
     <!-- Spinners Options -->
     <string name="spinner_normal_option">NORMAL</string>

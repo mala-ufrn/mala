@@ -60,6 +60,16 @@ public class AcervoDTO implements Serializable {
 
     private String titulo;
 
+    private BibliotecaDTO biblioteca;
+
+    public BibliotecaDTO getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(BibliotecaDTO biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+
     public Integer getIdAcervo() { return idAcervo; }
 
     public void setIdAcervo(Integer idAcervo) { this.idAcervo = idAcervo; }
