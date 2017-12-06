@@ -1,10 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:layout_gravity="center_horizontal">
+    android:paddingRight="15dp">
+
+
     <TextView
         android:id="@+id/senha_sisbi_helper"
         android:layout_width="match_parent"
@@ -17,13 +18,16 @@
 
     <EditText
         android:id="@+id/senha_sisbi2"
+        android:layout_below="@+id/senha_sisbi_helper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:background="@drawable/newloan_edit_text_bg"
         android:ellipsize="end"
-        android:gravity="center_horizontal|fill_horizontal"
         android:hint="@string/sisbi_pass"
         android:inputType="numberPassword"
         android:maxLines="1" />
 
-</LinearLayout>
+</RelativeLayout>
