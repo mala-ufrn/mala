@@ -129,7 +129,8 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return strategyDAO.getEmprestimosAtivos(token, offset);
+        strategyDAO.getEmprestimosAtivos(token, offset);
+        return SQLiteConnection.getInstance(context).getEmprestimos(true, offset);
     }
 
     /**

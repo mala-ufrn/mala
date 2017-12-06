@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
@@ -18,12 +20,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.Calendar;
+import java.util.Random;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.connection.SQLiteConnection;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
+import br.ufrn.mala.dto.UsuarioDTO;
+import br.ufrn.mala.util.Constants;
 
 public class NewLoanConfirmActivity extends AppCompatActivity {
 
@@ -178,13 +185,29 @@ public class NewLoanConfirmActivity extends AppCompatActivity {
          */
 
         private boolean loanProceed() {
+
+            SharedPreferences mPrefs = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            String usuario = mPrefs.getString("UsuarioLogado", null);
+            UsuarioDTO usuarioLogado = new UsuarioDTO();
+
+            if (usuario != null)
+                usuarioLogado = gson.fromJson(usuario, UsuarioDTO.class);
+
             Calendar calendar = Calendar.getInstance();
             EmprestimoDTO emprestimo = new EmprestimoDTO();
-            emprestimo.setTitulo(material.getTitulo());
-            emprestimo.setAutor(material.getAutor());
-            emprestimo.setBiblioteca(material.getBiblioteca());
-            emprestimo.setDataEmpretimo(calendar.getTimeInMillis());
 
+            Random r = new Random();
+            emprestimo.setIdEmprestimo(4000000 + r.nextInt(Integer.MAX_VALUE - 4000000));
+
+            emprestimo.setCpfCnpjUsuario(usuarioLogado.getCpfCnpj());
+            emprestimo.setNumeroChamada(material.getLocalizacao());
+            emprestimo.setIdMaterialInformacional(material.getIdMaterialInformacional().intValue());
+            emprestimo.setTitulo(material.getTitulo());
+            emprestimo.setAutor((material.getAutor() == null) ? "": material.getAutor());
+            emprestimo.setBiblioteca(material.getBiblioteca());
+            emprestimo.setIdBiblioteca(material.getIdBiblioteca());
+            emprestimo.setDataEmpretimo(calendar.getTimeInMillis());
 
             String tipo = loanTypeSpinner.getSelectedItem().toString();
             if (tipo.equals(R.string.spinner_special_option)) {
