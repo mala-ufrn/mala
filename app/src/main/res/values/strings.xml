@@ -76,6 +76,7 @@
 
     <!-- Toasts Messages -->
     <string name="materail_not_found">Material não encontrado</string>
+    <string name="loan_concluded">Empréstimo realizado.</string>
     <string name="no_barcode">Nenhum código de barras foi detectado</string>
     <string name="no_search_fields">Nenhum campo preenchido</string>
     <string name="titles_not_found">Nenhum título foi encontrado</string>
@@ -84,8 +85,32 @@
 
     <!-- Dialogs Utils -->
     <string name="ok_button">OK</string>
+    <string name="loan_button">EMPRESTAR</string>
+    <string name="back_button">VOLTAR</string>
+    <string name="sisbi_pass">Senha Sisbi</string>
+    <string name="senha_sisbi_helper">Confirme esta operaçao com sua senha da <b>biblioteca</b></string>
+
     <string name="overflow_alert">A busca retornou muitos resultados e, portanto, só serão exibidos os 300 primeiros.\n\nRecomenda-se o uso de um parâmetro auxiliar (autor, assunto&#8230;) para filtrar os resultados</string>
     <string name="partial_search_alert">Houve algum problema durante a busca e, portanto, serão exibidos os resultados parciais obtidos até então.</string>
+    <string name="status_material_nao_circula">Este material tem status de NÃO CIRCULA.\n\nPortanto, seu empréstimo não é permitido.</string>
+    <string name="situacao_material_nao_disponivel">Este material não pode ser emprestado no momento. \n\nPor favor, entregue-o ao setor de circulação da biblioteca para sua liberação.</string>
+    <string name="type_of_loans"><![CDATA[
+    <p>
+    <b>Normal.</b><br/>
+    Prazo: 15 dias, pode renovar.<br/>
+    Limite: 3 materiais.<br/>
+    </p>
+    <p>
+    <b>Especial</b><br />
+        Prazo: 1 dia, não pode renovar. <br />
+        Limite: 3 materiais. <br />
+    </p>
+    <p>
+    <b>Fotocópia</b><br />
+        Prazo: 3 horas, não pode renovar. <br />
+        Limite: 2 materiais <br />
+    </p>]]></string>
+
 
     <!-- Spinners Options -->
     <string name="spinner_normal_option">NORMAL</string>
