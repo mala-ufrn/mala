@@ -1,23 +1,13 @@
 package br.ufrn.mala.connection;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.SparseArray;
 
-import com.squareup.moshi.Json;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
-import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
@@ -47,6 +37,7 @@ public class APIStrategyDAO implements StrategyDAO {
     public static APIStrategyDAO getInstance(Context context){
         if(apiStrategyDAO == null)
             apiStrategyDAO = new APIStrategyDAO(context);
+        apiStrategyDAO.updateCredetials(context);
         return apiStrategyDAO;
     }
 
@@ -57,22 +48,22 @@ public class APIStrategyDAO implements StrategyDAO {
     }
 
     @Override
-    public UsuarioDTO getUsuarioLogado(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String usuarioLogado = apiConnection.getUsuarioLogado(token);
+    public UsuarioDTO getUsuarioLogado() throws IOException, JsonStringInvalidaException, ConnectionException {
+        String usuarioLogado = apiConnection.getUsuarioLogado();
         return JsonToObject.toUsuario(usuarioLogado);
     }
 
     @Override
-    public Integer getQuantidadeHistoricoEmprestimos(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return apiConnection.getQuantidadeEmprestimos(token, false);
+    public Integer getQuantidadeHistoricoEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return apiConnection.getQuantidadeEmprestimos(false);
     }
 
     @Override
-    public List<EmprestimoDTO> getHistoricoEmprestimos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public List<EmprestimoDTO> getHistoricoEmprestimos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
         for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
             bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
-        String emprestimosJson = apiConnection.getEmprestimos(token, false, offset);
+        String emprestimosJson = apiConnection.getEmprestimos(false, offset);
         List<EmprestimoDTO> historicoEmprestimos = JsonToObject.toEmprestimos(emprestimosJson);
         for (EmprestimoDTO emprestimo: historicoEmprestimos)
             emprestimo.setBiblioteca(bibliotecas.get(emprestimo.getIdBiblioteca()));
@@ -81,11 +72,11 @@ public class APIStrategyDAO implements StrategyDAO {
     }
 
     @Override
-    public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public List<EmprestimoDTO> getEmprestimosAtivos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
         for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
             bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
-        String emprestimosJson = apiConnection.getEmprestimos(token, true, offset);
+        String emprestimosJson = apiConnection.getEmprestimos(true, offset);
         List<EmprestimoDTO> emprestimosAtivos = JsonToObject.toEmprestimos(emprestimosJson);
         for (EmprestimoDTO emprestimo: emprestimosAtivos)
             emprestimo.setBiblioteca(bibliotecas.get(emprestimo.getIdBiblioteca()));
@@ -93,8 +84,8 @@ public class APIStrategyDAO implements StrategyDAO {
         return emprestimosAtivos;
     }
 
-    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String materialJson = apiConnection.getMaterialInformacional(token, codBarras);
+    public MaterialInformacionalDTO getMaterialInformacional(String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String materialJson = apiConnection.getMaterialInformacional(codBarras);
         if (!materialJson.equalsIgnoreCase("[]")) {
             SparseArray<BibliotecaDTO> bibliotecaSparseArray = new SparseArray<>();
             for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
@@ -120,10 +111,10 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public int buscarAcervo(String token, String titulo, String autor, String assunto,
+    public int buscarAcervo(String titulo, String autor, String assunto,
                                      String idBiblioteca, String idTipoMaterial, int offset) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
 
-            String acervosJson = apiConnection.getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
+            String acervosJson = apiConnection.getAcervo(titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
 
             // Busca não retornou nada
             if (offset == 0 && acervosJson.equalsIgnoreCase("[]"))
@@ -133,8 +124,8 @@ public class APIStrategyDAO implements StrategyDAO {
             return sqLiteConnection.insertAcervoJsonList(acervosJson, offset);
     }
 
-    public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String bibliotecasJson = apiConnection.getBibliotecas(token);
+    public boolean loadBibliotecas() throws IOException, JsonStringInvalidaException, ConnectionException {
+        String bibliotecasJson = apiConnection.getBibliotecas();
         List<BibliotecaDTO> bibliotecas = JsonToObject.toBibliotecas(bibliotecasJson);
         if (!bibliotecas.isEmpty()) {
             sqLiteStrategyDAO.insertBibliotecas(bibliotecas);
@@ -145,8 +136,8 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public boolean loadSituacoesMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String situacoesJson = apiConnection.getSituacoesMaterial(token);
+    public boolean loadSituacoesMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
+        String situacoesJson = apiConnection.getSituacoesMaterial();
         List<SituacaoMaterialDTO> situacoesMaterial = JsonToObject.toSituacoesMaterial(situacoesJson);
         if (!situacoesMaterial.isEmpty()) {
             sqLiteStrategyDAO.insertSituacoesMaterial(situacoesMaterial);
@@ -157,8 +148,8 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public boolean loadStatusMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String statusJson = apiConnection.getStatusMaterial(token);
+    public boolean loadStatusMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
+        String statusJson = apiConnection.getStatusMaterial();
         List<StatusMaterialDTO> statusMateriais = JsonToObject.toStatusMaterial(statusJson);
         if (!statusMateriais.isEmpty()) {
             sqLiteStrategyDAO.insertStatusMaterial(statusMateriais);
@@ -169,8 +160,8 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public boolean loadTiposMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String tiposJson = apiConnection.getTiposMaterial(token);
+    public boolean loadTiposMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
+        String tiposJson = apiConnection.getTiposMaterial();
         List<TipoMaterialDTO> tiposMateriais = JsonToObject.toTiposMaterial(tiposJson);
         if (!tiposMateriais.isEmpty()) {
             sqLiteStrategyDAO.insertTiposMaterial(tiposMateriais);
@@ -179,5 +170,9 @@ public class APIStrategyDAO implements StrategyDAO {
         else {
             return false;
         }
+    }
+
+    public void updateCredetials(Context context){
+        apiConnection.updateCredentials(context);
     }
 }

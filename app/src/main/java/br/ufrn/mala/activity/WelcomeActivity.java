@@ -117,13 +117,13 @@ public class WelcomeActivity extends AppCompatActivity {
             Log.i("doInBackground", "doInBackground");
             boolean success = true;
             try {
-                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadBibliotecas(params[0]);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadBibliotecas();
                 publishProgress(1);
-                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadSituacoesMaterial(params[0]);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadSituacoesMaterial();
                 publishProgress(2);
-                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadStatusMaterial(params[0]);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadStatusMaterial();
                 publishProgress(3);
-                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadTiposMaterial(params[0]);
+                success &= FacadeDAO.getInstance(WelcomeActivity.this).loadTiposMaterial();
 
             } catch (Exception e) {
                 e.printStackTrace();

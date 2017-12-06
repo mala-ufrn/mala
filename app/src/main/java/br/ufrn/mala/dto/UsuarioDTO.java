@@ -1,7 +1,5 @@
 package br.ufrn.mala.dto;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by Joel Felipe on 02/10/17.
  */
@@ -26,7 +24,7 @@ public class UsuarioDTO {
 
     private String chaveFoto;
 
-    private Bitmap foto;
+    private String foto;
 
     public String getChaveFoto() {
         return chaveFoto;
@@ -100,11 +98,11 @@ public class UsuarioDTO {
         this.email = email;
     }
 
-    public Bitmap getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(Bitmap foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 }

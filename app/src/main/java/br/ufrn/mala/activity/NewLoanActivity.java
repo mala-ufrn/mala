@@ -13,17 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
-
 import br.ufrn.mala.R;
-import br.ufrn.mala.barcode.*;
+import br.ufrn.mala.barcode.IntentIntegrator;
+import br.ufrn.mala.barcode.IntentResult;
 import br.ufrn.mala.connection.FacadeDAO;
-import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
-import br.ufrn.mala.exception.ConnectionException;
-import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 
@@ -117,7 +111,7 @@ public class NewLoanActivity extends AppCompatActivity {
 
         protected MaterialInformacionalDTO doInBackground(String... params) {
             try {
-                return FacadeDAO.getInstance(NewLoanActivity.this).getMaterialInformacional(params[0], params[1]);
+                return FacadeDAO.getInstance(NewLoanActivity.this).getMaterialInformacional(params[1]);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -2,7 +2,6 @@ package br.ufrn.mala.activity.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,7 +25,6 @@ import br.ufrn.mala.activity.NewLoanActivity;
 import br.ufrn.mala.auxiliar.LoanListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
-import br.ufrn.mala.util.Constants;
 
 /**
  * Created by paulo on 23/10/17.
@@ -185,7 +183,7 @@ public class LoanListFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
-                return FacadeDAO.getInstance(getActivity()).getEmprestimosAtivos(params[0], offsetEmprestimos);
+                return FacadeDAO.getInstance(getActivity()).getEmprestimosAtivos(offsetEmprestimos);
             } catch (Exception e) {
                 e.printStackTrace();
             }
