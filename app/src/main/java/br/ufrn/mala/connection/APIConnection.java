@@ -2,6 +2,8 @@ package br.ufrn.mala.connection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
@@ -71,6 +73,22 @@ public class APIConnection {
     public UsuarioDTO setUsuarioLogado(String token) throws JsonStringInvalidaException, IOException, ConnectionException {
         String usuario = getUsuarioLogado(token);
         usuarioLogado = JsonToObject.toUsuario(usuario);
+        String url = Uri.parse("https://sigaa.ufrn.br/sigaa/verProducao")
+                .buildUpon()
+                .appendQueryParameter("idProducao", usuarioLogado.getIdFoto().toString())
+                .appendQueryParameter("key", usuarioLogado.getChaveFoto())
+                .build()
+                .toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        Response response = client.newCall(request).execute();
+        Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
+        usuarioLogado.setFoto(bitmap);
         sqLiteConnection.setUsuarioLogado(usuarioLogado);
         return usuarioLogado;
     }
