@@ -5,16 +5,22 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
+import ca.mimic.oauth2library.OAuth2Client;
+import ca.mimic.oauth2library.OAuthResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -27,6 +33,8 @@ import okhttp3.Response;
  */
 
 public class APIConnection {
+
+    private String token;
 
     private static APIConnection apiConnection;
     private static SQLiteConnection sqLiteConnection;
@@ -64,14 +72,14 @@ public class APIConnection {
 
     /**
      * Atualizar o usuário logado na aplicação
-     * @param token Token de acesso à API da UFRN
      * @return Usuário logado na aplicação
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
     public UsuarioDTO setUsuarioLogado(String token) throws JsonStringInvalidaException, IOException, ConnectionException {
-        String usuario = getUsuarioLogado(token);
+        this.token = token;
+        String usuario = getUsuarioLogado();
         usuarioLogado = JsonToObject.toUsuario(usuario);
         String url = Uri.parse("https://sigaa.ufrn.br/sigaa/verProducao")
                 .buildUpon()
@@ -87,106 +95,105 @@ public class APIConnection {
 
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
+
         Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
-        usuarioLogado.setFoto(bitmap);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        usuarioLogado.setFoto(encodedImage);
+
         sqLiteConnection.setUsuarioLogado(usuarioLogado);
         return usuarioLogado;
     }
 
     /**
      * Consultar o usuário logado na aplicação
-     * @param token Token de acesso à API da UFRN
      * @return JSON do usuário logado na aplicação
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getUsuarioLogado(String token) throws IOException, ConnectionException {
+    public String getUsuarioLogado() throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_USUARIO_INFO)
                 .build()
                 .toString();
-
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consultar todas as bibliotecas da UFRN, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @return JSON da biblioteca
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getBibliotecas(String token) throws IOException, ConnectionException {
+    public String getBibliotecas() throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_BIBLIOTECAS)
                 .appendQueryParameter("limit", "100")
                 .build()
                 .toString();
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consultar todas as Situações de Material, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @return JSON das Situações
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getSituacoesMaterial(String token) throws IOException, ConnectionException {
+    public String getSituacoesMaterial() throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_SITUACOES)
                 .appendQueryParameter("limit", "100")
                 .build()
                 .toString();
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consultar todos os Status de Material, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @return JSON dos Status
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getStatusMaterial(String token) throws IOException, ConnectionException {
+    public String getStatusMaterial() throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_STATUS)
                 .appendQueryParameter("limit", "100")
                 .build()
                 .toString();
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consultar todos os Tipos de Material, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @return JSON dos Tipos de Material
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getTiposMaterial(String token) throws IOException, ConnectionException {
+    public String getTiposMaterial() throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_TIPOS_MATERIAL)
                 .appendQueryParameter("limit", "100")
                 .build()
                 .toString();
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consultar a quantidade de empréstimos do usuário logado, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @param ativo Indica se os empréstimos consultados serão os ativos(true), inativos(false) ou ambos(null)
      * @return Quantidade de empréstimos
      * @throws IOException
      * @throws ConnectionException
      */
-    public Integer getQuantidadeEmprestimos(String token, Boolean ativo) throws IOException, ConnectionException {
+    public Integer getQuantidadeEmprestimos(Boolean ativo) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_EMPRESTIMOS)
@@ -194,19 +201,18 @@ public class APIConnection {
                 .appendQueryParameter("emprestado", ativo.toString())
                 .build()
                 .toString();
-        return getQuantidadeConsulta(token, url);
+        return getQuantidadeConsulta(url);
     }
 
     /**
      * Consulta os empréstimos do usuário logado, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @param ativo Indica se os empréstimos consultados serão os ativos(true), inativos(false) ou ambos(null)
      * @param offset Offset usado na consulta
      * @return JSON da lista de empréstimos
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getEmprestimos(String token, Boolean ativo, Integer offset) throws IOException, ConnectionException {
+    public String getEmprestimos(Boolean ativo, Integer offset) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_EMPRESTIMOS)
@@ -217,30 +223,28 @@ public class APIConnection {
                 .appendQueryParameter("order-desc", "data-emprestimo")
                 .build()
                 .toString();
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consulta um material informacional pelo cód. barras fornecido, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @param codBarras Código de barras a ser consultado
      * @return JSON do Material Informacional
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getMaterialInformacional(String token, String codBarras) throws IOException, ConnectionException {
+    public String getMaterialInformacional(String codBarras) throws IOException, ConnectionException {
         String url = Uri.parse(URL_BASE)
                 .buildUpon()
                 .appendEncodedPath(PATH_BIBLIOTECA_MATERIAIS)
                 .appendQueryParameter("codigo-barras", codBarras)
                 .build()
                 .toString();
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Consulta Títulos no acervo pelos parâmetros fornecidos, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @param titulo título de material a ser consultado
      * @param autor autor principal ou secundário do material a ser consultado
      * @param assunto assunto de material a ser consultado
@@ -251,7 +255,7 @@ public class APIConnection {
      * @throws IOException
      * @throws ConnectionException
      */
-    public String getAcervo(String token, String titulo, String autor, String assunto, String idBib,
+    public String getAcervo(String titulo, String autor, String assunto, String idBib,
                             String idTipoMat, Integer offset) throws IOException, ConnectionException {
         Uri.Builder uriBuilder = Uri.parse(URL_BASE)
                 .buildUpon()
@@ -274,18 +278,17 @@ public class APIConnection {
                 .toString();
 
         Log.d("URL", url);
-        return getDados(token, url);
+        return getDados(url);
     }
 
     /**
      * Realizar a consulta, na API da UFRN
-     * @param token Token de acesso à API da UFRN
      * @param url URL da consulta
      * @return JSON da consulta
      * @throws IOException
      * @throws ConnectionException
      */
-    private String getDados(String token, String url) throws IOException, ConnectionException {
+    private String getDados(String url) throws IOException, ConnectionException {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -305,13 +308,12 @@ public class APIConnection {
 
     /**
      * Resgatar a quantidade total de registros da consulta
-     * @param token Token de acesso à API da UFRN
      * @param url URL da consulta
      * @return JSON da consulta
      * @throws IOException
      * @throws ConnectionException
      */
-    private Integer getQuantidadeConsulta(String token, String url) throws IOException, ConnectionException {
+    private Integer getQuantidadeConsulta(String url) throws IOException, ConnectionException {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
@@ -328,5 +330,34 @@ public class APIConnection {
         if (!response.isSuccessful())
             throw new ConnectionException("Erro ao se conectar com o servidor", new Throwable(response.message()));
         return Integer.parseInt(result);
+    }
+
+    public void updateCredentials(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(Constants.KEY_USER_INFO, 0);
+        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
+        String refreshtoken = preferences.getString(Constants.KEY_REFRESH_TOKEN, null);
+        Long expiresAt = preferences.getLong(Constants.KEY_EXPIRES_AT, 0);
+
+        if (accessToken != null) {
+            if (System.currentTimeMillis() > expiresAt) {
+                try {
+                    OAuth2Client client;
+                    Map<String, String> map = new HashMap<>();
+                    map.put(Constants.RESPONSE_TYPE_REFRESH, refreshtoken);
+
+                    client = new OAuth2Client.Builder(Constants.CLIENT_ID_VALUE, Constants.SECRET_KEY, Constants.ACCESS_TOKEN_URL)
+                            .grantType(Constants.GRANT_TYPE_REFRESH)
+                            .parameters(map)
+                            .build();
+
+                    OAuthResponse response = client.requestAccessToken();
+                    if (response.isSuccessful())
+                        Preferences.savePreferences(context, response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        this.token = accessToken;
     }
 }

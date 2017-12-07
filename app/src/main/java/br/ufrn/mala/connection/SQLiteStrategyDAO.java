@@ -46,22 +46,22 @@ public class SQLiteStrategyDAO implements StrategyDAO {
     }
 
     @Override
-    public UsuarioDTO getUsuarioLogado(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public UsuarioDTO getUsuarioLogado() throws IOException, JsonStringInvalidaException, ConnectionException {
         return sqLiteConnection.getUsuarioLogado();
     }
 
     @Override
-    public Integer getQuantidadeHistoricoEmprestimos(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public Integer getQuantidadeHistoricoEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException {
         return sqLiteConnection.getQuantidadeEmprestimos(false);
     }
 
     @Override
-    public List<EmprestimoDTO> getHistoricoEmprestimos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public List<EmprestimoDTO> getHistoricoEmprestimos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return sqLiteConnection.getEmprestimos(false, offset);
     }
 
     @Override
-    public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public List<EmprestimoDTO> getEmprestimosAtivos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return sqLiteConnection.getEmprestimos(true, offset);
     }
 

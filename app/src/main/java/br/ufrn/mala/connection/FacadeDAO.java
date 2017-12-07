@@ -50,39 +50,36 @@ public class FacadeDAO {
 
     /**
      * Consultar o usuário logado na aplicação
-     * @param token Token de acesso à API da SINFO
      * @return Usuário logado na aplicação
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public UsuarioDTO getUsuarioLogado(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return strategyDAO.getUsuarioLogado(token);
+    public UsuarioDTO getUsuarioLogado() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return strategyDAO.getUsuarioLogado();
     }
 
     /**
      * Consultar a quantidade de empréstimos do histórico de empréstimos do usuário logado
-     * @param token Token de acesso à API da UFRN
      * @return Quantidade de empréstimos
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public Integer getQuantidadeHistoricoEmprestimos(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return strategyDAO.getQuantidadeHistoricoEmprestimos(token);
+    public Integer getQuantidadeHistoricoEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return strategyDAO.getQuantidadeHistoricoEmprestimos();
     }
 
     /**
      * Consultar o histórico de empréstimos do usuário logado
-     * @param token Token de acesso à API da UFRN
      * @param offset Offset usado na consulta
      * @return Historico de empréstimos
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public List<EmprestimoDTO> getHistoricoEmprestimos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return strategyDAO.getHistoricoEmprestimos(token, offset);
+    public List<EmprestimoDTO> getHistoricoEmprestimos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+        return strategyDAO.getHistoricoEmprestimos(offset);
     }
 
     /**
@@ -103,16 +100,15 @@ public class FacadeDAO {
 
     /**
      * Consultar o Material Informacional pelo código de barras, na API
-     * @param token Token de acesso à API da UFRN
      * @param codBarras Código de Barras
      * @return Empréstimos ativos
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
+    public MaterialInformacionalDTO getMaterialInformacional(String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
         if (connected) {
-            return ((APIStrategyDAO)strategyDAO).getMaterialInformacional(token, codBarras);
+            return ((APIStrategyDAO)strategyDAO).getMaterialInformacional(codBarras);
         }
         else {
             return null;
@@ -121,15 +117,14 @@ public class FacadeDAO {
 
     /**
      * Consultar os empréstimos ativos do usuário logado
-     * @param token Token de acesso à API da UFRN
      * @param offset Offset usado na consulta
      * @return Empréstimos ativos
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
-        strategyDAO.getEmprestimosAtivos(token, offset);
+    public List<EmprestimoDTO> getEmprestimosAtivos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
+        System.out.println(strategyDAO.getEmprestimosAtivos(offset));
         return SQLiteConnection.getInstance(context).getEmprestimos(true, offset);
     }
 
@@ -177,7 +172,7 @@ public class FacadeDAO {
     public int buscarAcervo(String token, String titulo, String autor, String assunto,
                                      String idBiblioteca, String idTipoMaterial, int offset) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
         if (connected) {
-            return ((APIStrategyDAO)strategyDAO).buscarAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
+            return ((APIStrategyDAO)strategyDAO).buscarAcervo(titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
         }
         else {
             return -1;
@@ -193,50 +188,46 @@ public class FacadeDAO {
 
     /**
      * Carrega as bibliotecas cadastradas na SINFO para o banco SQLite
-     * @param token Token de acesso à API da UFRN
      * @return true se o load for correto
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO) strategyDAO).loadBibliotecas(token);
+    public boolean loadBibliotecas() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO) strategyDAO).loadBibliotecas();
     }
 
     /**
      * Carrega as situações de materiais informacionais cadastradas na SINFO para o banco SQLite
-     * @param token Token de acesso à API da UFRN
      * @return true se o load for correto
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public boolean loadSituacoesMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadSituacoesMaterial(token);
+    public boolean loadSituacoesMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadSituacoesMaterial();
     }
 
     /**
      * Carrega os status de materiais informacionais cadastrados na SINFO para o banco SQLite
-     * @param token Token de acesso à API da UFRN
      * @return true se o load for correto
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public boolean loadStatusMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadStatusMaterial(token);
+    public boolean loadStatusMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadStatusMaterial();
     }
 
     /**
      * Carrega os tipos de materiais informacionais cadastrados na SINFO para o banco SQLite
-     * @param token Token de acesso à API da UFRN
      * @return true se o load for correto
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public boolean loadTiposMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadTiposMaterial(token);
+    public boolean loadTiposMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return connected && ((APIStrategyDAO)strategyDAO).loadTiposMaterial();
     }
 
     /**

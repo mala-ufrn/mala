@@ -119,7 +119,7 @@ public class NewLoanActivity extends AppCompatActivity {
 
         protected MaterialInformacionalDTO doInBackground(String... params) {
             try {
-                return FacadeDAO.getInstance(NewLoanActivity.this).getMaterialInformacional(params[0], params[1]);
+                return FacadeDAO.getInstance(NewLoanActivity.this).getMaterialInformacional(params[1]);
             } catch (Exception e) {
                 e.printStackTrace();
             }

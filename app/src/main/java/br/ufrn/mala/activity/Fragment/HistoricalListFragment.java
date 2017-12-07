@@ -2,12 +2,10 @@ package br.ufrn.mala.activity.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import br.ufrn.mala.activity.MainActivity;
 import br.ufrn.mala.auxiliar.HistoricalListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
-import br.ufrn.mala.util.Constants;
 
 /**
  * Created by paulo on 23/10/17.
@@ -133,7 +130,7 @@ public class HistoricalListFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
-                return FacadeDAO.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
+                return FacadeDAO.getInstance(getActivity()).getHistoricoEmprestimos(offsetEmprestimos);
             } catch (Exception e) {
                 e.printStackTrace();
             }

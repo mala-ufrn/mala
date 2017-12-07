@@ -176,7 +176,7 @@ public class LoanListFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
-                return FacadeDAO.getInstance(getActivity()).getEmprestimosAtivos(params[0], offsetEmprestimos);
+                return FacadeDAO.getInstance(getActivity()).getEmprestimosAtivos(offsetEmprestimos);
             } catch (Exception e) {
                 e.printStackTrace();
             }

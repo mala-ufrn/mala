@@ -1,11 +1,11 @@
 package br.ufrn.mala.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,6 @@ import br.ufrn.mala.R;
 import br.ufrn.mala.activity.Fragment.HistoricalListFragment;
 import br.ufrn.mala.activity.Fragment.LoanListFragment;
 import br.ufrn.mala.activity.Fragment.SearchFragment;
-import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 /**
@@ -94,7 +94,12 @@ public class MainActivity extends AppCompatActivity
         TextView profName = (TextView)header.findViewById(R.id.profile_name);
         ImageView profPhoto = (ImageView)header.findViewById(R.id.profile_image);
         profName.setText(usuarioLogado.getNomePessoa());
-        profPhoto.setImageBitmap(usuarioLogado.getFoto());
+
+        if(!usuarioLogado.getFoto().equalsIgnoreCase("")){
+            byte[] b = Base64.decode(usuarioLogado.getFoto(), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+            profPhoto.setImageBitmap(bitmap);
+        }
 
         // Cria um novo fragment
         fm = getSupportFragmentManager();
