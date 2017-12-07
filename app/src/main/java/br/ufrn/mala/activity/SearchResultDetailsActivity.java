@@ -42,12 +42,12 @@ public class SearchResultDetailsActivity extends AppCompatActivity {
 
     private void prepareDetails(){
 
-        TextView regSis = (TextView) findViewById(R.id.sr_regsis_input);
-        TextView titulo = (TextView) findViewById(R.id.sr_title_input);
+        TextView regSis = (TextView) findViewById(R.id.ln_cod_barras_input);
+        TextView titulo = (TextView) findViewById(R.id.ln_title_input);
         TextView subTituloLabel = (TextView) findViewById(R.id.sr_subtitle_lbl);
         TextView subTitulo = (TextView) findViewById(R.id.sr_subtitle_input);
-        TextView autoresLabel = (TextView) findViewById(R.id.sr_author_lbl);
-        LinearLayout autores = (LinearLayout) findViewById(R.id.sr_author_input);
+        TextView autoresLabel = (TextView) findViewById(R.id.ln_author_lbl);
+        LinearLayout autores = (LinearLayout) findViewById(R.id.ln_author_input);
         TextView assuntosLabel = (TextView) findViewById(R.id.sr_subject_lbl);
         LinearLayout assuntos = (LinearLayout) findViewById(R.id.sr_subject_input);
         TextView edicaoLabel = (TextView) findViewById(R.id.sr_edition_lbl);
@@ -56,8 +56,8 @@ public class SearchResultDetailsActivity extends AppCompatActivity {
         TextView editora = (TextView) findViewById(R.id.sr_pub_house_input);
         TextView anoLabel = (TextView) findViewById(R.id.sr_year_lbl);
         TextView ano = (TextView) findViewById(R.id.sr_year_input);
-        TextView biblioteca = (TextView) findViewById(R.id.sr_library_input);
-        TextView localizacao = (TextView) findViewById(R.id.sr_local_input);
+        TextView biblioteca = (TextView) findViewById(R.id.ln_library_input);
+        TextView localizacao = (TextView) findViewById(R.id.ln_local_input);
         TextView tipoMaterial = (TextView) findViewById(R.id.sr_mat_type_input);
         TextView quantidade = (TextView) findViewById(R.id.sr_qnt_input);
 

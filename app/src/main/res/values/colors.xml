@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#1B3951</color>
-    <color name="primary_dark">#325775</color>
-    <color name="primary_darker">#059F9E</color>
+    <color name="primary_light">#325775</color>
+    <color name="primary_lighter">#059F9E</color>
     <color name="primary_blue">#33CCFF</color>
     <color name="accent">#BDBDBD</color>
 
@@ -17,9 +17,7 @@
     <color name="listgreen">#E6FFE6</color>
     <color name="listgray">#f2f2f2</color>
     <color name="listblue">#F4FDFF</color>
-    <color name="listblueborder">#CAF5FF</color>
-    <color name="local_orange">#ffa500</color>
-    <color name="bold_orange">#ff8c00</color>
+    <color name="listblueborder">#CFFAE5</color>
 
 
 

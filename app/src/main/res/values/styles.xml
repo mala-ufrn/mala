@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/white</item>
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary_light</item>
         <item name="colorAccent">@color/accent</item>
     </style>
 
@@ -23,10 +23,10 @@
     <!-- ActivityLogin theme (Without ActionBar)-->
     <style name="ActLoginTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary_light</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowBackground">@color/primary</item>
-        <item name="colorButtonNormal">@color/primary_darker</item>
+        <item name="colorButtonNormal">@color/primary_lighter</item>
     </style>
 
     <!-- Stuffs themes -->

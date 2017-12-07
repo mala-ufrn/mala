@@ -2,7 +2,6 @@ package br.ufrn.mala.activity.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,7 +25,6 @@ import br.ufrn.mala.activity.NewLoanActivity;
 import br.ufrn.mala.auxiliar.LoanListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
-import br.ufrn.mala.util.Constants;
 
 /**
  * Created by paulo on 23/10/17.
@@ -66,7 +64,7 @@ public class LoanListFragment extends Fragment {
         fab.setImageResource(R.drawable.ic_add_black_24dp);
 
         swipeRefreshLayout = (SwipeRefreshLayout) fragmentView.findViewById(R.id.swiperefresh);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_darker));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_lighter));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                  @Override
@@ -160,15 +158,8 @@ public class LoanListFragment extends Fragment {
         expandableListViewEmprestimo.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
-                int position = 1; // Sempre há o group header 0, que conta como primeiro item
-
-                for (int groupIndex = 0; groupIndex < groupPosition; groupIndex++)
-                    position += parent.getExpandableListAdapter().getChildrenCount(groupIndex);
-
-                position += groupPosition + childPosition;
-
                 Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
-                i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getAdapter().getItem(position));
+                i.putExtra("emprestimo", (Serializable) expandableListViewEmprestimo.getExpandableListAdapter().getChild(groupPosition, childPosition));
                 startActivity(i);
 
                 return false;

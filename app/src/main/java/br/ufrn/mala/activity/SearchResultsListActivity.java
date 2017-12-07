@@ -120,15 +120,9 @@ public class SearchResultsListActivity extends AppCompatActivity {
         expandableListResults.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
-                int position = 1; // Sempre há o group header 0, que conta como primeiro item
-
-                for (int groupIndex = 0; groupIndex < groupPosition; groupIndex++)
-                    position += parent.getExpandableListAdapter().getChildrenCount(groupIndex);
-
-                position += groupPosition + childPosition;
 
                 Intent i = new Intent(SearchResultsListActivity.this, SearchResultDetailsActivity.class);
-                i.putExtra("titulo_acervo", (Serializable) expandableListResults.getAdapter().getItem(position));
+                i.putExtra("titulo_acervo", (Serializable) expandableListResults.getExpandableListAdapter().getChild(groupPosition, childPosition));
                 startActivity(i);
 
                 return false;
