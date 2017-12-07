@@ -3,18 +3,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/myLoan"
+            android:id="@+id/my_loan"
             android:icon="@drawable/ic_collections_bookmark_black_24dp"
-            android:title="@string/myLoans"
-            android:checked="true"/>
+            android:title="@string/my_loans"/>
         <item
             android:id="@+id/loan_historical"
             android:icon="@drawable/ic_style_black_24dp"
             android:title="@string/loan_historical" />
         <item
-            android:id="@+id/changePass_Sisbi"
+            android:id="@+id/search_in_collection"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/search_in_collection"/>
+        <item
+            android:id="@+id/change_pass_sisbi"
             android:icon="@drawable/ic_vpn_key_black_24dp"
-            android:title="@string/changePass_Sisbi"
+            android:title="@string/change_pass_sisbi"
             android:enabled="false"/>
         <item
             android:id="@+id/issue_discharge"
@@ -33,9 +36,9 @@
             android:title="@string/faq"
             android:enabled="false"/>
         <item
-            android:id="@+id/aboutUs"
+            android:id="@+id/about_us"
             android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="@string/aboutUs"
+            android:title="@string/about_us"
             android:enabled="false"/>
         <item
             android:id="@+id/exit"

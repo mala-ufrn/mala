@@ -1,15 +1,19 @@
 package br.ufrn.mala.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
@@ -32,7 +36,7 @@ import ca.mimic.oauth2library.OAuthResponse;
  * Created by Joel Felipe on 02/10/17.
  */
 
-public class LogonActivity extends AppCompatActivity {
+public class AuthorizationActivity extends AppCompatActivity {
 
     private WebView webView;
     private ProgressDialog pd;
@@ -40,7 +44,7 @@ public class LogonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logon);
+        setContentView(R.layout.activity_authorization);
 
         webView = (WebView) findViewById(R.id.main_activity_web_view);
         webView.requestFocus(View.FOCUS_DOWN);
@@ -76,6 +80,13 @@ public class LogonActivity extends AppCompatActivity {
 
                     new PostRequestAsyncTask().execute(authorizationToken);
 
+                    // Fecha o teclado, caso esteja aberto.
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    try {
+                        imm.hideSoftInputFromWindow(webView.getWindowToken(),0);
+                    } catch (NullPointerException e) {
+                        Log.e("HideKeyboard", "Exception" + e);
+                    }
                 } else {
                     webView.loadUrl(authorizationUrl);
                 }
@@ -101,7 +112,7 @@ public class LogonActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pd = ProgressDialog.show(LogonActivity.this, "", "loading", true);
+            pd = ProgressDialog.show(AuthorizationActivity.this, "", "loading", true);
         }
 
         @Override
@@ -120,16 +131,10 @@ public class LogonActivity extends AppCompatActivity {
 
                 OAuthResponse response = client.requestAccessToken();
                 if (response.isSuccessful()) {
-                    Preferences.savePreferences(LogonActivity.this, response);
+                    Preferences.savePreferences(AuthorizationActivity.this, response);
                     return true;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                Toast.makeText(LogonActivity.this, "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            } catch (ConnectionException e) {
-                Toast.makeText(LogonActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return false;
@@ -141,8 +146,9 @@ public class LogonActivity extends AppCompatActivity {
                 pd.dismiss();
             }
             if (status) {
-                Intent startProfileActivity = new Intent(LogonActivity.this, PrincipalActivity.class);
-                LogonActivity.this.startActivity(startProfileActivity);
+                Intent startProfileActivity = new Intent(AuthorizationActivity.this, WelcomeActivity.class);
+                startProfileActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                AuthorizationActivity.this.startActivity(startProfileActivity);
             }
         }
 
@@ -156,7 +162,7 @@ public class LogonActivity extends AppCompatActivity {
             CookieManager.getInstance().flush();
         } else {
             Log.d("removing cookie", "Using clearCookies code for API <" + String.valueOf(Build.VERSION_CODES.LOLLIPOP_MR1));
-            CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(LogonActivity.this);
+            CookieSyncManager cookieSyncMngr=CookieSyncManager.createInstance(AuthorizationActivity.this);
             cookieSyncMngr.startSync();
             CookieManager cookieManager=CookieManager.getInstance();
             cookieManager.removeAllCookie();

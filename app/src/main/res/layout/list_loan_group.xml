@@ -6,9 +6,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:paddingTop="3dp"
         android:paddingBottom="1dp"
         android:orientation="horizontal"
         android:background="@drawable/blue_botton_line_bg">
@@ -20,7 +22,7 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="8"
             android:text="Grupo"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="@color/primary_blue" />
 
         <TextView
@@ -31,7 +33,7 @@
             android:layout_weight="2"
             android:gravity="right"
             android:text="Qtde"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="@color/primary_blue" />
 
 

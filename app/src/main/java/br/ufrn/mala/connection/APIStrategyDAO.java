@@ -1,13 +1,29 @@
 package br.ufrn.mala.connection;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.SparseArray;
 
-import java.io.IOException;
-import java.util.List;
+import com.squareup.moshi.Json;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.MaterialInformacionalDTO;
+import br.ufrn.mala.dto.SituacaoMaterialDTO;
+import br.ufrn.mala.dto.StatusMaterialDTO;
+import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -26,6 +42,7 @@ public class APIStrategyDAO implements StrategyDAO {
     private static APIStrategyDAO apiStrategyDAO;
     private static SQLiteStrategyDAO sqLiteStrategyDAO;
     private APIConnection apiConnection;
+    private SQLiteConnection sqLiteConnection;
 
     public static APIStrategyDAO getInstance(Context context){
         if(apiStrategyDAO == null)
@@ -35,6 +52,7 @@ public class APIStrategyDAO implements StrategyDAO {
 
     private APIStrategyDAO(Context context) {
         apiConnection = APIConnection.getInstance(context);
+        sqLiteConnection = SQLiteConnection.getInstance(context);
         sqLiteStrategyDAO = SQLiteStrategyDAO.getInstance(context);
     }
 
@@ -52,7 +70,7 @@ public class APIStrategyDAO implements StrategyDAO {
     @Override
     public List<EmprestimoDTO> getHistoricoEmprestimos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
-        for (BibliotecaDTO biblioteca: getBibliotecas(token))
+        for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
             bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
         String emprestimosJson = apiConnection.getEmprestimos(token, false, offset);
         List<EmprestimoDTO> historicoEmprestimos = JsonToObject.toEmprestimos(emprestimosJson);
@@ -65,7 +83,7 @@ public class APIStrategyDAO implements StrategyDAO {
     @Override
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         SparseArray<BibliotecaDTO> bibliotecas = new SparseArray<>();
-        for (BibliotecaDTO biblioteca: getBibliotecas(token))
+        for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
             bibliotecas.put(biblioteca.getIdBiblioteca(), biblioteca);
         String emprestimosJson = apiConnection.getEmprestimos(token, true, offset);
         List<EmprestimoDTO> emprestimosAtivos = JsonToObject.toEmprestimos(emprestimosJson);
@@ -75,8 +93,91 @@ public class APIStrategyDAO implements StrategyDAO {
         return emprestimosAtivos;
     }
 
-    private List<BibliotecaDTO> getBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        String biblioteca = apiConnection.getBibliotecas(token);
-        return JsonToObject.toBibliotecas(biblioteca);
+    public MaterialInformacionalDTO getMaterialInformacional(String token, String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String materialJson = apiConnection.getMaterialInformacional(token, codBarras);
+        if (!materialJson.equalsIgnoreCase("[]")) {
+            SparseArray<BibliotecaDTO> bibliotecaSparseArray = new SparseArray<>();
+            for (BibliotecaDTO biblioteca: sqLiteConnection.getBibliotecas(false))
+                bibliotecaSparseArray.put(biblioteca.getIdBiblioteca(), biblioteca);
+            SparseArray<SituacaoMaterialDTO> situacaoMaterialSparseArray = new SparseArray<>();
+            for (SituacaoMaterialDTO situacaoMaterial: sqLiteConnection.getSituacoesMaterial())
+                situacaoMaterialSparseArray.put(situacaoMaterial.getIdSituacaoMaterial(), situacaoMaterial);
+            SparseArray<StatusMaterialDTO> statusMaterialSparseArray = new SparseArray<>();
+            for (StatusMaterialDTO statusMaterial : sqLiteConnection.getStatusMateriais())
+                statusMaterialSparseArray.put(statusMaterial.getIdStatusMaterial(), statusMaterial);
+            SparseArray<TipoMaterialDTO> tipoMaterialparseArray = new SparseArray<>();
+            for (TipoMaterialDTO tipoMaterial : sqLiteConnection.getTiposMaterial())
+                tipoMaterialparseArray.put(tipoMaterial.getIdTipoMaterial(), tipoMaterial);
+            MaterialInformacionalDTO materialInformacional = JsonToObject.toMaterialInformacional(materialJson);
+            materialInformacional.setBiblioteca(bibliotecaSparseArray.get(materialInformacional.getIdBiblioteca()));
+            materialInformacional.setSituacaoMaterial(situacaoMaterialSparseArray.get(materialInformacional.getIdSituacaoMaterial()));
+            materialInformacional.setStatusMaterial(statusMaterialSparseArray.get(materialInformacional.getIdStatusMaterial()));
+            materialInformacional.setTipoMaterial(tipoMaterialparseArray.get(materialInformacional.getIdTipoMaterial()));
+            return materialInformacional;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public int buscarAcervo(String token, String titulo, String autor, String assunto,
+                                     String idBiblioteca, String idTipoMaterial, int offset) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
+
+            String acervosJson = apiConnection.getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
+
+            // Busca não retornou nada
+            if (offset == 0 && acervosJson.equalsIgnoreCase("[]"))
+                return -2;
+
+            // Conta as linhas inseridas no banco e retorna este valor
+            return sqLiteConnection.insertAcervoJsonList(acervosJson, offset);
+    }
+
+    public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String bibliotecasJson = apiConnection.getBibliotecas(token);
+        List<BibliotecaDTO> bibliotecas = JsonToObject.toBibliotecas(bibliotecasJson);
+        if (!bibliotecas.isEmpty()) {
+            sqLiteStrategyDAO.insertBibliotecas(bibliotecas);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean loadSituacoesMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String situacoesJson = apiConnection.getSituacoesMaterial(token);
+        List<SituacaoMaterialDTO> situacoesMaterial = JsonToObject.toSituacoesMaterial(situacoesJson);
+        if (!situacoesMaterial.isEmpty()) {
+            sqLiteStrategyDAO.insertSituacoesMaterial(situacoesMaterial);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean loadStatusMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String statusJson = apiConnection.getStatusMaterial(token);
+        List<StatusMaterialDTO> statusMateriais = JsonToObject.toStatusMaterial(statusJson);
+        if (!statusMateriais.isEmpty()) {
+            sqLiteStrategyDAO.insertStatusMaterial(statusMateriais);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean loadTiposMaterial(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
+        String tiposJson = apiConnection.getTiposMaterial(token);
+        List<TipoMaterialDTO> tiposMateriais = JsonToObject.toTiposMaterial(tiposJson);
+        if (!tiposMateriais.isEmpty()) {
+            sqLiteStrategyDAO.insertTiposMaterial(tiposMateriais);
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
