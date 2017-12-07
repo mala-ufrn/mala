@@ -21,6 +21,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     "sigla TEXT, " +
                     "site TEXT " +
             ");";
+
+    private static final String SITUACAO_MATERIAL_CREATE =
+            "CREATE TABLE situacao_material ( " +
+                    "descricao TEXT, " +
+                    "id_situacao_material INTEGER PRIMARY KEY" +
+                    ");";
+
+    private static final String STATUS_MATERIAL_CREATE =
+            "CREATE TABLE status_material ( " +
+                    "descricao TEXT, " +
+                    "id_status_material INTEGER PRIMARY KEY" +
+                    ");";
+
+    private static final String TIPO_MATERIAL_CREATE =
+            "CREATE TABLE tipo_material ( " +
+                    "descricao TEXT, " +
+                    "id_tipo_material INTEGER PRIMARY KEY" +
+                    ");";
+
     private static final String EMPRESTIMO_CREATE =
             "CREATE TABLE emprestimo ( " +
                     "id_emprestimo INTEGER PRIMARY KEY, " +
@@ -40,6 +59,50 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY(id_biblioteca) REFERENCES biblioteca(id_biblioteca) " +
             "); ";
 
+    private static final String ACERVO_CREATE =
+            "CREATE TABLE acervo ( " +
+                    "id_acervo INTEGER PRIMARY KEY, " +
+                    "ano TEXT, " +
+                    "autor TEXT, " +
+                    "descricao_fisica TEXT, " +
+                    "edicao TEXT, " +
+                    "editora TEXT, " +
+                    "endereco_eletronico TEXT, " +
+                    "id_biblioteca INTEGER, " +
+                    "id_tipo_material INTEGER, " +
+                    "intervalo_paginas TEXT, " +
+                    "isbn TEXT, " +
+                    "issn TEXT, " +
+                    "local_publicacao TEXT, " +
+                    "nota_conteudo TEXT, " +
+                    "notas_gerais TEXT, " +
+                    "notas_locais TEXT, " +
+                    "numero_chamada TEXT, " +
+                    "quantidade INTEGER, " +
+                    "registro_sistema INTEGER, " +
+                    "resumo TEXT, " +
+                    "serie TEXT, " +
+                    "sub_titulo TEXT, " +
+                    "tipo_material TEXT," +
+                    "titulo TEXT, " +
+                    "FOREIGN KEY(id_tipo_material) REFERENCES tipo_material(id_tipo_material), " +
+                    "FOREIGN KEY(id_biblioteca) REFERENCES biblioteca(id_biblioteca) " +
+                    "); ";
+
+    private static final String ACERVO_AUTOR_SECUNDARIO_CREATE =
+            "CREATE TABLE acervo_autor_secundario ( " +
+                    "autor TEXT, " +
+                    "id_acervo INTEGER, " +
+                    "FOREIGN KEY(id_acervo) REFERENCES acervo(id_acervo) " +
+                    ");";
+
+    private static final String ACERVO_ASSUNTO_CREATE =
+            "CREATE TABLE acervo_assunto ( " +
+                    "assunto TEXT, " +
+                    "id_acervo INTEGER, " +
+                    "FOREIGN KEY(id_acervo) REFERENCES acervo(id_acervo) " +
+                    ");";
+
     public SQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -47,13 +110,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(BIBLIOTECA_CREATE);
+        db.execSQL(SITUACAO_MATERIAL_CREATE);
+        db.execSQL(STATUS_MATERIAL_CREATE);
+        db.execSQL(TIPO_MATERIAL_CREATE);
         db.execSQL(EMPRESTIMO_CREATE);
+        db.execSQL(ACERVO_CREATE);
+        db.execSQL(ACERVO_AUTOR_SECUNDARIO_CREATE);
+        db.execSQL(ACERVO_ASSUNTO_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS biblioteca");
         db.execSQL("DROP TABLE IF EXISTS emprestimo");
+        db.execSQL("DROP TABLE IF EXISTS situacao_material");
+        db.execSQL("DROP TABLE IF EXISTS status_material");
+        db.execSQL("DROP TABLE IF EXISTS tipo_material");
+        db.execSQL("DROP TABLE IF EXISTS acervo");
+        db.execSQL("DROP TABLE IF EXISTS acervo_autor_secundario");
+        db.execSQL("DROP TABLE IF EXISTS acervo_assunto");
         onCreate(db);
     }
 }

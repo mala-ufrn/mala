@@ -40,9 +40,7 @@ public class BibliotecaDTO implements Serializable {
         return idBiblioteca;
     }
 
-    public void setIdBiblioteca(Integer idBiblioteca) {
-        this.idBiblioteca = idBiblioteca;
-    }
+    public void setIdBiblioteca(Integer idBiblioteca) { this.idBiblioteca = idBiblioteca; }
 
     public String getSigla() {
         return sigla;
@@ -66,5 +64,15 @@ public class BibliotecaDTO implements Serializable {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    @Override
+    public String toString() {
+        if (sigla == null) {
+            return "Todas";
+        }
+        else {
+            return sigla + " - " + descricao;
+        }
     }
 }

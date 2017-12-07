@@ -1,90 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.ufrn.mala.activity.SearchResultDetailsActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    tools:context="br.ufrn.mala.activity.EmprestimoDetalheActivity">
-
-    <TextView
-        android:id="@+id/lblCod_Barra_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lblTitulo_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/lblAutor_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
+    android:layout_height="match_parent">
 
 
-    <TextView
-
+    <RelativeLayout android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Volume:"
-        android:paddingTop="15dp"
-        android:textSize="13dip"
-        android:paddingBottom="2dp"
-        android:textStyle="bold"
-        android:textColor="@color/aluminum"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/lblEdicao_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/ln_cod_barras_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Cód. Barras: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-    <TextView
-        android:id="@+id/lblBiblioteca_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/ln_cod_barras_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/ln_cod_barras_lbl"/>
 
-    <TextView
-        android:id="@+id/lblDtEmprestimo_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/ln_title_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_cod_barras_lbl"
+            android:text="Título: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-    <TextView
-        android:id="@+id/lblDtRenovacaEmprestimo_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/ln_title_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_cod_barras_lbl"
+            android:layout_toRightOf="@id/ln_title_lbl"/>
 
-    <TextView
-        android:id="@+id/lblDtDevolucao_detail_loan"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
-        android:textSize="13dip"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/ln_author_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_title_input"
+            android:text="Autor: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/ln_author_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_title_input"
+            android:layout_toRightOf="@id/ln_author_lbl"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/ln_library_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_author_input"
+            android:text="Biblioteca: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/ln_library_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_author_input"
+            android:layout_toRightOf="@id/ln_library_lbl"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/ln_local_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_library_input"
+            android:text="Localização: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/ln_local_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_library_input"
+            android:layout_toRightOf="@id/ln_local_lbl"/>
+
+        <TextView
+            android:id="@+id/ln_borrow_dt_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_local_input"
+            android:text="Emprestado em: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/ln_borrow_dt_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_local_input"
+            android:layout_toRightOf="@id/ln_borrow_dt_lbl"/>
+
+        <TextView
+            android:id="@+id/ln_reneaw_dt_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_borrow_dt_input"
+            android:text="Renovado em: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/ln_reneaw_dt_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_borrow_dt_input"
+            android:layout_toRightOf="@id/ln_reneaw_dt_lbl"/>
+
+        <TextView
+            android:id="@+id/ln_return_dt_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_reneaw_dt_input"
+            android:text="Devolvido em: "
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/ln_return_dt_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_reneaw_dt_input"
+            android:layout_toRightOf="@id/ln_return_dt_lbl"/>
+
+        <TextView
+            android:id="@+id/ln_deadline_dt_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_return_dt_input"
+            android:text="Prazo de devolução: "
+            android:textStyle="bold"
+            android:textColor="@color/primary"/>
+
+        <TextView
+            android:id="@+id/ln_deadline_dt_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln_return_dt_input"
+            android:layout_toRightOf="@id/ln_deadline_dt_lbl"
+            android:textColor="@color/primary_light"/>
+
+    </RelativeLayout>
+</ScrollView>

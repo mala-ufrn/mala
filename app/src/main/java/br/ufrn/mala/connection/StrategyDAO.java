@@ -3,6 +3,7 @@ package br.ufrn.mala.connection;
 import java.io.IOException;
 import java.util.List;
 
+import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
@@ -63,4 +64,11 @@ public interface StrategyDAO {
      */
     List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException;
 
+    /**
+     * Carrega as bibliotecas cadastradas no Banco da SINFO
+     * @param token Token de acesso à API da UFRN
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
 }

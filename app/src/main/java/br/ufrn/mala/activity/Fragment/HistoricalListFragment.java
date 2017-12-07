@@ -11,108 +11,131 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import br.ufrn.mala.R;
-import br.ufrn.mala.activity.EmprestimoDetalheActivity;
-import br.ufrn.mala.activity.NovoEmprestimoActivity;
-import br.ufrn.mala.auxiliar.ListHistoricoEmprestimosAdaptador;
+import br.ufrn.mala.activity.LoanDetailsActivity;
+import br.ufrn.mala.activity.MainActivity;
+import br.ufrn.mala.auxiliar.HistoricalListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
-import br.ufrn.mala.exception.ConnectionException;
-import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 /**
  * Created by paulo on 23/10/17.
  */
 
-public class HistoricoEmprestimosFragment extends Fragment {
+public class HistoricalListFragment extends Fragment {
 
-    String accessToken;
     int offsetEmprestimos = 0;
     ProgressDialog pd;
 
-
     List<EmprestimoDTO> listaEmprestimos;
     ListView listViewEmprestimos;
-    FloatingActionButton fab;
 
-
+    private String accessToken;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Muda o título na ActionBar
         getActivity().setTitle(getResources().getText(R.string.app_my_loans_history));
+        // Esconde o fab e o menu de três pontos
 
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        MainActivity ma = ((MainActivity)getActivity());
+        ma.showThreeDotsMenu(false);
+        FloatingActionButton fab = (FloatingActionButton)ma.findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
-        // Pegar o token de acesso
-        SharedPreferences preferences = getActivity().getSharedPreferences(Constants.KEY_USER_INFO, 0);
-        String accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
 
-        // Popula a lista de emprestimos
-        if (accessToken != null) {
-            new EmprestimosAtivosTask().execute(accessToken);
-        }
 
-        return inflater.inflate(R.layout.fragment_list_history_loan, container, false);
+        accessToken = ((MainActivity)getActivity()).getAccessToken();
+
+        refreshList();
+        ma.refreshLoans = false;
+
+        return inflater.inflate(R.layout.fragment_historical_list, container, false);
     }
 
     @Override
-    public void onDestroyView() {
-        fab.setVisibility(View.VISIBLE);
-        super.onDestroyView();
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            // Muda o título na ActionBar
+            getActivity().setTitle(getResources().getText(R.string.app_my_loans_history));
+
+            // Esconde o fab e o menu de três pontos
+            MainActivity ma = ((MainActivity)getActivity());
+            ma.showThreeDotsMenu(false);
+            FloatingActionButton fab = (FloatingActionButton)ma.findViewById(R.id.fab);
+            fab.setVisibility(View.GONE);
+
+            if (ma.refreshLoans) {
+                refreshList();
+                ma.refreshLoans = false;
+            }
+
+            // Mostra topo da lista
+            listViewEmprestimos.setSelectionAfterHeaderView();
+        }
     }
 
-    /**
-     * Método para preencher a lista de novos empréstimos
-     * @param lista
-     */
-    private void prepareListEmprestimos(List<EmprestimoDTO> lista) {
+    private void refreshList() {
+        // Popula a lista de emprestimos
+        if (accessToken != null) {
+            new HistoricoEmprestimosTask().execute(accessToken);
+        }
+    }
+
+    private void prepareListHistorico() {
 
         listViewEmprestimos = (ListView) getActivity().findViewById(R.id.list_historico_emprestimos);
         // cria um listHistoricoEmprestimos com a lista de emprestimos
-        ListHistoricoEmprestimosAdaptador listEmprestimosAdaptador = new ListHistoricoEmprestimosAdaptador(getActivity(), lista);
+        HistoricalListAdapter listEmprestimosAdaptador = new HistoricalListAdapter(getActivity(), listaEmprestimos);
         // define o apadtador do listView
         listViewEmprestimos.setAdapter(listEmprestimosAdaptador);
 
+        listEmprestimosAdaptador.notifyDataSetChanged();
+
+        listViewEmprestimos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Passando o emprestimoDTO pelo bundle
+                Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
+                i.putExtra("emprestimo", (Serializable) listViewEmprestimos.getAdapter().getItem(position));
+                startActivity(i);
+            }
+        });
+
         //listViewEmprestimos.setOnScrollListener(new EndlessScrollListener());
-        listViewEmprestimos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*listViewEmprestimos.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 // Passando o emprestimoDTO pelo bundle
-                Intent i = new Intent(view.getContext(), EmprestimoDetalheActivity.class);
+                Intent i = new Intent(view.getContext(), LoanDetailsActivity.class);
                 i.putExtra("emprestimo", (Serializable) listViewEmprestimos.getAdapter().getItem(position));
                 startActivity(i);
 
                 return false;
             }
-        });
+        });*/
     }
 
-
-    private class EmprestimosAtivosTask extends AsyncTask<String, Void, List<EmprestimoDTO>> {
+    private class HistoricoEmprestimosTask extends AsyncTask<String, Void, List<EmprestimoDTO>> {
 
         protected void onPreExecute() {
-            pd = ProgressDialog.show(getActivity(), "", "loading", true);
+            pd = ProgressDialog.show(getActivity(), "", getString(R.string.load_loans_history), true);
         }
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
                 return FacadeDAO.getInstance(getActivity()).getHistoricoEmprestimos(params[0], offsetEmprestimos);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (JsonStringInvalidaException e) {
-                // Toast.makeText(getActivity(), "Ocorreu algum erro interno", Toast.LENGTH_SHORT).show();
-            } catch (ConnectionException e) {
-                // Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
             return null;
         }
@@ -121,12 +144,8 @@ public class HistoricoEmprestimosFragment extends Fragment {
         protected void onPostExecute(List<EmprestimoDTO> result) {
             super.onPostExecute(result);
             if (result != null) {
-                if (listaEmprestimos != null){
-                    listaEmprestimos.addAll(result);
-                }else {
-                    listaEmprestimos = result;
-                }
-                prepareListEmprestimos(listaEmprestimos);
+                listaEmprestimos = result;
+                prepareListHistorico();
             }
             pd.dismiss();
         }
