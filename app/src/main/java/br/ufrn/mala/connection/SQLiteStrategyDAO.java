@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.IOException;
 import java.util.List;
 
+import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
@@ -70,6 +71,31 @@ public class SQLiteStrategyDAO implements StrategyDAO {
 
     public List<TipoMaterialDTO> getTiposMaterial() {
         return sqLiteConnection.getTiposMaterial();
+    }
+
+    public List<BibliotecaDTO> getBibliotecasAcervo() {
+        return sqLiteConnection.getBibliotecasAcervo();
+    }
+
+    public List<AcervoDTO> getAcervo(String orderBy) {
+        return sqLiteConnection.getAcervo(orderBy);
+    }
+
+    public String[] getAutoresSec(int idAcervo) {
+        return sqLiteConnection.getAutoresSec(idAcervo);
+    }
+
+    public String[] getAssuntos(int idAcervo) {
+        return sqLiteConnection.getAssuntos(idAcervo);
+    }
+
+    public BibliotecaDTO getBiblioteca(int idBibl) {
+        return sqLiteConnection.getBiblioteca(idBibl);
+    }
+
+
+        public void limparAcervoBD () {
+        sqLiteConnection.limparAcervoBD();
     }
 
     public void insertEmprestimos(List<EmprestimoDTO> emprestimos, Boolean ativo){

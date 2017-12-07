@@ -1,6 +1,10 @@
 package br.ufrn.mala.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -13,17 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
-
 import br.ufrn.mala.R;
-import br.ufrn.mala.barcode.*;
+import br.ufrn.mala.barcode.IntentIntegrator;
+import br.ufrn.mala.barcode.IntentResult;
 import br.ufrn.mala.connection.FacadeDAO;
-import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
-import br.ufrn.mala.exception.ConnectionException;
-import br.ufrn.mala.exception.JsonStringInvalidaException;
 import br.ufrn.mala.util.Constants;
 
 
@@ -32,6 +30,10 @@ import br.ufrn.mala.util.Constants;
  */
 
 public class NewLoanActivity extends AppCompatActivity {
+
+    final int ESTATUS_NAO_CIRCULA = 3;
+    final int SITUACAO_DISPONIVEL = 1;
+
 
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
@@ -76,7 +78,7 @@ public class NewLoanActivity extends AppCompatActivity {
     }
 
     /*
-    * Método que executa leitura de código de barras, executado pelo Cam Scanner
+    * Método que executa leitura de código de barras pelo Cam Scanner
      */
     public void camReader(View v) {
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
@@ -134,11 +136,51 @@ public class NewLoanActivity extends AppCompatActivity {
                 toast.show();
             }
             else {
-                Intent i = new Intent(NewLoanActivity.this, NewLoanConfirmActivity.class);
-                i.putExtra("material", result);
-                startActivity(i);
-                inputBarCode.setText("");
+                if(result.getIdStatusMaterial() == ESTATUS_NAO_CIRCULA ){
+                    DialogFragment newFragment = new NewLoanActivity.EmprestimoEstatusNaoCircula();
+                    newFragment.show(getFragmentManager(), "status_blocked");
+                } else if(result.getIdSituacaoMaterial() !=  SITUACAO_DISPONIVEL) {
+                    DialogFragment newFragment = new NewLoanActivity.EmprestimoSituacaoNaoDisponivel();
+                    newFragment.show(getFragmentManager(), "situacao_nao_disponivel");
+                }else{
+                    Intent i = new Intent(NewLoanActivity.this, NewLoanConfirmActivity.class);
+                    i.putExtra("material", result);
+                    startActivity(i);
+                    inputBarCode.setText("");
+                }
+
             }
+        }
+
+    }
+
+    public static class EmprestimoEstatusNaoCircula extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.status_material_nao_circula)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
+
+    public static class EmprestimoSituacaoNaoDisponivel extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.situacao_material_nao_disponivel)
+                    .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
         }
     }
 }

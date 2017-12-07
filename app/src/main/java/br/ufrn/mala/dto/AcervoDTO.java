@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class AcervoDTO implements Serializable {
 
+    private Integer idAcervo;
+
     private String ano;
 
     private String[] assunto;
@@ -57,6 +59,20 @@ public class AcervoDTO implements Serializable {
     private String tipoMaterial;
 
     private String titulo;
+
+    private BibliotecaDTO biblioteca;
+
+    public BibliotecaDTO getBiblioteca() {
+        return biblioteca;
+    }
+
+    public void setBiblioteca(BibliotecaDTO biblioteca) {
+        this.biblioteca = biblioteca;
+    }
+
+    public Integer getIdAcervo() { return idAcervo; }
+
+    public void setIdAcervo(Integer idAcervo) { this.idAcervo = idAcervo; }
 
     public String getAno() { return ano; }
 

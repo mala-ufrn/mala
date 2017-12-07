@@ -120,26 +120,17 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public boolean buscarAcervo(String token, String titulo, String autor, String assunto,
-                                     String idBiblioteca, String idTipoMaterial) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
+    public int buscarAcervo(String token, String titulo, String autor, String assunto,
+                                     String idBiblioteca, String idTipoMaterial, int offset) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
 
-        int arrSize, offset = 0;
-        do {
-            arrSize = 0;
             String acervosJson = apiConnection.getAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
 
             // Busca não retornou nada
             if (offset == 0 && acervosJson.equalsIgnoreCase("[]"))
-                return false;
+                return -2;
 
-            // Identifica se a busca veio cheia
-            arrSize = sqLiteConnection.insertAcervoJsonList(acervosJson);
-            offset += arrSize;
-
-        } while (offset < 300 && arrSize == 100);
-
-        // Busca retornou resultados
-        return true;
+            // Conta as linhas inseridas no banco e retorna este valor
+            return sqLiteConnection.insertAcervoJsonList(acervosJson, offset);
     }
 
     public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {

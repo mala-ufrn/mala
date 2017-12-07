@@ -15,29 +15,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_my_loans"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".activity.LoginActivity"
-
+            android:screenOrientation="portrait"
             android:theme="@style/ActLoginTheme" />
-
         <activity
             android:name=".activity.AuthorizationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -49,21 +47,24 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.NewLoanActivity"
             android:label="@string/app_new_loan"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.NewLoanConfirmActivity"
             android:label="@string/app_new_loan"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.LoanDetailsActivity"
             android:label="@string/app_my_loans_history_detail"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".activity.SearchResultsListActivity"
+            android:label="@string/app_search_results"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.SearchResultDetailsActivity"
+            android:label="Detalhes do Item"
+            android:screenOrientation="portrait" />
     </application>
+
 </manifest>

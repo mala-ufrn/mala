@@ -1,7 +1,7 @@
 package br.ufrn.mala.activity.Fragment;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,19 +17,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.zxing.BinaryBitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.activity.MainActivity;
+import br.ufrn.mala.activity.SearchResultsListActivity;
 import br.ufrn.mala.connection.FacadeDAO;
-import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
-import br.ufrn.mala.dto.MaterialInformacionalDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
-import br.ufrn.mala.util.Constants;
 
 /**
  * Created by Hugo e Mirna on 27/11/17.
@@ -41,7 +37,9 @@ public class SearchFragment extends Fragment {
     private EditText titleInput, authorInput, subjectInput;
     private Spinner libSpinner, matTypeSpinner;
     private Button searchBtn, clearBtn;
-    private String accessToken;
+    private String accessToken, inputTitle, inputAuthor, inputSubject;
+    private BibliotecaDTO inputBiblioteca;
+    private TipoMaterialDTO inputTipoMaterial;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,29 +84,24 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String title, author, subject;
-
-                title = titleInput.getText().toString();
-                author = authorInput.getText().toString();
-                subject = subjectInput.getText().toString();
-                BibliotecaDTO biblioteca = (BibliotecaDTO)libSpinner.getSelectedItem();
-                TipoMaterialDTO tipoMaterial = (TipoMaterialDTO)matTypeSpinner.getSelectedItem();
+                inputTitle = titleInput.getText().toString();
+                inputAuthor = authorInput.getText().toString();
+                inputSubject = subjectInput.getText().toString();
+                inputBiblioteca = (BibliotecaDTO)libSpinner.getSelectedItem();
+                inputTipoMaterial = (TipoMaterialDTO)matTypeSpinner.getSelectedItem();
 
                 MainActivity.hideKeyboard(getActivity());
 
-                if (title.equalsIgnoreCase("") && author.equalsIgnoreCase("") &&
-                        subject.equalsIgnoreCase("") && biblioteca.getIdBiblioteca() == null &&
-                        tipoMaterial.getIdTipoMaterial() == null) {
+                if (inputTitle.equalsIgnoreCase("") && inputAuthor.equalsIgnoreCase("") &&
+                        inputSubject.equalsIgnoreCase("") && inputBiblioteca.getIdBiblioteca() == null &&
+                        inputTipoMaterial.getIdTipoMaterial() == null) {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                             getString(R.string.no_search_fields), Toast.LENGTH_SHORT);
                     toast.show();
                 }
                 else {
                     if (accessToken != null) {
-                        String lib = (biblioteca.getIdBiblioteca() == null)? "" : biblioteca.getIdBiblioteca().toString();
-                        String type = (tipoMaterial.getIdTipoMaterial() == null)? "":tipoMaterial.getIdTipoMaterial().toString();
-
-                        new SearchInCollectionTask().execute(accessToken, title, author, subject, lib, type);
+                        new ClearSearchDB().execute();
                     }
                 }
             }
@@ -151,32 +144,107 @@ public class SearchFragment extends Fragment {
         matTypeSpinner.setSelection(0);
     }
 
-    private class SearchInCollectionTask extends AsyncTask<String, Void, List<AcervoDTO>> {
-
+    private class ClearSearchDB extends AsyncTask<Void, Void, Boolean> {
+        @Override
         protected void onPreExecute() {
-            pd = ProgressDialog.show(getActivity(), "", getString(R.string.search_collection), true);
+            super.onPreExecute();
+            pd = ProgressDialog.show(getActivity(), "", getString(R.string.please_wait), true);
         }
 
-        protected List<AcervoDTO> doInBackground(String... params) {
+        protected Boolean doInBackground(Void... params) {
             try {
-                Integer idBiblioteca, idTipoMaterial;
-
-                return FacadeDAO.getInstance(getActivity()).getAcervo(params[0], params[1],
-                        params[2], params[3], params[4], params[5]);
-            } catch (Exception e) {
+                FacadeDAO.getInstance(getActivity()).limparAcervoBD();
+                return Boolean.TRUE;
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+            return Boolean.FALSE;
         }
 
         @Override
-        protected void onPostExecute(List<AcervoDTO> result) {
+        protected void onPostExecute(Boolean aBoolean) {
+            if (aBoolean) {
+                String lib = (inputBiblioteca.getIdBiblioteca() == null)? "" : inputBiblioteca.getIdBiblioteca().toString();
+                String type = (inputTipoMaterial.getIdTipoMaterial() == null)? "":inputTipoMaterial.getIdTipoMaterial().toString();
+
+                new SearchInCollectionTask().execute(accessToken, inputTitle, inputAuthor, inputSubject, lib, type);
+            }
+            else {
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        getString(R.string.no_connection), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            super.onPostExecute(aBoolean);
+        }
+    }
+
+    private class SearchInCollectionTask extends AsyncTask<String, Integer, Integer> {
+
+        protected void onPreExecute() {
+            pd.setMessage(getString(R.string.search_collection));
+        }
+
+        protected Integer doInBackground(String... params) {
+            int answer, offset = 0;
+
+            do {
+                // Valor para informar que houve um erro intermediário
+                answer = 101;
+                try {
+                    // Pega os número de títulos retornado
+                    answer = FacadeDAO.getInstance(getActivity()).buscarAcervo(params[0], params[1],
+                            params[2], params[3], params[4], params[5], offset);
+
+                    // Repassa erro ou insucesso na busca
+                    if (answer <= 0)
+                        return answer;
+
+                    offset += answer;
+
+                    if (answer == 100 && offset != 300) {
+                        // atualiza o texto do Process Dialog
+                        publishProgress(offset);
+                    }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            } while (answer == 100 && offset <= 200);
+
+            if (answer == 100 && offset == 300) {
+                return 102;
+            }
+            if (answer == 101 && offset == 0)
+                return -1;
+
+            return answer;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            pd.setMessage(getString(R.string.search_progress1) + " " + values[0] + " " + getString(R.string.search_progress2));
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             pd.dismiss();
 
-            if (result != null) {
+            if (result >= 0) {
+                Intent i = new Intent(getActivity(), SearchResultsListActivity.class);
+                if (result > 100) {
+                    i.putExtra("SearchWarning", result);
+                }
+                startActivity(i);
             }
-            else {
+            else if (result == -1) {
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                        getString(R.string.no_connection), Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if (result == -2) {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(),
                         getString(R.string.titles_not_found), Toast.LENGTH_SHORT);
                 toast.show();
@@ -185,9 +253,6 @@ public class SearchFragment extends Fragment {
     }
 
     private class FillLibrariesSpinnerTask extends AsyncTask<String, Void, List<BibliotecaDTO>> {
-
-        protected void onPreExecute() {
-        }
 
         protected List<BibliotecaDTO> doInBackground(String... params) {
             try {

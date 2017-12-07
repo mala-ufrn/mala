@@ -1,9 +1,11 @@
 package br.ufrn.mala.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -31,6 +33,7 @@ import br.ufrn.mala.R;
 import br.ufrn.mala.activity.Fragment.HistoricalListFragment;
 import br.ufrn.mala.activity.Fragment.LoanListFragment;
 import br.ufrn.mala.activity.Fragment.SearchFragment;
+import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.util.Constants;
 /**
@@ -74,8 +77,6 @@ public class MainActivity extends AppCompatActivity
         };
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -238,7 +239,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     public void quit(View view) {
         SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);

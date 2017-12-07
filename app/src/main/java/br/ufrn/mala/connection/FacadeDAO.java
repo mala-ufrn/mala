@@ -88,9 +88,6 @@ public class FacadeDAO {
     /**
      * Consultar as bibliotecas disponíveis no banco
      * @return Lista de bibliotecas
-     * @throws IOException
-     * @throws JsonStringInvalidaException
-     * @throws ConnectionException
      */
     public List<BibliotecaDTO> getBibliotecas(boolean toSearch) {
         return SQLiteStrategyDAO.getInstance(context).getBibliotecas(toSearch);
@@ -132,7 +129,36 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public List<EmprestimoDTO> getEmprestimosAtivos(String token, Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return strategyDAO.getEmprestimosAtivos(token, offset);
+        strategyDAO.getEmprestimosAtivos(token, offset);
+        return SQLiteConnection.getInstance(context).getEmprestimos(true, offset);
+    }
+
+    /**
+     * Consultar as bibliotecas distintas resultantes da busca
+     * @return Lista de bibliotecas da Busca
+     */
+    public List<BibliotecaDTO> getBibliotecasAcervo() {
+        return SQLiteStrategyDAO.getInstance(context).getBibliotecasAcervo();
+    }
+
+    /**
+     * Consultar os títulos resultantes da busca
+     * @return Lista de Títulos da Busca
+     */
+    public List<AcervoDTO> getAcervo(String orderBy) {
+        return SQLiteStrategyDAO.getInstance(context).getAcervo(orderBy);
+    }
+
+    public String[] getAutoresSec(int idAcervo) {
+        return SQLiteStrategyDAO.getInstance(context).getAutoresSec(idAcervo);
+    }
+
+    public String[] getAssuntos(int idAcervo) {
+        return SQLiteStrategyDAO.getInstance(context).getAssuntos(idAcervo);
+    }
+
+    public BibliotecaDTO getBiblioteca(int idBibl) {
+        return SQLiteStrategyDAO.getInstance(context).getBiblioteca(idBibl);
     }
 
     /**
@@ -148,12 +174,21 @@ public class FacadeDAO {
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public boolean buscarAcervo(String token, String titulo, String autor, String assunto,
-                                     String idBiblioteca, String idTipoMaterial) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
-        if (connected)
-            return ((APIStrategyDAO)strategyDAO).buscarAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial);
-        else
-            return false;
+    public int buscarAcervo(String token, String titulo, String autor, String assunto,
+                                     String idBiblioteca, String idTipoMaterial, int offset) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
+        if (connected) {
+            return ((APIStrategyDAO)strategyDAO).buscarAcervo(token, titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
+        }
+        else {
+            return -1;
+        }
+    }
+
+    /**
+     * Limpa as informações guardadas relativas à consulta no acervo
+     */
+    public void limparAcervoBD() {
+        SQLiteStrategyDAO.getInstance(context).limparAcervoBD();
     }
 
     /**
@@ -165,7 +200,7 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public boolean loadBibliotecas(String token) throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadBibliotecas(token);
+        return connected && ((APIStrategyDAO) strategyDAO).loadBibliotecas(token);
     }
 
     /**

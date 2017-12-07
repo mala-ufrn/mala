@@ -61,6 +61,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String ACERVO_CREATE =
             "CREATE TABLE acervo ( " +
+                    "id_acervo INTEGER PRIMARY KEY, " +
                     "ano TEXT, " +
                     "autor TEXT, " +
                     "descricao_fisica TEXT, " +
@@ -78,11 +79,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     "notas_locais TEXT, " +
                     "numero_chamada TEXT, " +
                     "quantidade INTEGER, " +
-                    "registro_sistema INTEGER PRIMARY KEY, " +
+                    "registro_sistema INTEGER, " +
                     "resumo TEXT, " +
                     "serie TEXT, " +
                     "sub_titulo TEXT, " +
-                    "tipo_material TEXT" +
+                    "tipo_material TEXT," +
                     "titulo TEXT, " +
                     "FOREIGN KEY(id_tipo_material) REFERENCES tipo_material(id_tipo_material), " +
                     "FOREIGN KEY(id_biblioteca) REFERENCES biblioteca(id_biblioteca) " +
@@ -92,14 +93,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             "CREATE TABLE acervo_autor_secundario ( " +
                     "autor TEXT, " +
                     "id_acervo INTEGER, " +
-                    "FOREIGN KEY(id_acervo) REFERENCES acervo(registro_sistema) " +
+                    "FOREIGN KEY(id_acervo) REFERENCES acervo(id_acervo) " +
                     ");";
 
     private static final String ACERVO_ASSUNTO_CREATE =
             "CREATE TABLE acervo_assunto ( " +
                     "assunto TEXT, " +
                     "id_acervo INTEGER, " +
-                    "FOREIGN KEY(id_acervo) REFERENCES acervo(registro_sistema) " +
+                    "FOREIGN KEY(id_acervo) REFERENCES acervo(id_acervo) " +
                     ");";
 
     public SQLiteHelper(Context context){

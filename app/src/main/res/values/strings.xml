@@ -7,6 +7,10 @@
     <string name="select">Selecionar</string>
     <string name="renewAll">Renovar todos Empréstimos</string>
     <string name="newLoan">Realizar Novo Emprestimo</string>
+    <string name="sort_menu">Organizar por:</string>
+    <string name="by_title">Título</string>
+    <string name="by_author">Autor</string>
+    <string name="by_date">Mais novo</string>
 
     <!--Nav SideMenu Itens-->
     <string name="my_loans">Meus Emprestimos</string>
@@ -22,6 +26,7 @@
     <string name="app_new_loan">Novo Empréstimo</string>
     <string name="app_my_loans">Meus Empréstimos</string>
     <string name="app_search">Consultar no Acervo</string>
+    <string name="app_search_results">Resultados da Consulta</string>
     <string name="app_my_loans_history">Histórico de Emprestimos</string>
     <string name="app_my_loans_history_detail">Info. Empréstimo</string>
 
@@ -41,29 +46,72 @@
     <string name="newLoanDetOb1">Caso o material esteja danificado, por favor, leve-o ao setor de circulação/empréstimos da biblioteca.</string>
     <string name="newLoanDetOb2">É importante que só realize esta operação com o livro em mãos.</string>
     <string name="btnNewLoan">Realizar Autoempréstimo</string>
-    
+
     <!-- Labels Utils-->
     <string name="lbl_tittle">Título:</string>
     <string name="lbl_author">Autor:</string>
     <string name="lbl_bar_code">Cód. Barras:</string>
     <string name="lbl_mat_type">Tipo Mat.:</string>
     <string name="lbl_mat_status">Status:</string>
+    <string name="lbl_localization">Localização:</string>
+    <string name="fascicles">fascículos</string>
+    <string name="exemplars">exemplares</string>
+    <string name="single_fascicle">fascículo</string>
+    <string name="single_exemplar">exemplar</string>
 
     <!-- Loading Messages -->
-    <string name="load_active_loans">Carregando empréstimos</string>
-    <string name="load_loans_history">Carregando histórico\nde empréstimos</string>
-    <string name="load_libraries">Carregando bibliotecas</string>
-    <string name="load_mat_situations">Carregando situações\nde materiais</string>
-    <string name="load_mat_status">Carregando status\nde materiais</string>
-    <string name="load_mat_types">Carregando tipos\nde materiais</string>
-    <string name="search_material">Buscando material</string>
-    <string name="search_collection">Efetuando consulta\nno acervo</string>
-    
+    <string name="load_active_loans">Carregando empréstimos&#8230;</string>
+    <string name="load_loans_history">Carregando histórico de empréstimos&#8230;</string>
+    <string name="load_libraries">Carregando bibliotecas&#8230;</string>
+    <string name="load_mat_situations">Carregando situações de materiais&#8230;</string>
+    <string name="load_mat_status">Carregando status de materiais&#8230;</string>
+    <string name="load_mat_types">Carregando tipos de materiais&#8230;</string>
+    <string name="search_material">Buscando material&#8230;</string>
+    <string name="search_collection">Efetuando consulta no acervo&#8230;</string>
+    <string name="search_progress1">Já foram obtidos</string>
+    <string name="search_progress2">títulos, continuando busca&#8230;</string>
+    <string name="please_wait">Aguarde&#8230;</string>
+    <string name="generate_list">Gerando a lista de resultados&#8230;</string>
+    <string name="sorting">Ordenando resultados&#8230;</string>
+
     <!-- Toasts Messages -->
     <string name="materail_not_found">Material não encontrado</string>
+    <string name="sisbi_pass_error">Senha inválida</string>
+    <string name="loan_concluded">Empréstimo realizado.</string>
     <string name="no_barcode">Nenhum código de barras foi detectado</string>
     <string name="no_search_fields">Nenhum campo preenchido</string>
     <string name="titles_not_found">Nenhum título foi encontrado</string>
+    <string name="no_connection">Não há conexão no momento</string>
+    <string name="db_error">Houve algum problema com o banco interno</string>
+
+    <!-- Dialogs Utils -->
+    <string name="ok_button">OK</string>
+    <string name="loan_button">EMPRESTAR</string>
+    <string name="back_button">VOLTAR</string>
+    <string name="sisbi_pass">Senha Sisbi</string>
+    <string name="senha_sisbi_helper">Confirme esta operaçao com sua senha da <b>biblioteca</b></string>
+
+    <string name="overflow_alert">A busca retornou muitos resultados e, portanto, só serão exibidos os 300 primeiros.\n\nRecomenda-se o uso de um parâmetro auxiliar (autor, assunto&#8230;) para filtrar os resultados</string>
+    <string name="partial_search_alert">Houve algum problema durante a busca e, portanto, serão exibidos os resultados parciais obtidos até então.</string>
+    <string name="status_material_nao_circula">Este material tem status de NÃO CIRCULA.\n\nPortanto, seu empréstimo não é permitido.</string>
+    <string name="situacao_material_nao_disponivel">Este material não pode ser emprestado no momento. \n\nPor favor, entregue-o ao setor de circulação da biblioteca para sua liberação.</string>
+    <string name="type_of_loans"><![CDATA[ <medium>
+    <p>
+    <b>Normal</b><br/>
+    Prazo: 15 dias, pode renovar.<br/>
+    Limite: 3 materiais.<br/>
+    </p>
+    <p>
+    <b>Especial</b><br />
+        Prazo: 1 dia, não pode renovar. <br />
+        Limite: 3 materiais. <br />
+    </p>
+    <p>
+    <b>Fotocópia</b><br />
+        Prazo: 3 horas, não pode renovar. <br />
+        Limite: 2 materiais <br />
+    </p> </medium>]]></string>
+
 
     <!-- Spinners Options -->
     <string name="spinner_normal_option">NORMAL</string>
@@ -80,7 +128,7 @@
     <string name="search_form_mat_type">Tipo de material</string>
     <string name="search_form_button">Consultar</string>
     <string name="search_form_clear_button">Limpar</string>
-    
+
     <!--Navigation Drawer Utils-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

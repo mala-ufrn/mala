@@ -106,6 +106,7 @@ public class APIConnection {
                 .appendEncodedPath(PATH_USUARIO_INFO)
                 .build()
                 .toString();
+
         return getDados(token, url);
     }
 

@@ -1,5 +1,6 @@
 package br.ufrn.mala.connection;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -234,6 +235,128 @@ public class SQLiteConnection {
     }
 
     /**
+     * Consulta as bibliotecas retornadas na busca
+     * @return Lista de bibliotecas com livros resultantes da busca.
+     */
+    public List<BibliotecaDTO> getBibliotecasAcervo() {
+        String sql = "SELECT * " +
+                "FROM biblioteca " +
+                "JOIN (SELECT DISTINCT id_biblioteca " +
+                "      FROM acervo)" +
+                "      USING(id_biblioteca)";
+        Cursor result = readableDatabase.rawQuery(sql, new String[]{});
+        List<BibliotecaDTO> bibliotecas = new ArrayList<>();
+        while (result.moveToNext()){
+            BibliotecaDTO biblioteca = new BibliotecaDTO();
+            biblioteca.setIdBiblioteca(result.getInt(result.getColumnIndex("id_biblioteca")));
+            biblioteca.setDescricao(result.getString(result.getColumnIndex("descricao")));
+            biblioteca.setEmail(result.getString(result.getColumnIndex("email")));
+            biblioteca.setSigla(result.getString(result.getColumnIndex("sigla")));
+            biblioteca.setSite(result.getString(result.getColumnIndex("site")));
+            biblioteca.setTelefone(result.getString(result.getColumnIndex("telefone")));
+            bibliotecas.add(biblioteca);
+        }
+        result.close();
+        return bibliotecas;
+    }
+
+    public List<AcervoDTO> getAcervo(String orderBy) {
+        Cursor result;
+        if (orderBy.equalsIgnoreCase("titulo")) {
+            result = readableDatabase.query("acervo", null, null, null, null, null, "titulo ASC");
+        }
+        else if (orderBy.equalsIgnoreCase("autor")){
+            result = readableDatabase.query("acervo", null, null, null, null, null, "autor ASC");
+        }
+        else if (orderBy.equalsIgnoreCase("ano")){
+            result = readableDatabase.query("acervo", null, null, null, null, null, "ano DESC");
+        }
+        else {
+            result = readableDatabase.query("acervo", null, null, null, null, null, null);
+        }
+
+        List<AcervoDTO> acervo = new ArrayList<>();
+        while (result.moveToNext()){
+            AcervoDTO tituloAcervo = new AcervoDTO();
+            tituloAcervo.setIdAcervo(result.getInt(result.getColumnIndex("id_acervo")));
+            tituloAcervo.setAno(result.getString(result.getColumnIndex("ano")));
+            tituloAcervo.setAutor(result.getString(result.getColumnIndex("autor")));
+            tituloAcervo.setDescricaoFisica(result.getString(result.getColumnIndex("descricao_fisica")));
+            tituloAcervo.setEdicao(result.getString(result.getColumnIndex("edicao")));
+            tituloAcervo.setEditora(result.getString(result.getColumnIndex("editora")));
+            tituloAcervo.setEnderecoEletronico(result.getString(result.getColumnIndex("endereco_eletronico")));
+            tituloAcervo.setIdBiblioteca(result.getInt(result.getColumnIndex("id_biblioteca")));
+            tituloAcervo.setIdTipoMaterial(result.getInt(result.getColumnIndex("id_tipo_material")));
+            tituloAcervo.setIntervaloPaginas(result.getString(result.getColumnIndex("intervalo_paginas")));
+            tituloAcervo.setIsbn(result.getString(result.getColumnIndex("isbn")));
+            tituloAcervo.setIssn(result.getString(result.getColumnIndex("issn")));
+            tituloAcervo.setLocalPublicacao(result.getString(result.getColumnIndex("local_publicacao")));
+            tituloAcervo.setNotaConteudo(result.getString(result.getColumnIndex("nota_conteudo")));
+            tituloAcervo.setNotasGerais(result.getString(result.getColumnIndex("notas_gerais")));
+            tituloAcervo.setNotasLocais(result.getString(result.getColumnIndex("notas_locais")));
+            tituloAcervo.setNumeroChamada(result.getString(result.getColumnIndex("numero_chamada")));
+            tituloAcervo.setQuantidade(result.getInt(result.getColumnIndex("quantidade")));
+            tituloAcervo.setRegistroSistema(result.getInt(result.getColumnIndex("registro_sistema")));
+            tituloAcervo.setResumo(result.getString(result.getColumnIndex("resumo")));
+            tituloAcervo.setSerie(result.getString(result.getColumnIndex("serie")));
+            tituloAcervo.setSubTitulo(result.getString(result.getColumnIndex("sub_titulo")));
+            tituloAcervo.setTipoMaterial(result.getString(result.getColumnIndex("tipo_material")));
+            tituloAcervo.setTitulo(result.getString(result.getColumnIndex("titulo")));
+            acervo.add(tituloAcervo);
+        }
+        result.close();
+        return acervo;
+    }
+
+    public String[] getAutoresSec(int idAcervo) {
+        Cursor result = readableDatabase.query("acervo_autor_secundario", null, "id_acervo = ? ", new String[] {String.valueOf(idAcervo)}, null, null, null);
+        List<String> autores = new ArrayList<>();
+        while (result.moveToNext()){
+            autores.add(result.getString(result.getColumnIndex("autor")));
+        }
+        result.close();
+
+        // Gerando o String[]
+        String[] autoresStr = new String[autores.size()];
+        for(int i = 0; i < autores.size(); ++i) {
+            autoresStr[i] = autores.get(i);
+        }
+        return autoresStr;
+    }
+
+    public String[] getAssuntos(int idAcervo) {
+        Cursor result = readableDatabase.query("acervo_assunto", null, "id_acervo = ? ", new String[] {String.valueOf(idAcervo)}, null, null, null);
+        List<String> assuntos = new ArrayList<>();
+        while (result.moveToNext()){
+            assuntos.add(result.getString(result.getColumnIndex("assunto")));
+        }
+        result.close();
+
+        // Gerando o String[]
+        String[] assuntosStr = new String[assuntos.size()];
+        for(int i = 0; i < assuntos.size(); ++i) {
+            assuntosStr[i] = assuntos.get(i);
+        }
+        return assuntosStr;
+    }
+
+    public BibliotecaDTO getBiblioteca(int idBiblioteca) {
+        Cursor result = readableDatabase.query("biblioteca", null, "id_biblioteca = ? ", new String[] {String.valueOf(idBiblioteca)}, null, null, null);
+        BibliotecaDTO biblioteca = new BibliotecaDTO();
+        result.moveToNext();
+        biblioteca.setIdBiblioteca(result.getInt(result.getColumnIndex("id_biblioteca")));
+        biblioteca.setDescricao(result.getString(result.getColumnIndex("descricao")));
+        biblioteca.setEmail(result.getString(result.getColumnIndex("email")));
+        biblioteca.setSigla(result.getString(result.getColumnIndex("sigla")));
+        biblioteca.setSite(result.getString(result.getColumnIndex("site")));
+        biblioteca.setTelefone(result.getString(result.getColumnIndex("telefone")));
+
+        return biblioteca;
+    }
+
+
+
+    /**
      * Inserir o empréstimo, no banco de dados
      * @param emprestimo Emprestimo a ser inserido
      * @param ativo Indica se o empréstimo está ativo, inativo
@@ -280,73 +403,51 @@ public class SQLiteConnection {
      * Inserir um titulo do acervo no banco de dados
      * @param acervoObj objeto Json representndo um título
      */
-    public void insertAcervo (JSONObject acervoObj) throws JSONException {
-        String sql = "INSERT INTO acervo (" +
-                "ano, " +
-                "autor, " +
-                "descricao_fisica, " +
-                "edicao, " +
-                "editora, " +
-                "endereco_eletronico, " +
-                "id_biblioteca, " +
-                "id_tipo_material, " +
-                "intervalo_paginas, " +
-                "isbn TEXT, " +
-                "issn TEXT, " +
-                "local_publicacao, " +
-                "nota_conteudo, " +
-                "notas_gerais, " +
-                "notas_locais, " +
-                "numero_chamada, " +
-                "quantidade, " +
-                "registro_sistema, " +
-                "resumo, " +
-                "serie, " +
-                "sub_titulo, " +
-                "tipo_material" +
-                "titulo, " +
-                ") " +
-                "VALUES (" +
-                acervoObj.getString("ano") + ", " +
-                acervoObj.getString("autor") + "', " +
-                acervoObj.getString("descricao-fisica") + "', " +
-                acervoObj.getString("edicao") + "', " +
-                acervoObj.getString("editora") + "', " +
-                acervoObj.getString("endereco-eletronico") + "', " +
-                acervoObj.getInt("id-biblioteca") + "', " +
-                acervoObj.getInt("id-tipo-material") + "', " +
-                acervoObj.getString("intervalo-paginas") + "', " +
-                acervoObj.getString("isbn") + "', " +
-                acervoObj.getString("issn") + "', " +
-                acervoObj.getString("local-publicacao") + "', " +
-                acervoObj.getString("nota-conteudo") + "', " +
-                acervoObj.getString("notas-gerais") + "', " +
-                acervoObj.getString("notas-locais") + "', " +
-                acervoObj.getString("numero-chamada") + "', " +
-                acervoObj.getInt("quantidade") + "', " +
-                acervoObj.getInt("registro-sistema") + "', " +
-                acervoObj.getString("resumo") + "', " +
-                acervoObj.getString("serie") + "', " +
-                acervoObj.getString("sub-titulo") + "', " +
-                acervoObj.getString("tipo-material") + "', " +
-                acervoObj.getString("titulo") + "', " +
-                ")";
-        writableDatabase.execSQL(sql);
+    public void insertAcervo (JSONObject acervoObj, int idAcervo) throws JSONException {
+
+        ContentValues values = new ContentValues();
+        long retvalue = 0;
+        values.put("id_acervo", idAcervo);
+        values.put("ano", acervoObj.optString("ano"));
+        values.put("autor", acervoObj.optString("autor"));
+        values.put("descricao_fisica", acervoObj.optString("descricao-fisica"));
+        values.put("edicao", acervoObj.optString("edicao"));
+        values.put("editora", acervoObj.optString("editora"));
+        values.put("endereco_eletronico", acervoObj.optString("endereco-eletronico"));
+        values.put("id_biblioteca", acervoObj.optInt("id-biblioteca"));
+        values.put("id_tipo_material", acervoObj.optInt("id-tipo-material"));
+        values.put("intervalo_paginas", acervoObj.optString("intervalo-paginas"));
+        values.put("isbn", acervoObj.optString("isbn"));
+        values.put("issn", acervoObj.optString("issn"));
+        values.put("local_publicacao", acervoObj.optString("local-publicacao"));
+        values.put("nota_conteudo", acervoObj.optString("nota-conteudo"));
+        values.put("notas_gerais", acervoObj.optString("notas-gerais"));
+        values.put("notas_locais", acervoObj.optString("notas-locais"));
+        values.put("numero_chamada", acervoObj.optString("numero-chamada"));
+        values.put("quantidade", acervoObj.optInt("quantidade"));
+        values.put("registro_sistema", acervoObj.optInt("registro-sistema"));
+        values.put("resumo", acervoObj.optString("resumo"));
+        values.put("serie", acervoObj.optString("serie"));
+        values.put("sub_titulo", acervoObj.optString("sub-titulo"));
+        values.put("tipo_material", acervoObj.optString("tipo-material"));
+        values.put("titulo", acervoObj.optString("titulo"));
+
+        retvalue = writableDatabase.insertWithOnConflict("acervo", null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     /**
      * Inserir um autor secundário para titulo do acervo no banco de dados
      * @param autor autor secundário
-     * @param registroSist chave do título ao qual o autor é relacionado
+     * @param idAcervo chave do título ao qual o autor é relacionado
      */
-    public void insertAutorSecundario (String autor, int registroSist) {
+    public void insertAutorSecundario (String autor, int idAcervo) {
         String sql = "INSERT INTO acervo_autor_secundario (" +
                 "autor, " +
-                "id_acervo, " +
+                "id_acervo" +
                 ") " +
                 "VALUES (" +
-                autor + ", " +
-                registroSist + "', " +
+                "'" + autor + "', " +
+                idAcervo +
                 ")";
         writableDatabase.execSQL(sql);
     }
@@ -354,21 +455,21 @@ public class SQLiteConnection {
     /**
      * Inserir um autor secundário para titulo do acervo no banco de dados
      * @param assunto Assunto relacionado ao título
-     * @param registroSist chave do título ao qual o autor é relacionado
+     * @param idAcervo chave do título ao qual o autor é relacionado
      */
-    public void insertAssunto (String assunto, int registroSist) {
+    public void insertAssunto (String assunto, int idAcervo) {
         String sql = "INSERT INTO acervo_assunto (" +
-                "autor, " +
-                "id_acervo, " +
+                "assunto, " +
+                "id_acervo" +
                 ") " +
                 "VALUES (" +
-                assunto + ", " +
-                registroSist + "', " +
+                "'" + assunto + "', " +
+                idAcervo +
                 ")";
         writableDatabase.execSQL(sql);
     }
 
-    public int insertAcervoJsonList(String acervosJson) throws JSONException, JsonStringInvalidaException {
+    public int insertAcervoJsonList(String acervosJson, int offset) throws JSONException, JsonStringInvalidaException {
 
         int listSize = 0;
 
@@ -383,23 +484,30 @@ public class SQLiteConnection {
                 writableDatabase.beginTransaction();
                 try {
                     // insere o título
-                    insertAcervo(jsonObject);
-                    int regSistema = jsonObject.getInt("registro-sistema");
+                    insertAcervo(jsonObject, offset + i);
 
                     // insere os assuntos
-                    String[] assuntosArray = (String[])jsonObject.get("assunto");
-                    if (assuntosArray != null)
-                        for (String assunto: assuntosArray) {
-                            if (!assunto.equalsIgnoreCase("")){
-                                insertAssunto(assunto, regSistema);
+                    if (jsonObject.has("assunto")){
+                        JSONArray assuntosArray = jsonObject.optJSONArray("assunto");
+                        if (assuntosArray != null) {
+                            for (int j = 0; j < assuntosArray.length(); ++j) {
+                                String assunto = assuntosArray.getString(j);
+                                if (!assunto.equalsIgnoreCase("")) {
+                                    insertAssunto(assunto, offset + i);
+                                }
                             }
                         }
+                    }
                     // insere os autores secundários
-                    String[] autorSecArray = (String[])jsonObject.get("autores-secundarios");
-                    if (autorSecArray != null)
-                    for (String autor: autorSecArray) {
-                        if (!autor.equalsIgnoreCase("")){
-                            insertAutorSecundario(autor, regSistema);
+                    if (jsonObject.has("autores-secundarios")) {
+                        JSONArray autorSecArray = jsonObject.optJSONArray("autores-secundarios");
+                        if (autorSecArray != null) {
+                            for (int j = 0; j < autorSecArray.length(); ++j) {
+                                String autor = autorSecArray.getString(j);
+                                if (!autor.equalsIgnoreCase("")) {
+                                    insertAutorSecundario(autor, offset + i);
+                                }
+                            }
                         }
                     }
                     writableDatabase.setTransactionSuccessful();
@@ -488,5 +596,11 @@ public class SQLiteConnection {
                 ")";
 
         writableDatabase.execSQL(sql);
+    }
+
+    public void limparAcervoBD() {
+        writableDatabase.delete("acervo", null, null);
+        writableDatabase.delete("acervo_autor_secundario", null, null);
+        writableDatabase.delete("acervo_assunto", null, null);
     }
 }
