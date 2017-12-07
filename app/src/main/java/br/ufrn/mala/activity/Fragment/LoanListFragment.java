@@ -40,8 +40,6 @@ public class LoanListFragment extends Fragment {
     private List<EmprestimoDTO> listaEmprestimos;
     private ExpandableListView expandableListViewEmprestimo;
 
-    private String accessToken;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_loan_list, container, false);
@@ -72,8 +70,6 @@ public class LoanListFragment extends Fragment {
                      refreshList();
                  }
          });
-
-        accessToken = ((MainActivity)getActivity()).getAccessToken();
 
         refreshList();
 
@@ -107,10 +103,8 @@ public class LoanListFragment extends Fragment {
 
 
     public void refreshList() {
-        if (accessToken != null) {
-            new EmprestimosAtivosTask().execute(accessToken);
-            ((MainActivity)getActivity()).refreshLoans = true;
-        }
+        new EmprestimosAtivosTask().execute();
+        ((MainActivity)getActivity()).refreshLoans = true;
     }
 
     private void prepareListEmprestimos() {

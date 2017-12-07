@@ -31,21 +31,23 @@ import br.ufrn.mala.exception.JsonStringInvalidaException;
 
 public class FacadeDAO {
 
+    private static FacadeDAO facadeDAO;
     private StrategyDAO strategyDAO;
-    private Context context;
+    private SQLiteStrategyDAO sqLiteStrategyDAO;
+    private APIStrategyDAO apiStrategyDAO;
     private boolean connected;
 
     public static FacadeDAO getInstance(Context context){
-        return new FacadeDAO(context);
+        if (facadeDAO == null){
+            facadeDAO = new FacadeDAO(context);
+        }
+        facadeDAO.updateStrategy(context);
+        return facadeDAO;
     }
 
     private FacadeDAO(Context context) {
-        connected = isOnline(context);
-        this.context = context;
-        if (connected)
-            strategyDAO = APIStrategyDAO.getInstance(context);
-        else
-            strategyDAO = SQLiteStrategyDAO.getInstance(context);
+        sqLiteStrategyDAO = SQLiteStrategyDAO.getInstance(context);
+        apiStrategyDAO = APIStrategyDAO.getInstance(context);
     }
 
     /**
@@ -87,7 +89,7 @@ public class FacadeDAO {
      * @return Lista de bibliotecas
      */
     public List<BibliotecaDTO> getBibliotecas(boolean toSearch) {
-        return SQLiteStrategyDAO.getInstance(context).getBibliotecas(toSearch);
+        return sqLiteStrategyDAO.getBibliotecas(toSearch);
     }
 
     /**
@@ -95,7 +97,7 @@ public class FacadeDAO {
      * @return Lista de tipos de empréstimo
      */
     public List<TipoMaterialDTO> getTiposMaterial() {
-        return SQLiteStrategyDAO.getInstance(context).getTiposMaterial();
+        return sqLiteStrategyDAO.getTiposMaterial();
     }
 
     /**
@@ -108,7 +110,7 @@ public class FacadeDAO {
      */
     public MaterialInformacionalDTO getMaterialInformacional(String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {
         if (connected) {
-            return ((APIStrategyDAO)strategyDAO).getMaterialInformacional(codBarras);
+            return apiStrategyDAO.getMaterialInformacional(codBarras);
         }
         else {
             return null;
@@ -124,8 +126,8 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public List<EmprestimoDTO> getEmprestimosAtivos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
-        System.out.println(strategyDAO.getEmprestimosAtivos(offset));
-        return SQLiteConnection.getInstance(context).getEmprestimos(true, offset);
+        strategyDAO.getEmprestimosAtivos(offset);
+        return sqLiteStrategyDAO.getEmprestimosAtivos(offset);
     }
 
     /**
@@ -133,7 +135,7 @@ public class FacadeDAO {
      * @return Lista de bibliotecas da Busca
      */
     public List<BibliotecaDTO> getBibliotecasAcervo() {
-        return SQLiteStrategyDAO.getInstance(context).getBibliotecasAcervo();
+        return sqLiteStrategyDAO.getBibliotecasAcervo();
     }
 
     /**
@@ -141,24 +143,23 @@ public class FacadeDAO {
      * @return Lista de Títulos da Busca
      */
     public List<AcervoDTO> getAcervo(String orderBy) {
-        return SQLiteStrategyDAO.getInstance(context).getAcervo(orderBy);
+        return sqLiteStrategyDAO.getAcervo(orderBy);
     }
 
     public String[] getAutoresSec(int idAcervo) {
-        return SQLiteStrategyDAO.getInstance(context).getAutoresSec(idAcervo);
+        return sqLiteStrategyDAO.getAutoresSec(idAcervo);
     }
 
     public String[] getAssuntos(int idAcervo) {
-        return SQLiteStrategyDAO.getInstance(context).getAssuntos(idAcervo);
+        return sqLiteStrategyDAO.getAssuntos(idAcervo);
     }
 
     public BibliotecaDTO getBiblioteca(int idBibl) {
-        return SQLiteStrategyDAO.getInstance(context).getBiblioteca(idBibl);
+        return sqLiteStrategyDAO.getBiblioteca(idBibl);
     }
 
     /**
      * Consultar os empréstimos ativos do usuário logado
-     * @param token Token de acesso à API da UFRN
      * @param titulo Título para a consulta
      * @param autor autor para a consulta
      * @param assunto assunto para a consulta
@@ -169,10 +170,10 @@ public class FacadeDAO {
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
-    public int buscarAcervo(String token, String titulo, String autor, String assunto,
+    public int buscarAcervo(String titulo, String autor, String assunto,
                                      String idBiblioteca, String idTipoMaterial, int offset) throws IOException, JsonStringInvalidaException, ConnectionException, JSONException {
         if (connected) {
-            return ((APIStrategyDAO)strategyDAO).buscarAcervo(titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
+            return apiStrategyDAO.buscarAcervo(titulo, autor, assunto, idBiblioteca, idTipoMaterial, offset);
         }
         else {
             return -1;
@@ -183,7 +184,7 @@ public class FacadeDAO {
      * Limpa as informações guardadas relativas à consulta no acervo
      */
     public void limparAcervoBD() {
-        SQLiteStrategyDAO.getInstance(context).limparAcervoBD();
+        sqLiteStrategyDAO.limparAcervoBD();
     }
 
     /**
@@ -194,7 +195,7 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public boolean loadBibliotecas() throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO) strategyDAO).loadBibliotecas();
+        return connected && apiStrategyDAO.loadBibliotecas();
     }
 
     /**
@@ -205,7 +206,7 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public boolean loadSituacoesMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadSituacoesMaterial();
+        return connected && apiStrategyDAO.loadSituacoesMaterial();
     }
 
     /**
@@ -216,7 +217,7 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public boolean loadStatusMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadStatusMaterial();
+        return connected && apiStrategyDAO.loadStatusMaterial();
     }
 
     /**
@@ -227,7 +228,7 @@ public class FacadeDAO {
      * @throws ConnectionException
      */
     public boolean loadTiposMaterial() throws IOException, JsonStringInvalidaException, ConnectionException {
-        return connected && ((APIStrategyDAO)strategyDAO).loadTiposMaterial();
+        return connected && apiStrategyDAO.loadTiposMaterial();
     }
 
     /**
@@ -235,9 +236,22 @@ public class FacadeDAO {
      * @param context
      * @return
      */
-    private boolean isOnline(Context context) {
+    private static boolean isOnline(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm != null ? cm.getActiveNetworkInfo() : null;
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    /**
+     * Verifica se o aparelho possui conexão com a internet
+     * @param context
+     * @return
+     */
+    private void updateStrategy(Context context) {
+        connected = isOnline(context);
+        if (isOnline(context))
+            strategyDAO = apiStrategyDAO;
+        else
+            strategyDAO = sqLiteStrategyDAO;
     }
 }

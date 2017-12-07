@@ -34,8 +34,6 @@ public class HistoricalListFragment extends Fragment {
     List<EmprestimoDTO> listaEmprestimos;
     ListView listViewEmprestimos;
 
-    private String accessToken;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -47,9 +45,6 @@ public class HistoricalListFragment extends Fragment {
         ma.showThreeDotsMenu(false);
         FloatingActionButton fab = (FloatingActionButton)ma.findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
-
-
-        accessToken = ((MainActivity)getActivity()).getAccessToken();
 
         refreshList();
         ma.refreshLoans = false;
@@ -82,9 +77,7 @@ public class HistoricalListFragment extends Fragment {
 
     private void refreshList() {
         // Popula a lista de emprestimos
-        if (accessToken != null) {
-            new HistoricoEmprestimosTask().execute(accessToken);
-        }
+        new HistoricoEmprestimosTask().execute();
     }
 
     private void prepareListHistorico() {

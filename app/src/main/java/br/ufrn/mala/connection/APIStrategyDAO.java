@@ -172,7 +172,7 @@ public class APIStrategyDAO implements StrategyDAO {
         }
     }
 
-    public void updateCredetials(Context context){
+    private void updateCredetials(Context context){
         apiConnection.updateCredentials(context);
     }
 }

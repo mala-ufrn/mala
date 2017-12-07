@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -49,7 +54,6 @@ public class MainActivity extends AppCompatActivity
     private int previousMenuItemSelected;
     private FragmentManager fm;
     private UsuarioDTO usuarioLogado;
-    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +85,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Pegar o token de acesso
         SharedPreferences preferences = this.getSharedPreferences(Constants.KEY_USER_INFO, 0);
-        accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
 
         Gson gson = new Gson();
         String usuario = preferences.getString("UsuarioLogado", null);
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         if(!usuarioLogado.getFoto().equalsIgnoreCase("")){
             byte[] b = Base64.decode(usuarioLogado.getFoto(), Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-            profPhoto.setImageBitmap(bitmap);
+            profPhoto.setImageBitmap(getCroppedBitmap(bitmap));
         }
 
         // Cria um novo fragment
@@ -108,10 +110,6 @@ public class MainActivity extends AppCompatActivity
                 .commit();
 
         previousMenuItemSelected = R.id.my_loan;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
     }
 
     @Override
@@ -282,5 +280,27 @@ public class MainActivity extends AppCompatActivity
             InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
         }
+    }
+
+    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+                bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
+        //return _bmp;
+        return output;
     }
 }

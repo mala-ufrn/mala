@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,15 +36,12 @@ public class SearchFragment extends Fragment {
     private EditText titleInput, authorInput, subjectInput;
     private Spinner libSpinner, matTypeSpinner;
     private Button searchBtn, clearBtn;
-    private String accessToken, inputTitle, inputAuthor, inputSubject;
+    private String inputTitle, inputAuthor, inputSubject;
     private BibliotecaDTO inputBiblioteca;
     private TipoMaterialDTO inputTipoMaterial;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        accessToken = ((MainActivity)getActivity()).getAccessToken();
-
         // Muda o título na ActionBar
         getActivity().setTitle(getResources().getText(R.string.app_search));
         // Esconde o fab e o menu de três pontos
@@ -100,9 +96,7 @@ public class SearchFragment extends Fragment {
                     toast.show();
                 }
                 else {
-                    if (accessToken != null) {
-                        new ClearSearchDB().execute();
-                    }
+                    new ClearSearchDB().execute();
                 }
             }
         });
@@ -168,7 +162,7 @@ public class SearchFragment extends Fragment {
                 String lib = (inputBiblioteca.getIdBiblioteca() == null)? "" : inputBiblioteca.getIdBiblioteca().toString();
                 String type = (inputTipoMaterial.getIdTipoMaterial() == null)? "":inputTipoMaterial.getIdTipoMaterial().toString();
 
-                new SearchInCollectionTask().execute(accessToken, inputTitle, inputAuthor, inputSubject, lib, type);
+                new SearchInCollectionTask().execute(inputTitle, inputAuthor, inputSubject, lib, type);
             }
             else {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(),
@@ -193,8 +187,8 @@ public class SearchFragment extends Fragment {
                 answer = 101;
                 try {
                     // Pega os número de títulos retornado
-                    answer = FacadeDAO.getInstance(getActivity()).buscarAcervo(params[0], params[1],
-                            params[2], params[3], params[4], params[5], offset);
+                    answer = FacadeDAO.getInstance(getActivity()).buscarAcervo(params[0],
+                            params[1], params[2], params[3], params[4], offset);
 
                     // Repassa erro ou insucesso na busca
                     if (answer <= 0)

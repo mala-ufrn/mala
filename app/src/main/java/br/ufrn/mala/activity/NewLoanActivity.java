@@ -6,7 +6,6 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,7 +21,6 @@ import br.ufrn.mala.barcode.IntentIntegrator;
 import br.ufrn.mala.barcode.IntentResult;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
-import br.ufrn.mala.util.Constants;
 
 
 /**
@@ -41,7 +39,6 @@ public class NewLoanActivity extends AppCompatActivity {
     private TextView inputBarCode;
     private Button buscarMaterial;
     private ProgressDialog pd;
-    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +57,6 @@ public class NewLoanActivity extends AppCompatActivity {
         });
         inputBarCode = (TextView) findViewById(R.id.new_loan_barcode_input);
         buscarMaterial = (Button) findViewById(R.id.btn_buscar_Material);
-        SharedPreferences preferences = getSharedPreferences(Constants.KEY_USER_INFO, 0);
-        accessToken = preferences.getString(Constants.KEY_ACCESS_TOKEN, null);
 
         buscarMaterial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +66,7 @@ public class NewLoanActivity extends AppCompatActivity {
                             getString(R.string.no_barcode), Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
-                    new NewLoanActivity.SearchMaterailTask().execute(accessToken, inputBarCode.getText().toString());
+                    new NewLoanActivity.SearchMaterailTask().execute(inputBarCode.getText().toString());
                 }
             }
         });
@@ -96,7 +91,7 @@ public class NewLoanActivity extends AppCompatActivity {
             EditText et = (EditText) inputBarCode;
             et.setSelection(et.getText().length());
 
-            new NewLoanActivity.SearchMaterailTask().execute(accessToken, scanContent);
+            new NewLoanActivity.SearchMaterailTask().execute(scanContent);
 
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -119,7 +114,7 @@ public class NewLoanActivity extends AppCompatActivity {
 
         protected MaterialInformacionalDTO doInBackground(String... params) {
             try {
-                return FacadeDAO.getInstance(NewLoanActivity.this).getMaterialInformacional(params[1]);
+                return FacadeDAO.getInstance(NewLoanActivity.this).getMaterialInformacional(params[0]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
