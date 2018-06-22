@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/profile_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:src="@mipmap/ic_portrait" />
@@ -24,7 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="85dp"
             android:paddingLeft="10dp"
             android:layout_alignLeft="@id/profile_image"
             android:layout_alignTop="@id/profile_image"
@@ -42,7 +42,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/graduate_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Aluno de graduação" />

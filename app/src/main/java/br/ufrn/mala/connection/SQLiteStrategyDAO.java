@@ -8,6 +8,7 @@ import java.util.List;
 import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
 import br.ufrn.mala.dto.StatusMaterialDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
@@ -63,6 +64,11 @@ public class SQLiteStrategyDAO implements StrategyDAO {
     @Override
     public List<EmprestimoDTO> getEmprestimosAtivos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return sqLiteConnection.getEmprestimos(true, offset);
+    }
+
+    @Override
+    public List<PoliticaEmprestimoDTO> getPoliticasEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException{
+        return sqLiteConnection.getPoliticasEmprestimo();
     }
 
     public List<BibliotecaDTO> getBibliotecas(boolean toSearch) {
@@ -121,5 +127,10 @@ public class SQLiteStrategyDAO implements StrategyDAO {
     public void insertTiposMaterial(List<TipoMaterialDTO> tiposMaterial){
         for (TipoMaterialDTO tipoMaterial: tiposMaterial)
             sqLiteConnection.insertTipoMaterial(tipoMaterial);
+    }
+
+    public void insertPoliticasEmprestimo(List<PoliticaEmprestimoDTO> politicasEmprestimo){
+        for (PoliticaEmprestimoDTO politicaEmprestimo: politicasEmprestimo)
+            sqLiteConnection.insertPoliticaEmprestimo(politicaEmprestimo);
     }
 }

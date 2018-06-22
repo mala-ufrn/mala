@@ -53,6 +53,8 @@ public class APIConnection {
     private String PATH_BIBLIOTECA_EMPRESTIMOS = PATH_BIBLIOTECA + "/emprestimos";
     private String PATH_BIBLIOTECA_MATERIAIS = PATH_BIBLIOTECA + "/materiais-informacionais";
     private String PATH_BIBLIOTECA_ACERVOS = PATH_BIBLIOTECA + "/acervos";
+    private String PATH_BIBLIOTECA_POLITICAS = PATH_BIBLIOTECA + "/politicas-emprestimos";
+    private String PATH_TIPOS_VINCULOS_USUARIO_BIBLIOTECA = PATH_BIBLIOTECA + "/tipos-vinculos-usuario-biblioteca";
 
     public static APIConnection getInstance(Context context){
         if(apiConnection == null)
@@ -221,6 +223,25 @@ public class APIConnection {
                 .appendQueryParameter("limit", Integer.toString(20))
                 .appendQueryParameter("offset", offset.toString())
                 .appendQueryParameter("order-desc", "data-emprestimo")
+                .build()
+                .toString();
+        return getDados(url);
+    }
+
+    public String getPoliticasEmprestimos() throws IOException, ConnectionException {
+        String url = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_BIBLIOTECA_POLITICAS)
+                .appendQueryParameter("cpf-cnpj-usuario", usuarioLogado.getCpfCnpj().toString())
+                .build()
+                .toString();
+        return getDados(url);
+    }
+
+    public String getTiposVinculos() throws IOException, ConnectionException {
+        String url = Uri.parse(URL_BASE)
+                .buildUpon()
+                .appendEncodedPath(PATH_TIPOS_VINCULOS_USUARIO_BIBLIOTECA)
                 .build()
                 .toString();
         return getDados(url);

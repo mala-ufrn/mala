@@ -18,6 +18,7 @@ import java.util.List;
 import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
 import br.ufrn.mala.dto.StatusMaterialDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
@@ -259,6 +260,31 @@ public class SQLiteConnection {
         return bibliotecas;
     }
 
+    /**
+     * Consulta as politicas de empréstimos do usuário logado, no banco de dados
+     * @return Quantidade de empréstimos
+     */
+    public List<PoliticaEmprestimoDTO> getPoliticasEmprestimo() {
+        String sql = "SELECT * " +
+                "FROM politicas_emprestimo " +
+                "WHERE cpf_cnpj_usuario = ? ";
+        Cursor result = readableDatabase.rawQuery(sql, new String[] {usuarioLogado.getCpfCnpj().toString()});
+        List<PoliticaEmprestimoDTO> politicas = new ArrayList<>();
+        while (result.moveToNext()){
+            PoliticaEmprestimoDTO politica = new PoliticaEmprestimoDTO();
+            politica.setTipoPrazo(result.getString(result.getColumnIndex("tipo_prazo")));
+            politica.setTipoEmprestimo(result.getString(result.getColumnIndex("tipo_emprestimo")));
+            politica.setQuantidadeRenovacoes(result.getInt(result.getColumnIndex("quantidade_renovacoes")));
+            politica.setQuantidadeMateriais(result.getInt(result.getColumnIndex("quantidade_materiais")));
+            politica.setPrazoEmprestimo(result.getInt(result.getColumnIndex("prazo_emprestimo")));
+            politica.setTipoVinculoUsuarioBiblioteca(result.getString(result.getColumnIndex("tipo_vinculo_usuario_biblitoeca")));
+            politica.setIdPoliticaEmprestimo(result.getInt(result.getColumnIndex("id_politica_emprestimo")));
+            politicas.add(politica);
+        }
+        result.close();
+        return politicas;
+    }
+
     public List<AcervoDTO> getAcervo(String orderBy) {
         Cursor result;
         if (orderBy.equalsIgnoreCase("titulo")) {
@@ -353,7 +379,31 @@ public class SQLiteConnection {
         return biblioteca;
     }
 
-
+    /**
+     * Inserir politica de emprestimo no banco de dados
+     * @param politicaEmprestimo politica de empréstimo
+     */
+    public void insertPoliticaEmprestimo (PoliticaEmprestimoDTO politicaEmprestimo) {
+        String sql = "REPLACE INTO politica_emprestimo (" +
+                "id_politica_emprestimo, " +
+                "tipo_vinculo_usuario_biblioteca, " +
+                "prazo_emprestimo, " +
+                "quantidade_materiais, " +
+                "quantidade_renovacoes, " +
+                "tipo_emprestimo, " +
+                "tipo_prazo " +
+                ") " +
+                "VALUES (" +
+                politicaEmprestimo.getIdPoliticaEmprestimo() + ", " +
+                "'" + politicaEmprestimo.getTipoVinculoUsuarioBiblioteca() + "', " +
+                politicaEmprestimo.getPrazoEmprestimo() + ", " +
+                politicaEmprestimo.getQuantidadeMateriais() + ", " +
+                politicaEmprestimo.getQuantidadeRenovacoes() + ", " +
+                "'" + politicaEmprestimo.getTipoEmprestimo() + "', " +
+                "'" + politicaEmprestimo.getTipoPrazo() + "'" +
+                ")";
+        writableDatabase.execSQL(sql);
+    }
 
     /**
      * Inserir o empréstimo, no banco de dados

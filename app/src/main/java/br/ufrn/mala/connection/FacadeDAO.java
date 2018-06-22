@@ -13,6 +13,7 @@ import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
@@ -82,6 +83,17 @@ public class FacadeDAO {
      */
     public List<EmprestimoDTO> getHistoricoEmprestimos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException {
         return strategyDAO.getHistoricoEmprestimos(offset);
+    }
+
+    /**
+     * Consultar as políticas de empréstimos do usuário logado
+     * @return Políticas de empréstimos
+     * @throws IOException
+     * @throws JsonStringInvalidaException
+     * @throws ConnectionException
+     */
+    public List<PoliticaEmprestimoDTO> getPoliticasEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException {
+        return strategyDAO.getPoliticasEmprestimos();
     }
 
     /**

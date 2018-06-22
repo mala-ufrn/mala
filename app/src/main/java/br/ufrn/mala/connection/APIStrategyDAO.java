@@ -11,6 +11,7 @@ import java.util.List;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
 import br.ufrn.mala.dto.StatusMaterialDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
@@ -82,6 +83,15 @@ public class APIStrategyDAO implements StrategyDAO {
             emprestimo.setBiblioteca(bibliotecas.get(emprestimo.getIdBiblioteca()));
         sqLiteStrategyDAO.insertEmprestimos(emprestimosAtivos, true);
         return emprestimosAtivos;
+    }
+
+    @Override
+    public List<PoliticaEmprestimoDTO> getPoliticasEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException{
+        String politicasEmprestimos = apiConnection.getPoliticasEmprestimos();
+        String tiposVinculos = apiConnection.getTiposVinculos();
+        List<PoliticaEmprestimoDTO> politicas = JsonToObject.toPoliticaEmprestimo(politicasEmprestimos, tiposVinculos);
+        sqLiteStrategyDAO.insertPoliticasEmprestimo(politicas);
+        return politicas;
     }
 
     public MaterialInformacionalDTO getMaterialInformacional(String codBarras) throws IOException, JsonStringInvalidaException, ConnectionException {

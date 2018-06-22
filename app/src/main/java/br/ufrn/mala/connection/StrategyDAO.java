@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.dto.UsuarioDTO;
 import br.ufrn.mala.exception.ConnectionException;
 import br.ufrn.mala.exception.JsonStringInvalidaException;
@@ -60,9 +61,10 @@ public interface StrategyDAO {
     List<EmprestimoDTO> getEmprestimosAtivos(Integer offset) throws IOException, JsonStringInvalidaException, ConnectionException;
 
     /**
-     * Carrega as bibliotecas cadastradas no Banco da SINFO
+     * Carrega as politcas de emprestimos do usuário logado
      * @throws IOException
      * @throws JsonStringInvalidaException
      * @throws ConnectionException
      */
+    List<PoliticaEmprestimoDTO> getPoliticasEmprestimos() throws IOException, JsonStringInvalidaException, ConnectionException;
 }

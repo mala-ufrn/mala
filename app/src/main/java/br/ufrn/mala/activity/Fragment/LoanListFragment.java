@@ -25,6 +25,7 @@ import br.ufrn.mala.activity.NewLoanActivity;
 import br.ufrn.mala.auxiliar.LoanListAdapter;
 import br.ufrn.mala.connection.FacadeDAO;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 
 /**
  * Created by paulo on 23/10/17.
@@ -38,6 +39,7 @@ public class LoanListFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private List<EmprestimoDTO> listaEmprestimos;
+    private List<PoliticaEmprestimoDTO> politicasEmprestimos;
     private ExpandableListView expandableListViewEmprestimo;
 
     @Override
@@ -140,7 +142,7 @@ public class LoanListFragment extends Fragment {
         listaItensGrupo.put(listaGrupos.get(2), listaFotocopias);
 
         // cria um loanListAdapter (BaseExpandableListAdapter) com os dados acima
-        LoanListAdapter loanListAdapter = new LoanListAdapter(getActivity(), listaGrupos, listaItensGrupo);
+        LoanListAdapter loanListAdapter = new LoanListAdapter(getActivity(), listaGrupos, listaItensGrupo, politicasEmprestimos);
         // define o apadtador do ExpandableListView
         expandableListViewEmprestimo.setAdapter(loanListAdapter);
 
@@ -170,6 +172,7 @@ public class LoanListFragment extends Fragment {
 
         protected List<EmprestimoDTO> doInBackground(String... params) {
             try {
+                politicasEmprestimos = FacadeDAO.getInstance(getActivity()).getPoliticasEmprestimos();
                 return FacadeDAO.getInstance(getActivity()).getEmprestimosAtivos(offsetEmprestimos);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -190,6 +193,4 @@ public class LoanListFragment extends Fragment {
                 pd.dismiss();
         }
     }
-
-
 }

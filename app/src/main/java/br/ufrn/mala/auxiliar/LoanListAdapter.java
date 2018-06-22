@@ -1,6 +1,8 @@
 package br.ufrn.mala.auxiliar;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.NavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import br.ufrn.mala.R;
 import br.ufrn.mala.dto.EmprestimoDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.util.DataUtil;
 
 /**
@@ -22,13 +25,15 @@ public class LoanListAdapter extends BaseExpandableListAdapter {
 
     private List<String> lstGrupos;
     private HashMap<String, List<EmprestimoDTO>> lstItensGrupos;
+    private List<PoliticaEmprestimoDTO> politicasEmprestimo;
     private Context context;
 
-    public LoanListAdapter(Context context, List<String> grupos, HashMap<String, List<EmprestimoDTO>> itensGrupos) {
+    public LoanListAdapter(Context context, List<String> grupos, HashMap<String, List<EmprestimoDTO>> itensGrupos, List<PoliticaEmprestimoDTO> politicasEmprestimo) {
         // inicializa as variáveis da classe
         this.context = context;
         lstGrupos = grupos;
         lstItensGrupos = itensGrupos;
+        this.politicasEmprestimo = politicasEmprestimo;
     }
 
     @Override
@@ -91,8 +96,21 @@ public class LoanListAdapter extends BaseExpandableListAdapter {
         TextView tvGrupo = (TextView) convertView.findViewById(R.id.tvGrupo);
         TextView tvQtde = (TextView) convertView.findViewById(R.id.tvQtde);
 
-        tvGrupo.setText((String) getGroup(groupPosition));
-        tvQtde.setText("(" + getChildrenCount(groupPosition) + "/3)");
+        NavigationView navigationView = (NavigationView) ((Activity)context).findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView graduateName = (TextView)header.findViewById(R.id.graduate_name);
+
+        String nomeGrupo = (String) getGroup(groupPosition);
+        tvGrupo.setText(nomeGrupo);
+        Integer qtdMax = null;
+        for (PoliticaEmprestimoDTO politica: politicasEmprestimo) {
+            if (politica.getTipoEmprestimo().charAt(0) == nomeGrupo.charAt(0)) {
+                qtdMax = politica.getQuantidadeMateriais();
+                graduateName.setText(politica.getTipoVinculoUsuarioBiblioteca());
+                break;
+            }
+        }
+        tvQtde.setText("(" + getChildrenCount(groupPosition) + "/" + qtdMax + ")");
 
         return convertView;
     }

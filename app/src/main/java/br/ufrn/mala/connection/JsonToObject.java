@@ -1,18 +1,18 @@
 package br.ufrn.mala.connection;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import br.ufrn.mala.dto.AcervoDTO;
 import br.ufrn.mala.dto.BibliotecaDTO;
 import br.ufrn.mala.dto.EmprestimoDTO;
 import br.ufrn.mala.dto.MaterialInformacionalDTO;
+import br.ufrn.mala.dto.PoliticaEmprestimoDTO;
 import br.ufrn.mala.dto.SituacaoMaterialDTO;
 import br.ufrn.mala.dto.StatusMaterialDTO;
 import br.ufrn.mala.dto.TipoMaterialDTO;
@@ -260,6 +260,51 @@ public class JsonToObject {
             throw new JsonStringInvalidaException("String vazia!");
         }
         return tiposMateriais;
+    }
+
+    public static List<PoliticaEmprestimoDTO> toPoliticaEmprestimo(String text, String tiposVinculosText) throws JsonStringInvalidaException {
+        List<PoliticaEmprestimoDTO> politicasEmprestimo = new ArrayList<>();
+        HashMap<Integer, String> tiposVinculos = new HashMap<>();
+        if(!tiposVinculosText.equalsIgnoreCase("")){
+            try {
+                JSONArray array = new JSONArray(tiposVinculosText);
+                for(int i = 0; i < array.length(); ++i) {
+                    JSONObject jsonList = array.getJSONObject(i);
+                    Integer id = convertJSONObject(jsonList, "id-tipo-vinculo-usuario-biblioteca", Integer.class);
+                    String descricao = convertJSONObject(jsonList, "descricao", String.class);
+                    tiposVinculos.put(id, descricao);
+                }
+            } catch (JSONException e) {
+                System.out.println(e.getMessage());
+                throw new JsonStringInvalidaException(e.getMessage());
+            }
+        }else{
+            throw new JsonStringInvalidaException("String vazia!");
+        }
+        if(!text.equalsIgnoreCase("")){
+            try {
+                JSONArray array = new JSONArray(text);
+                for(int i = 0; i < array.length(); ++i) {
+                    JSONObject jsonList = array.getJSONObject(i);
+                    PoliticaEmprestimoDTO politicaEmprestimo = new PoliticaEmprestimoDTO();
+                    politicaEmprestimo.setIdPoliticaEmprestimo(convertJSONObject(jsonList, "id-politica-emprestimo", Integer.class));
+                    Integer id = convertJSONObject(jsonList, "id-tipo-vinculo-usuario-biblitoeca", Integer.class);
+                    politicaEmprestimo.setTipoVinculoUsuarioBiblioteca(tiposVinculos.get(id));
+                    politicaEmprestimo.setPrazoEmprestimo(convertJSONObject(jsonList, "prazo-emprestimo", Integer.class));
+                    politicaEmprestimo.setQuantidadeMateriais(convertJSONObject(jsonList, "quantidade-materiais", Integer.class));
+                    politicaEmprestimo.setQuantidadeRenovacoes(convertJSONObject(jsonList, "quantidade-renovacoes", Integer.class));
+                    politicaEmprestimo.setTipoEmprestimo(convertJSONObject(jsonList, "tipo-emprestimo", String.class));
+                    politicaEmprestimo.setTipoPrazo(convertJSONObject(jsonList, "tipo-prazo", String.class));
+                    politicasEmprestimo.add(politicaEmprestimo);
+                }
+            } catch (JSONException e) {
+                System.out.println(e.getMessage());
+                throw new JsonStringInvalidaException(e.getMessage());
+            }
+        }else{
+            throw new JsonStringInvalidaException("String vazia!");
+        }
+        return politicasEmprestimo;
     }
 
     private static <T> T convertJSONObject(JSONObject json, String param, Class<T> classOfT) throws JSONException {

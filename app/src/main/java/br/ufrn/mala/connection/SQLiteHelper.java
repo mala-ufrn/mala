@@ -103,6 +103,17 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY(id_acervo) REFERENCES acervo(id_acervo) " +
                     ");";
 
+    private static final String POLITICA_EMPRESTIMO_CREATE =
+            "CREATE TABLE politica_emprestimo ( " +
+                    "id_politica_emprestimo INTEGER PRIMARY KEY, " +
+                    "tipo_vinculo_usuario_biblioteca TEXT, " +
+                    "prazo_emprestimo INTEGER, " +
+                    "quantidade_materiais INTEGER, " +
+                    "quantidade_renovacoes INTEGER, " +
+                    "tipo_emprestimo TEXT, " +
+                    "tipo_prazo TEXT " +
+                    ");";
+
     public SQLiteHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -117,6 +128,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(ACERVO_CREATE);
         db.execSQL(ACERVO_AUTOR_SECUNDARIO_CREATE);
         db.execSQL(ACERVO_ASSUNTO_CREATE);
+        db.execSQL(POLITICA_EMPRESTIMO_CREATE);
     }
 
     @Override
@@ -129,6 +141,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS acervo");
         db.execSQL("DROP TABLE IF EXISTS acervo_autor_secundario");
         db.execSQL("DROP TABLE IF EXISTS acervo_assunto");
+        db.execSQL("DROP TABLE IF EXISTS politica_emprestimo");
         onCreate(db);
     }
 }
